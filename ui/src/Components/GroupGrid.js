@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './GroupGrid.css';
-import GroupCard from './GroupCard';
 import {connect} from 'react-redux';
+
 
 class GroupGrid extends Component{
     constructor(props){
@@ -9,11 +9,11 @@ class GroupGrid extends Component{
     }
     render(){
         return (
-            <div>
+            <ul id = "groups">
 				{this.props.data.map(group => (
-                	<GroupCard group={group}/>
+                	<li>{group.name}</li>
               	))}
-            </div>
+            </ul>
         );
     }
 }
