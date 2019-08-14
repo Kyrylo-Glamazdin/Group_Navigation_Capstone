@@ -1,0 +1,52 @@
+#dashboard{
+    width: 25vw;
+    height: 100vh;
+
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 27px;
+    letter-spacing: -1.4px;
+    word-spacing: 0px;
+    color: #000000;
+    font-weight: 400;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: small-caps;
+    text-transform: none;
+    color: red;
+
+    border: 1px solid black;
+
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    background-color: gray; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    transition: 0.3s; /* 0.5 second transition effect to slide in the sidebar */
+}
+
+.title{
+    padding-top: 3vh;
+    color: black;
+    padding-bottom: 3vh;
+    border-bottom: 1px solid black;
+    font-weight: bold;
+}
+
+button{
+  background-color: red;
+  border: none;
+  color: white;
+  padding: 2vh 3vw;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12pt;
+    border-radius: 5px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+button:hover{
+    background-color: #4CAF50; 
+    color: white;
+    cursor: pointer;
+}
