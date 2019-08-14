@@ -1,13 +1,33 @@
-import React from "react";
-import "./App.css";
+
+import React, {Component} from 'react';
+import './App.css';
+import Dashboard from './Components/Dashboard.js';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import {connect} from 'react-redux';
 import Login from "./components/login";
 
-function App() {
-  return (
-    <div className="App">
+class App extends Component{
+  constructor(props){
+    super(props)
+  }
+  render(){
+    return (
+      <div className="App">
       <Login />
-    </div>
-  );
+        <Dashboard></Dashboard>
+      <div id="content"> HELLO </div>
+      </div>
+    );
+  }
 }
 
-export default App;
+
+const mapStateToProps = state => {
+  return {
+    data: state.data
+  };
+}
+
+export default connect(mapStateToProps, {
+
+})(App);
