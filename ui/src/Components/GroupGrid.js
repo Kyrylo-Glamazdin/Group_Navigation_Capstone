@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import './GroupGrid.css';
-import GroupCard from './GroupCard';
 
 let data = [
     {
@@ -20,11 +19,11 @@ let data = [
 class GroupGrid extends Component{
     render(){
         return (
-            <div>
+            <ul id = "groups">
 				{data.map(group => (
-                	<GroupCard group={group}/>
+                	<li>{group.name}</li>
               	))}
-            </div>
+            </ul>
         );
     }
 }
