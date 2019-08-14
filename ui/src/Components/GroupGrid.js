@@ -1,26 +1,16 @@
 import React, {Component} from 'react';
 import './GroupGrid.css';
+import {connect} from 'react-redux';
 
-let data = [
-    {
-        name: "Group 1",
-        groupMembers: [],
-        dLong: -73.942744,
-        dLat: 40.790492
-    },
-    {
-        name: "Group 2",
-        groupMembers: ["Member 1", "Member 2", "Member 3"],
-        dLong: -73.964716,
-        dLat: 40.636434        
-    }
-]
 
 class GroupGrid extends Component{
+    constructor(props){
+        super(props);
+    }
     render(){
         return (
             <ul id = "groups">
-				{data.map(group => (
+				{this.props.data.map(group => (
                 	<li>{group.name}</li>
               	))}
             </ul>
@@ -28,4 +18,12 @@ class GroupGrid extends Component{
     }
 }
 
-export default GroupGrid;
+const mapStateToProps = state => {
+    return {
+        data: state.data
+    };
+}
+
+export default connect(mapStateToProps, {
+    
+})(GroupGrid)
