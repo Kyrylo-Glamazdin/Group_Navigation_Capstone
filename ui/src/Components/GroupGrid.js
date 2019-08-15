@@ -4,9 +4,6 @@ import {connect} from 'react-redux';
 
 
 class GroupGrid extends Component{
-    constructor(props){
-        super(props);
-    }
     render(){
         return (
             <ul id = "groups">
