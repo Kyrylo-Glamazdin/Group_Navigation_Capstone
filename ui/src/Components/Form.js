@@ -11,20 +11,31 @@ class Form extends Component {
             lat: 0,
             lon: 0
         }
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
+    handleChange(event){
+        this.setState({
+            [event.target.name]: event.target.value
+        })
+    }
+
+    handleSubmit(){
+
+    }
 
     render() {
         return (
-        <form className = "form">
+        <form className = "form" onSumbit={this.handleSubmit}>
             <div className = "userList">
 				{this.props.users.map(user => (
                 	<UserCard user={user} selected = {false} />
                 ))}
             </div>
             <div>
-                <input type="text" className ="location"/>
-                <input type="text" className = "location"/>
+                <input name="lat" type="text" className ="location" onChange={this.handleChange}/>
+                <input name="lon" type="text" className = "location" onChange={this.handleChange}/>
             </div>
             <input type="submit" />
         </form>
