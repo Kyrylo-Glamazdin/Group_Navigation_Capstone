@@ -7,23 +7,28 @@ class UserCard extends Component{
             curUser: this.props.user,
             selected: this.props.selected
         }
+        this.toggleSelected = this.toggleSelected.bind(this);
+    }
+
+    toggleSelected() {
+        this.setState({
+            selected: !this.state.selected
+        })
     }
 
     render() {
-        if (!this.state.selected){
-            return (
+        return (
+            <div onClick={this.toggleSelected}>
+                {!this.state.selected ?
                 <div>
                     {this.props.user.name}
                 </div>
-            )
-        }
-        else { 
-            return(
+                :
                 <div>
-                    {this.props.user.name + " toggled"}
-                </div>
-            )
-        }
+                    {this.props.user.name + " selected"}
+                </div>}
+            </div>
+        );
     }
 }
 

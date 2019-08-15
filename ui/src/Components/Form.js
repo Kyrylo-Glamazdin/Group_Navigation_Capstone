@@ -11,21 +11,15 @@ class Form extends Component {
             lat: 0,
             lon: 0
         }
-
     }
 
-    toggleSelected() {
-        this.setState({
-            selected: !this.state.selected
-        })
-    }
 
     render() {
         return (
         <form className = "form">
             <div className = "userList">
 				{this.props.users.map(user => (
-                	<UserCard user={user} selected = {false} onClick={this.toggleSelected} />
+                	<UserCard user={user} selected = {false} />
                 ))}
             </div>
             <div>
