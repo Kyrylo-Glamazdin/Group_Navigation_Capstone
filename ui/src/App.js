@@ -2,6 +2,7 @@
 import React, {Component} from 'react';
 import './App.css';
 import Dashboard from './Components/Dashboard.js';
+import Map from './Components/Map.js'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Login from "./Components/login";
