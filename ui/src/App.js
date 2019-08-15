@@ -2,6 +2,7 @@
 import React, {Component} from 'react';
 import './App.css';
 import Dashboard from './Components/Dashboard.js';
+import Map from './Components/Map.js'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Login from "./components/login";
@@ -16,6 +17,7 @@ class App extends Component{
       <Login />
         <Dashboard></Dashboard>
       <div id="content"> HELLO </div>
+      <Map />
       </div>
     );
   }
