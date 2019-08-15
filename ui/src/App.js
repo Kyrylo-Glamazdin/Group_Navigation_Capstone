@@ -14,7 +14,7 @@ class App extends Component{
       <div className="App">
         <Dashboard />
         <div id="content">
-          HELLO 
+          <Map />
         </div>
       </div>
     );

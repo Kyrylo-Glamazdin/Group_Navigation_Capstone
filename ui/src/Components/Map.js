@@ -19,7 +19,6 @@ const data = [{
 ]
 export class Map extends Component {
 render() {
-    console.log(process.env.REACT_APP_MB_API_KEY);
 // below, add whatever layers you need to overlay on your map
  const layer = [
    new PathLayer({
