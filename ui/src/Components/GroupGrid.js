@@ -7,7 +7,7 @@ class GroupGrid extends Component{
     render(){
         return (
             <ul id = "groups">
-				{this.props.data.map(group => (
+				{this.props.groups.map(group => (
                 	<li>{group.name}</li>
               	))}
             </ul>
@@ -17,7 +17,7 @@ class GroupGrid extends Component{
 
 const mapStateToProps = state => {
     return {
-        data: state.data
+        groups: state.groups
     };
 }
 

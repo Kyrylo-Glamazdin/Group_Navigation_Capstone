@@ -1,0 +1,21 @@
+.form{
+    width: 60vw;
+    height: 60vh;
+    margin-left: 20vw;
+    margin-top: 20vh;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.userList{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding-bottom: 12vh;
+}
+
+.form div input{
+    width: 5vw;
+    margin-left: 16vw;
+}
