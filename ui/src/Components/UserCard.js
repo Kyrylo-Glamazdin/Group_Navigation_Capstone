@@ -15,16 +15,17 @@ class UserCard extends Component{
             selected: !this.state.selected
         })
     }
+    
 
     render() {
         return (
             <div onClick={this.toggleSelected}>
                 {!this.state.selected ?
-                <div>
+                <div onClick={() => this.props.addUserFunction(this.state.curUser)}>
                     {this.props.user.name}
                 </div>
                 :
-                <div>
+                <div onClick={() => this.props.removeUserFunction(this.state.curUser)}>
                     {this.props.user.name + " selected"}
                 </div>}
             </div>
