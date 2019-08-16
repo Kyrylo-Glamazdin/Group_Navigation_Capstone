@@ -2,17 +2,23 @@ import React, {Component} from 'react';
 import UserCard from './UserCard';
 import './Form.css';
 import {connect} from 'react-redux';
+import {addGroups} from '../Actions';
+import {Redirect} from 'react-router';
 
 class Form extends Component {
     constructor(props){
         super(props);
         this.state = {
+            name: "New Group",
             selectedUsers: [],
             lat: 0,
-            lon: 0
+            lon: 0,
+            redirect: false
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.addUserToGroup = this.addUserToGroup.bind(this);
+        this.removeUserFromGroup = this.removeUserFromGroup.bind(this);
     }
 
     handleChange(event){
@@ -21,20 +27,60 @@ class Form extends Component {
         })
     }
 
-    handleSubmit(){
+    addUserToGroup(user){
+        let newSelectedUsers = [...this.state.selectedUsers, user]
+        this.setState({
+            selectedUsers: newSelectedUsers
+        })
+    }
 
+    removeUserFromGroup(user){
+        let newSelectedUsers = this.state.selectedUsers;
+        for (let i = 0; i < newSelectedUsers.length; i++){
+            if (newSelectedUsers[i].id === user.id){
+                newSelectedUsers.splice(i, 1);
+                break;
+            }
+        }
+        this.setState({
+            selectedUsers: newSelectedUsers
+        })
+    }
+
+    handleSubmit(){
+        let newGroup = {
+            name: this.state.name,
+            users: this.state.selectedUsers,
+            latitude: this.state.lat,
+            longitude: this.state.lon
+        };
+        this.props.addGroups(newGroup);
+        this.setState({
+            redirect: true
+        })
     }
 
     render() {
+        if (this.state.redirect){
+            return (
+                <Redirect to='/dashboard' />
+            )
+        }
         return (
-        <form className = "form" onSumbit={this.handleSubmit}>
+        <form className = "form" onSubmit = {this.handleSubmit}>
+            <div className = "groupName">
+                Name of the Group:
+                <input name="name" type="text" onChange={this.handleChange} />
+            </div>
             <div className = "userList">
 				{this.props.users.map(user => (
-                	<UserCard user={user} selected = {false} />
+                	<UserCard key = {user.id} user = {user} selected = {false} addUserFunction = {this.addUserToGroup} removeUserFunction = {this.removeUserFromGroup}/>
                 ))}
             </div>
             <div>
+                Latitude:
                 <input name="lat" type="text" className ="location" onChange={this.handleChange}/>
+                Longitude:
                 <input name="lon" type="text" className = "location" onChange={this.handleChange}/>
             </div>
             <input type="submit" />
@@ -46,8 +92,11 @@ class Form extends Component {
 
 const mapStateToProps = state => {
     return {
-      users: state.users
+      users: state.users,
+      groups: state.groups
     };
 }
   
-export default connect(mapStateToProps)(Form)
+export default connect(mapStateToProps,{
+    addGroups
+})(Form)

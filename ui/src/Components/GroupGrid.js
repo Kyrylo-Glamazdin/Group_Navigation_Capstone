@@ -8,7 +8,7 @@ class GroupGrid extends Component{
         return (
             <ul id = "groups">
 				{this.props.groups.map(group => (
-                	<li>{group.name}</li>
+                	<li key = {group.id}>{group.name}</li>
               	))}
             </ul>
         );

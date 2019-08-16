@@ -1,15 +1,16 @@
 import {combineReducers} from 'redux';
 
 let users = [
-    {name: "User 1"},
-    {name: "User 2"},
-    {name: "User 3"},
-    {name: "User 4"},
-    {name: "User 5"}
+    {id: 1, name: "User 1"},
+    {id: 2, name: "User 2"},
+    {id: 3, name: "User 3"},
+    {id: 4, name: "User 4"},
+    {id: 5, name: "User 5"}
 ];
 
 let groups = [
-    {
+    {  
+        id: 1,
         name: "Group 1",
         users: [
             {name: "User 1"},
@@ -20,6 +21,7 @@ let groups = [
         longitude: -70.45321
     },
     {
+        id: 2,
         name: "Group 2",
         users: [
             {name: "User 4"},
@@ -30,10 +32,12 @@ let groups = [
     }
 ];
 
+let curGroupId = 3;
+
 const usersReducer = (oldUsers = users, action) => {
     switch(action.type){
         case 'ADD_USERS':
-            return [...oldUsers, ...action.payload];
+            return oldUsers.concat(action.payload);
         default:
             return oldUsers;
     }
@@ -42,7 +46,9 @@ const usersReducer = (oldUsers = users, action) => {
 const groupsReducer = (oldGroups = groups, action) => {
     switch(action.type){
         case 'ADD_GROUPS':
-            return [...oldGroups,...action.payload];
+            action.payload.id = curGroupId;
+            curGroupId++;
+            return oldGroups.concat(action.payload);
         default:
             return oldGroups;
     }
