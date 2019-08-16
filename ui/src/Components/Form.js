@@ -4,6 +4,7 @@ import './Form.css';
 import {connect} from 'react-redux';
 import {addGroups} from '../Actions';
 import {Redirect} from 'react-router';
+import axios from 'axios';
 
 class Form extends Component {
     constructor(props){
@@ -47,7 +48,8 @@ class Form extends Component {
         })
     }
 
-    handleSubmit(){
+    handleSubmit(e){
+        e.preventDefault();
         let newGroup = {
             name: this.state.name,
             users: this.state.selectedUsers,
@@ -58,6 +60,7 @@ class Form extends Component {
         this.setState({
             redirect: true
         })
+
     }
 
     render() {
@@ -66,26 +69,28 @@ class Form extends Component {
                 <Redirect to='/dashboard' />
             )
         }
-        return (
-        <form className = "form" onSubmit = {this.handleSubmit}>
-            <div className = "groupName">
-                Name of the Group:
-                <input name="name" type="text" onChange={this.handleChange} />
-            </div>
-            <div className = "userList">
-				{this.props.users.map(user => (
-                	<UserCard key = {user.id} user = {user} selected = {false} addUserFunction = {this.addUserToGroup} removeUserFunction = {this.removeUserFromGroup}/>
-                ))}
-            </div>
-            <div>
-                Latitude:
-                <input name="lat" type="text" className ="location" onChange={this.handleChange}/>
-                Longitude:
-                <input name="lon" type="text" className = "location" onChange={this.handleChange}/>
-            </div>
-            <input type="submit" />
-        </form>
-        )
+        else{
+            return (
+                <form className = "form" onSubmit = {this.handleSubmit}>
+                    <div className = "groupName">
+                        Name of the Group:
+                        <input name="name" type="text" onChange={this.handleChange} />
+                    </div>
+                    <div className = "userList">
+                        {this.props.users.map(user => (
+                            <UserCard key = {user.id} user = {user} selected = {false} addUserFunction = {this.addUserToGroup} removeUserFunction = {this.removeUserFromGroup}/>
+                        ))}
+                    </div>
+                    <div>
+                        Latitude:
+                        <input name="lat" type="text" className ="location" onChange={this.handleChange}/>
+                        Longitude:
+                        <input name="lon" type="text" className = "location" onChange={this.handleChange}/>
+                    </div>
+                    <input type="submit" />
+                </form>
+                )
+        }
     }
 
 }

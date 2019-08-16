@@ -20,8 +20,8 @@ class Dashboard extends Component{
     }
 
     closeNav() {
-        document.getElementById("dashboard").style.width = "1vw";
-        document.getElementById("content").style.marginLeft = "1vw";
+       // document.getElementById("dashboard").style.width = "3vw";
+       // document.getElementById("content").style.marginLeft = "3vw";
     }
 
     sendRequest = async () => {
