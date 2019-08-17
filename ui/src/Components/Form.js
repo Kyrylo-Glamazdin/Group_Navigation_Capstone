@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import UserCard from './UserCard';
 import './Form.css';
 import {connect} from 'react-redux';
-import {addGroups} from '../Actions';
 import {Redirect} from 'react-router';
 import axios from 'axios';
 
@@ -56,10 +55,12 @@ class Form extends Component {
             latitude: this.state.lat,
             longitude: this.state.lon
         };
-        this.props.addGroups(newGroup);
+        this.props.socket.emit('create', newGroup);
+        //console.log('emitted create')
         this.setState({
             redirect: true
         })
+
 
     }
 
@@ -101,7 +102,11 @@ const mapStateToProps = state => {
       groups: state.groups
     };
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        
+    }
+}
   
-export default connect(mapStateToProps,{
-    addGroups
-})(Form)
+export default connect(mapStateToProps,mapDispatchToProps)(Form)

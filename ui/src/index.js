@@ -7,8 +7,11 @@ import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import reducers from './Reducers/index.js'
 
-
-ReactDOM.render(<Provider store={createStore(reducers,
+const store = createStore(reducers,
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)}><App /></Provider>, document.getElementById('root'));
+);
 
+
+ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
+
+export default store;

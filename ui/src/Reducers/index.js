@@ -1,11 +1,11 @@
 import {combineReducers} from 'redux';
 
 let users = [
-    {id: 1, name: "User 1"},
-    {id: 2, name: "User 2"},
-    {id: 3, name: "User 3"},
-    {id: 4, name: "User 4"},
-    {id: 5, name: "User 5"}
+    {id: 1, name: "User 1", long: -73.985954, lat: 40.756814}, //Dummy data to use in place of their live location
+    {id: 2, name: "User 2", long: -73.9862, lat: 40.757},
+    {id: 3, name: "User 3", long: -73.9865, lat: 40.756},   //6 decimal precision needed for coords
+    {id: 4, name: "User 4", long: -73.9854, lat: 40.770},
+    {id: 5, name: "User 5", long: -73.985329, lat: 40.740}
 ];
 
 let groups = [

@@ -6,7 +6,8 @@ import Map from './Components/Map.js'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Login from "./Components/login";
-import Form from './Components/Form'
+import Form from './Components/Form';
+import socket from './socket';
 
 class App extends Component{
   render(){
@@ -22,7 +23,7 @@ class App extends Component{
       </div>
     );
 
-    const FormComponent = () => (<Form />);
+    const FormComponent = () => (<Form socket={socket}/>);
 
     return (
         <Router>
