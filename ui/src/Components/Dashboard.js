@@ -9,11 +9,11 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      redirect: false,
+      redirect: false
     };
     this.openNav = this.openNav.bind(this);
     this.closeNav = this.closeNav.bind(this);
-  }  //dsadsahhh
+  } //dsadsahhh
 
   openNav() {
     document.getElementById("dashboard").style.width = "25vw";
@@ -52,7 +52,7 @@ class Dashboard extends Component {
           >
             Dashboard
           </div>
-          <div> {this.props.user.name}</div>
+          <div>{this.props.login.name}</div>
           <GroupGrid />
           <button onClick={this.sendRequest}> Create New Group </button>
         </div>
@@ -70,5 +70,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  {  }
+  {}
 )(Dashboard);
