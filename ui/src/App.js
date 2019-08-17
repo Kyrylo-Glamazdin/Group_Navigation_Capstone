@@ -11,7 +11,8 @@ import {
 } from "react-router-dom";
 import { connect } from "react-redux";
 import Login from "./Components/login";
-import Form from "./Components/Form";
+import Form from './Components/Form';
+import socket from './socket';
 
 class App extends Component {
   state = { user: null };
@@ -38,7 +39,7 @@ class App extends Component {
       </div>
     );
 
-    const FormComponent = () => <Form />;
+    const FormComponent = () => (<Form socket={socket}/>);
 
     return (
       <Router>
