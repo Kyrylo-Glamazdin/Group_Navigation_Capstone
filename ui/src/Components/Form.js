@@ -70,28 +70,45 @@ class Form extends Component {
                 <Redirect to='/dashboard' />
             )
         }
-        else{
-            return (
-                <form className = "form" onSubmit = {this.handleSubmit}>
-                    <div className = "groupName">
-                        Name of the Group:
-                        <input name="name" type="text" onChange={this.handleChange} />
-                    </div>
-                    <div className = "userList">
-                        {this.props.users.map(user => (
-                            <UserCard key = {user.id} user = {user} selected = {false} addUserFunction = {this.addUserToGroup} removeUserFunction = {this.removeUserFromGroup}/>
-                        ))}
-                    </div>
-                    <div>
-                        Latitude:
-                        <input name="lat" type="text" className ="location" onChange={this.handleChange}/>
-                        Longitude:
-                        <input name="lon" type="text" className = "location" onChange={this.handleChange}/>
-                    </div>
-                    <input type="submit" />
-                </form>
-                )
-        }
+        return (
+        <form className = "searchForm" onSubmit = {this.handleSubmit}>
+            <div className = "formHeader">
+                Create a New Group
+            </div>
+            <div className = "subheader">
+                Name of the Group:
+                <input className = "nameInputField" name="name" type="text" onChange={this.handleChange} />
+            </div>
+            <div className = "subheader">
+                Select Users:
+            </div>
+            <div className = "userList">
+				{this.props.users.map(user => (
+                	<UserCard key = {user.id} user = {user} selected = {false} addUserFunction = {this.addUserToGroup} removeUserFunction = {this.removeUserFromGroup}/>
+                ))}
+            </div>
+            <div className = "subheader">
+                Enter Meetup Location:
+            </div>
+            <div className = "latLonInput">
+                <div className = "subheader">
+                    Latitude:
+                </div>
+                <div>
+                   <input className = "latInputField" name="lat" type="text" onChange={this.handleChange}/>
+                </div>
+                <div className = "subheader">
+                    Longitude:
+                </div>
+                <div>
+                    <input className = "lonInputField" name="lon" type="text" onChange={this.handleChange}/>
+                </div>
+            </div>
+            <div className = "createGroupButton">
+                <input className = "submitButton" type="submit" value = "Create Group!"/>
+            </div>
+        </form>
+        )
     }
 
 }

@@ -1,4 +1,5 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
+import './UserCard.css';
 
 class UserCard extends Component{
     constructor(props){
@@ -19,14 +20,20 @@ class UserCard extends Component{
 
     render() {
         return (
-            <div onClick={this.toggleSelected}>
+            <div className = "userCard" onClick={this.toggleSelected}>
                 {!this.state.selected ?
-                <div onClick={() => this.props.addUserFunction(this.state.curUser)}>
-                    {this.props.user.name}
+                <div className="unselectedUser" onClick={() => this.props.addUserFunction(this.state.curUser)}>
+                    <img className = "userImage" src = {this.state.curUser.image} />
+                    <div className = "unselectedUserName">
+                        {this.state.curUser.name}
+                    </div>
                 </div>
                 :
-                <div onClick={() => this.props.removeUserFunction(this.state.curUser)}>
-                    {this.props.user.name + " selected"}
+                <div className="selectedUser" onClick={() => this.props.removeUserFunction(this.state.curUser)}>
+                    <img className = "userImage" src = {this.state.curUser.image} />
+                    <div className = "selectedUserName">
+                        {this.state.curUser.name}
+                    </div>
                 </div>}
             </div>
         );
