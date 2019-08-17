@@ -84,12 +84,16 @@
     background: rgb(242, 248, 252);
     border: 2px solid rgb(87, 127, 187);
     border-radius: 15px;
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 
 .createGroupButton {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin-top: 15px;
+    margin-top: 20px;
     margin-bottom: 15px;
 }
