@@ -13,3 +13,10 @@ export const addGroups = (groups) => {
         payload: groups
     }
 }
+
+export const loginUser = (user) => {
+    return{
+        type: 'SET_USER',
+        payload: user
+    }
+}

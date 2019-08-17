@@ -59,7 +59,18 @@ const groupsReducer = (oldGroups = groups, action) => {
     }
 }
 
+const loginReducer = (currentUser = {}, action) =>
+{
+    switch(action.type){
+        case 'SET_USER':
+            return action.payload;
+        default:
+            return currentUser;     
+    }
+}
+
 export default combineReducers({
     users: usersReducer,
-    groups: groupsReducer
+    groups: groupsReducer,
+    login: loginReducer
 });

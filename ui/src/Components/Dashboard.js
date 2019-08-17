@@ -4,30 +4,16 @@ import "./Dashboard.css";
 import GroupGrid from "./GroupGrid";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
-import { addUsers } from "../Actions/index";
 
 class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      redirect: false
+      redirect: false,
     };
     this.openNav = this.openNav.bind(this);
     this.closeNav = this.closeNav.bind(this);
-  }
-
-  componentDidMount = async () => {
-    try {
-      if (!localStorage.token) console.log("!!!!!!!");
-
-      // const user = decode(localStorage.token);
-
-      // await this.setState({ user });
-    } catch (error) {
-      // console.log( this.props);
-      // window.location = "/";
-    }
-  };
+  }  //dsadsahhh
 
   openNav() {
     document.getElementById("dashboard").style.width = "25vw";
@@ -66,7 +52,7 @@ class Dashboard extends Component {
           >
             Dashboard
           </div>
-          <div> Profile Name</div>
+          <div> {this.props.user.name}</div>
           <GroupGrid />
           <button onClick={this.sendRequest}> Create New Group </button>
         </div>
@@ -77,11 +63,12 @@ class Dashboard extends Component {
 
 const mapStateToProps = state => {
   return {
-    groups: state.groups
+    groups: state.groups,
+    login: state.login
   };
 };
 
 export default connect(
   mapStateToProps,
-  { addUsers }
+  {  }
 )(Dashboard);

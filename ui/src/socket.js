@@ -14,7 +14,7 @@ socket.on('routes', (response)=>{
 
 socket.on('success-group-made', (data) =>{
     console.log('sucess-group-made');
-   store.dispatch(addGroups(data));
+    store.dispatch(addGroups(data));
 })
 
 export default socket;

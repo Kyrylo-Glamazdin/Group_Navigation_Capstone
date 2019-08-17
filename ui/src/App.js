@@ -13,14 +13,15 @@ import { connect } from "react-redux";
 import Login from "./Components/login";
 import Form from './Components/Form';
 import socket from './socket';
+import {loginUser} from './Actions';
 
 class App extends Component {
-  state = { user: null };
   componentDidMount = async () => {
     // console.log("!!!!!!", token);
     try {
       const user = decode(localStorage.token);
-      await this.setState({ user });
+     //Add user to store
+      
     } catch (error) {
       // console.log( this.props);
       // window.location = "/";
@@ -28,13 +29,12 @@ class App extends Component {
   };
 
   render() {
-    const { user } = this.state;
 
     const LoginComponent = () => <Login />;
 
     const MainPageComponent = () => (
       <div className="App">
-        <Dashboard />
+        <Dashboard socket={socket}/>
         <div id="content">{<Map />}</div>
       </div>
     );
@@ -63,7 +63,6 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    users: state.users
   };
 };
 
