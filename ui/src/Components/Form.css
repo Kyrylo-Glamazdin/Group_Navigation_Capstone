@@ -1,11 +1,10 @@
-.form{
-    width: 60vw;
-    height: 60vh;
-    margin-left: 20vw;
-    margin-top: 20vh;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
+.searchForm{
+    background: rgb(236, 238, 243);
+    width: 80%;
+    height: 80%;
+    margin: auto;
+    margin-top: 5%;
+    border-radius: 20px;
 }
 
 .userList{
@@ -15,7 +14,82 @@
     padding-bottom: 12vh;
 }
 
-.form div input{
-    width: 5vw;
-    margin-left: 16vw;
+.formHeader {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 40px;
+    font-weight: 500;
+    text-align: center;
+    padding-top: 10px;
+    margin-bottom: 36px;
+}
+
+.subheader {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 25px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.latLonInput {
+    display: flex;
+    justify-content: center;
+}
+
+.nameInputField {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    font-weight: 300;
+    padding-top: 2px;
+    padding-left: 5px;
+    padding-bottom: 2px;
+    border-radius: 12px;
+    background: rgb(242, 248, 252);
+    margin-left: 5px;
+    margin-bottom: 10px;
+    border: 2px solid rgb(87, 127, 187)
+}
+
+.latInputField {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    font-weight: 300;
+    padding-top: 2px;
+    padding-left: 5px;
+    padding-bottom: 2px;
+    border-radius: 12px;
+    background: rgb(242, 248, 252);
+    margin-left: 5px;
+    margin-right: 200px;
+    margin-bottom: 10px;
+    border: 2px solid rgb(87, 127, 187)
+}
+
+.lonInputField {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    font-weight: 300;
+    padding-top: 2px;
+    padding-left: 5px;
+    padding-bottom: 2px;
+    border-radius: 12px;
+    background: rgb(242, 248, 252);
+    margin-left: 5px;
+    margin-bottom: 10px;
+    border: 2px solid rgb(87, 127, 187);
+}
+
+.submitButton {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 25px;
+    background: rgb(242, 248, 252);
+    border: 2px solid rgb(87, 127, 187);
+    border-radius: 15px;
+}
+
+.createGroupButton {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }

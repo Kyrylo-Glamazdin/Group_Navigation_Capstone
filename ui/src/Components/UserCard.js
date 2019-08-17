@@ -24,13 +24,16 @@ class UserCard extends Component{
                 {!this.state.selected ?
                 <div className="unselectedUser" onClick={() => this.props.addUserFunction(this.state.curUser)}>
                     <img className = "userImage" src = {this.state.curUser.image} />
-                    <div className = "userName">
+                    <div className = "unselectedUserName">
                         {this.state.curUser.name}
                     </div>
                 </div>
                 :
                 <div className="selectedUser" onClick={() => this.props.removeUserFunction(this.state.curUser)}>
-                    <img className = "userImage" src = {this.state.curUser.image} /> {this.state.curUser.name}
+                    <img className = "userImage" src = {this.state.curUser.image} />
+                    <div className = "selectedUserName">
+                        {this.state.curUser.name}
+                    </div>
                 </div>}
             </div>
         );
