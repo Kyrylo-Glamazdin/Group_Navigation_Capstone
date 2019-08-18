@@ -1,6 +1,4 @@
 .App {
   text-align: center;
-  transition: margin-left .4s; /* If you want a transition effect */
+  /* transition: margin-left .4s; If you want a transition effect */
 }
-
-

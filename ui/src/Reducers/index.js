@@ -72,6 +72,9 @@ const usersReducer = (oldUsers = users, action) => {
 
 const groupsReducer = (oldGroups = groups, action) => {
   switch (action.type) {
+    case "DEL_GROUP":
+      let newg = oldGroups.filter(gp => gp !== action.payload);
+      return newg;
     case "ADD_GROUPS":
       action.payload.id = curGroupId;
       curGroupId++;

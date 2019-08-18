@@ -1,26 +1,37 @@
-import React, {Component} from 'react';
-import './GroupGrid.css';
-import {connect} from 'react-redux';
+import React, { Component } from "react";
+import "./GroupGrid.css";
+import { connect } from "react-redux";
+import { delGroup } from "../Actions/index";
 
+class GroupGrid extends Component {
+  delGroup = ev => {
+    console.log("del group", ev);
+    this.props.delGroup(ev);
+  };
 
-class GroupGrid extends Component{
-    render(){
-        return (
-            <ul id = "groups">
-				{this.props.groups.map(group => (
-                	<li key = {group.id}>{group.name}</li>
-              	))}
-            </ul>
-        );
-    }
+  render() {
+    return (
+      <ul id="groups">
+        {this.props.groups.map(group => (
+          <li className="groupbar" key={group.id}>
+            {group.name}
+            <button onClick={() => this.delGroup(group)} className="delbtn">
+              -
+            </button>
+          </li>
+        ))}
+      </ul>
+    );
+  }
 }
 
 const mapStateToProps = state => {
-    return {
-        groups: state.groups
-    };
-}
+  return {
+    groups: state.groups
+  };
+};
 
-export default connect(mapStateToProps, {
-    
-})(GroupGrid)
+export default connect(
+  mapStateToProps,
+  { delGroup }
+)(GroupGrid);
