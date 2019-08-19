@@ -57,15 +57,23 @@ class Form extends Component {
     };
     this.props.socket.emit("create", newGroup);
 
-    // await axios.post("http://localhost:4000/api/directions", {
-    //   newGroup
-    // })
-    // .then ( response => {
-    //   console.log(response) 
-    // })
-    // .catch( err => {
-    //   console.log(err);
-    // })
+    await axios.post('http://localhost:4000/api/groups',{
+      newGroup
+    })
+    .then(res => {
+
+    })
+    .catch(err => console.log(err))
+
+    await axios.post("http://localhost:4000/api/directions", {
+      newGroup
+    })
+    .then ( response => {
+      console.log(response) 
+    })
+    .catch( err => {
+      console.log(err);
+    })
 
     //console.log('emitted create')
     // this.setState({
