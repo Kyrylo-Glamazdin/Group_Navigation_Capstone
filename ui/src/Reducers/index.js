@@ -72,19 +72,32 @@ const usersReducer = (oldUsers = users, action) => {
 
 const groupsReducer = (oldGroups = groups, action) => {
   switch (action.type) {
+<<<<<<< HEAD
     case "DEL_GROUP":
       let newg = oldGroups.filter(gp => gp !== action.payload);
       return newg;
+=======
+>>>>>>> ea689e5e0accf1cb7969af1bf52c6d77acac940e
     case "ADD_GROUPS":
       action.payload.id = curGroupId;
       curGroupId++;
       return oldGroups.concat(action.payload);
+<<<<<<< HEAD
+=======
+    case "DEL_GROUP":
+      let ngr = oldGroups.filter(gp => gp != action.payload);
+      return ngr;
+>>>>>>> ea689e5e0accf1cb7969af1bf52c6d77acac940e
     default:
       return oldGroups;
   }
 };
 
+<<<<<<< HEAD
 const loginReducer = (currentUser = [8888888], action) => {
+=======
+const loginReducer = (currentUser = {}, action) => {
+>>>>>>> ea689e5e0accf1cb7969af1bf52c6d77acac940e
   switch (action.type) {
     case "SET_USER":
       return action.payload;

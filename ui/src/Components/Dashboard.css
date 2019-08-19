@@ -1,4 +1,5 @@
 #dashboard {
+<<<<<<< HEAD
   width: 25vw;
   min-width: 200px;
   height: 100vh;
@@ -15,13 +16,36 @@
   text-transform: none;
   color: red;
 
+=======
+  /* min-width: 200px; */
+
+  width: 25vw;
+  height: 100vh;
+
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 27px;
+  letter-spacing: -1.4px;
+  word-spacing: 0px;
+  color: #000000;
+  font-weight: 400;
+  text-decoration: none;
+  font-style: normal;
+  font-variant: small-caps;
+  text-transform: none;
+  color: red;
+
+>>>>>>> ea689e5e0accf1cb7969af1bf52c6d77acac940e
   border: 1px solid black;
 
   position: fixed; /* Stay in place */
   z-index: 1; /* Stay on top */
   background-color: gray;
   overflow-x: hidden; /* Disable horizontal scroll */
+<<<<<<< HEAD
   /* transition: 0.4s; 0.5 second transition effect to slide in the sidebar */
+=======
+  transition: 0.4s; /* 0.5 second transition effect to slide in the sidebar */
+>>>>>>> ea689e5e0accf1cb7969af1bf52c6d77acac940e
 }
 
 .title {

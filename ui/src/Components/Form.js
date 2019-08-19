@@ -63,7 +63,13 @@ class Form extends Component {
   }
 
   render() {
+<<<<<<< HEAD
     if (this.state.redirect) {
+=======
+    if (!localStorage.token) {
+      return <Redirect to="/" />;
+    } else if (this.state.redirect) {
+>>>>>>> ea689e5e0accf1cb7969af1bf52c6d77acac940e
       return <Redirect to="/dashboard" />;
     }
     return (

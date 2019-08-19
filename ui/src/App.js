@@ -20,11 +20,15 @@ class App extends Component {
   componentDidMount = async () => {
     try {
       const user = decode(localStorage.token);
+<<<<<<< HEAD
       console.log("!!!!!!", this.props.user);
       await this.props.loginUser(user);
       console.log("!!!!!!", this.props.user);
       //Add user to store
       // console.log("!!!!!!!", user);
+=======
+      //Add user to store
+>>>>>>> ea689e5e0accf1cb7969af1bf52c6d77acac940e
     } catch (error) {
       // console.log( this.props);
       // window.location = "/";
@@ -65,9 +69,13 @@ class App extends Component {
 }
 
 const mapStateToProps = state => {
+<<<<<<< HEAD
   return {
     user: state.login
   };
+=======
+  return {};
+>>>>>>> ea689e5e0accf1cb7969af1bf52c6d77acac940e
 };
 
 const mapAction = {
