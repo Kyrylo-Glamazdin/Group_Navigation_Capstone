@@ -8,7 +8,7 @@ socket.on('connect', ()=>{
     console.log("you have been connected");
 })
 
-socket.on('routes', (response)=>{
+socket.on('route', (response)=>{
     console.log(response);
 })
 
