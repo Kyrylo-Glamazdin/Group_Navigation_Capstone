@@ -47,7 +47,7 @@ class Form extends Component {
     });
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault();
     let newGroup = {
       name: this.state.name,
@@ -55,11 +55,22 @@ class Form extends Component {
       latitude: this.state.lat,
       longitude: this.state.lon
     };
-    this.props.socket.emit("create", newGroup);
+    //this.props.socket.emit("create", newGroup);
+
+    await axios.post("http://localhost:4000/api/directions", {
+      newGroup
+    })
+    .then ( response => {
+      console.log(response)
+    })
+    .catch( err => {
+      console.log(err);
+    })
+
     //console.log('emitted create')
-    this.setState({
-      redirect: true
-    });
+    // this.setState({
+    //   redirect: true
+    // });
   }
 
   render() {
