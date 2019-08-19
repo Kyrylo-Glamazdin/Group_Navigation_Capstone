@@ -6,6 +6,7 @@ import { Redirect } from "react-router";
 import { addGroups} from "../Actions";
 import { addCurrentGroup } from "../Actions";
 import axios from "axios";
+import { addGroups } from '../Actions'
 
 class Form extends Component {
   constructor(props) {
@@ -53,10 +54,19 @@ class Form extends Component {
     e.preventDefault();
     let newGroup = {
       name: this.state.name,
-      users: this.state.selectedUsers,
       latitude: this.state.lat,
       longitude: this.state.lon
     };
+
+    await axios.post('http://localhost:4000/api/groups', {
+      newGroup
+    })
+      .then(async res => {
+        newGroup.users = this.state.selectedUsers
+        await this.props.addGroups(newGroup);
+
+      })
+      .catch(err => console.log(err))
     //this.props.socket.emit("create", newGroup);
 
     await axios.post("http://localhost:4000/api/directions", {newGroup})
@@ -69,7 +79,6 @@ class Form extends Component {
       console.log(err);
     })
 
-    console.log('emitted create')
     this.setState({
       redirect: true
     });
@@ -139,6 +148,10 @@ const mapStateToProps = state => {
     users: state.users,
     groups: state.groups
   };
+};
+
+const mapDispatchToProps = dispatch => {
+  return { addGroups };
 };
 
 export default connect(

@@ -13,8 +13,9 @@ import { connect } from "react-redux";
 import Login from "./Components/login";
 import Form from "./Components/Form";
 import socket from "./socket";
-import { loginUser } from "./Actions";
+import { addUsers, addGroups } from "./Actions";
 import Popup from "./Components/popUp";
+import axios from 'axios';
 
 class App extends Component {
   componentDidMount = async () => {
@@ -26,6 +27,17 @@ class App extends Component {
       // console.log( this.props);
       // window.location = "/";
     }
+    await axios.get('http://localhost:4000/api/users')
+    .then(res => {
+      this.props.addUsers(res.data);
+    })
+    .catch(err => console.log(err))
+
+    await axios.get('http://localhost:4000/api/groups')
+    .then(res => {
+      this.props.addGroups(res.data);
+    })
+    .catch(err => console.log(err))
   };
 
   render() {
@@ -67,5 +79,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  {}
+  {addUsers,addGroups}
 )(App);
