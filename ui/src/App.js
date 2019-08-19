@@ -36,6 +36,7 @@ class App extends Component {
         <Dashboard socket={socket} />
         <div id="content">{<Map />}</div>
         <Popup />
+        <Form socket={socket} />
       </div>
     );
 
