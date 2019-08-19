@@ -59,6 +59,8 @@ let groups = [
   }
 ];
 
+let currentGroup = -1;
+
 let curGroupId = 3;
 
 const usersReducer = (oldUsers = users, action) => {
@@ -84,6 +86,19 @@ const groupsReducer = (oldGroups = groups, action) => {
   }
 };
 
+const currentGroupReducer = (oldCurrentGroup = currentGroup, action) => {
+  switch (action.type){
+    case "ADD_CURRENT_GROUP":
+      oldCurrentGroup = curGroupId;
+      return oldCurrentGroup;
+    case "CHANGE_GROUP":
+      oldCurrentGroup = action.payload;
+      return oldCurrentGroup;
+    default:
+      return oldCurrentGroup;
+  }
+}
+
 const loginReducer = (currentUser = {}, action) => {
   switch (action.type) {
     case "SET_USER":
@@ -96,5 +111,6 @@ const loginReducer = (currentUser = {}, action) => {
 export default combineReducers({
   users: usersReducer,
   groups: groupsReducer,
-  login: loginReducer
+  login: loginReducer,
+  currentGroup: currentGroupReducer
 });

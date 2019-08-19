@@ -3,6 +3,8 @@ import UserCard from "./UserCard";
 import "./Form.css";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
+import { addGroups} from "../Actions";
+import { addCurrentGroup } from "../Actions";
 import axios from "axios";
 
 class Form extends Component {
@@ -57,20 +59,20 @@ class Form extends Component {
     };
     //this.props.socket.emit("create", newGroup);
 
-    await axios.post("http://localhost:4000/api/directions", {
-      newGroup
-    })
+    await axios.post("http://localhost:4000/api/directions", {newGroup})
     .then ( response => {
-      console.log(response)
+      newGroup.paths = response.data;
+      this.props.addCurrentGroup();
+      this.props.addGroups(newGroup);
     })
     .catch( err => {
       console.log(err);
     })
 
-    //console.log('emitted create')
-    // this.setState({
-    //   redirect: true
-    // });
+    console.log('emitted create')
+    this.setState({
+      redirect: true
+    });
   }
 
   render() {
@@ -139,11 +141,8 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {};
-};
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
-)(Form);
+  {addGroups,
+  addCurrentGroup})
+  (Form);

@@ -27,3 +27,16 @@ export const loginUser = user => {
     payload: user
   };
 };
+
+export const changeGroup = groupId => {
+  return {
+    type: "CHANGE_GROUP",
+    payload: groupId
+  };
+};
+
+export const addCurrentGroup = () => {
+  return {
+    type: "ADD_CURRENT_GROUP"
+  }
+}
