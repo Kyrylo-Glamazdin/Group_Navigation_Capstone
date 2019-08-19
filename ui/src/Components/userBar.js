@@ -10,7 +10,7 @@ class Userbar extends Component {
   select = async () => {
     await this.setState({ active: !this.state.active });
     // console.log("on bar: ", this.state.user);
-    this.props.select(this.state.user);
+    this.props.select(this.props.user);
     // console.log(this.state.user.name, "---", this.state.active);
   };
 
