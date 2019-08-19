@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import decode from "jwt-decode";
+import { loginUser, delGroup } from "../Actions";
 import "./Dashboard.css";
 import GroupGrid from "./GroupGrid";
 import { Redirect } from "react-router";
@@ -9,11 +10,19 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      redirect: false,
+      redirect: false
     };
     this.openNav = this.openNav.bind(this);
     this.closeNav = this.closeNav.bind(this);
-  }  //dsadsahhh
+  } //dsadsahhh
+
+  componentDidMount = () => {
+    console.log("ondash: ");
+    if (localStorage.token) {
+      const user = decode(localStorage.getItem("token"));
+      this.props.loginUser(user);
+    }
+  };
 
   openNav() {
     document.getElementById("dashboard").style.width = "25vw";
@@ -37,6 +46,11 @@ class Dashboard extends Component {
     await this.setState({ redirect: true });
   };
 
+  logOut = () => {
+    localStorage.removeItem("token");
+    window.location = "/";
+  };
+
   render() {
     if (this.state.redirect) {
       return <Redirect to="/dashboard/form" />;
@@ -52,9 +66,10 @@ class Dashboard extends Component {
           >
             Dashboard
           </div>
-          <div> {this.props.user.name}</div>
+          <div> {this.props.login.name}</div>
           <GroupGrid />
           <button onClick={this.sendRequest}> Create New Group </button>
+          <button onClick={this.logOut}> Log Out </button>
         </div>
       );
     }
@@ -70,5 +85,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  {  }
+  { loginUser, delGroup }
 )(Dashboard);
