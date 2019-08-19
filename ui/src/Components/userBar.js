@@ -10,24 +10,24 @@ class Userbar extends Component {
   select = async () => {
     await this.setState({ active: !this.state.active });
     // console.log("on bar: ", this.state.user);
-    this.props.select(this.state.user);
+    this.props.select(this.props.user);
     // console.log(this.state.user.name, "---", this.state.active);
   };
 
-  renders = () => {
-    const { user } = this.props;
-    // if (this.state.active)
-    //   return (
-    //     <div onClick={this.select} className="userbar active">
-    //       {user.name}
-    //     </div>
-    //   );
-    return (
-      <div onClick={this.select} className="userbar">
-        {user.name}
-      </div>
-    );
-  };
+  // renders = () => {
+  //   const { user } = this.props;
+  //   // if (this.state.active)
+  //   //   return (
+  //   //     <div onClick={this.select} className="userbar active">
+  //   //       {user.name}
+  //   //     </div>
+  //   //   );
+  //   return (
+  //     <div onClick={this.select} className="userbar">
+  //       {user.name}
+  //     </div>
+  //   );
+  // };
 
   //
   render() {

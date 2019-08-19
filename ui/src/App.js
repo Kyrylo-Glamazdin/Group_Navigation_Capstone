@@ -11,17 +11,17 @@ import {
 } from "react-router-dom";
 import { connect } from "react-redux";
 import Login from "./Components/login";
-import Form from './Components/Form';
-import socket from './socket';
-import {loginUser} from './Actions';
+import Form from "./Components/Form";
+import socket from "./socket";
+import { loginUser } from "./Actions";
+import Popup from "./Components/popUp";
 
 class App extends Component {
   componentDidMount = async () => {
     // console.log("!!!!!!", token);
     try {
       const user = decode(localStorage.token);
-     //Add user to store
-      
+      //Add user to store
     } catch (error) {
       // console.log( this.props);
       // window.location = "/";
@@ -29,17 +29,17 @@ class App extends Component {
   };
 
   render() {
-
     const LoginComponent = () => <Login />;
 
     const MainPageComponent = () => (
       <div className="App">
-        <Dashboard socket={socket}/>
+        <Dashboard socket={socket} />
         <div id="content">{<Map />}</div>
+        <Popup />
       </div>
     );
 
-    const FormComponent = () => (<Form socket={socket}/>);
+    const FormComponent = () => <Form socket={socket} />;
 
     return (
       <Router>
@@ -62,8 +62,7 @@ class App extends Component {
 }
 
 const mapStateToProps = state => {
-  return {
-  };
+  return {};
 };
 
 export default connect(
