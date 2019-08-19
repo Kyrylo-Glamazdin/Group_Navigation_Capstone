@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./GroupGrid.css";
 import { connect } from "react-redux";
 import { delGroup } from "../Actions";
+import {changeGroup} from "../Actions";
 
 class GroupGrid extends Component {
   pop = () => {
@@ -17,7 +18,7 @@ class GroupGrid extends Component {
             <button onClick={this.pop} className="delbtn">
               +
             </button>
-            <li key={group.id}>{group.name}</li>
+            <li key={group.id} onClick={() => this.props.changeGroup(group.id)}>{group.name}</li>
             <button
               onClick={() => this.props.delGroup(group)}
               className="delbtn"
@@ -39,5 +40,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { delGroup }
+  { delGroup , changeGroup}
 )(GroupGrid);

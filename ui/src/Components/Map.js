@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { connect } from "react-redux";
 import DeckGL from 'deck.gl';
 import { StaticMap } from 'react-map-gl';
 import { PathLayer } from '@deck.gl/layers';
@@ -7,15 +8,7 @@ import { PathLayer } from '@deck.gl/layers';
 const data = [{
  name: "random-name",
  color: [101, 147, 245],
- path:[[-74.00578, 40.713067],
-       [-74.004577, 40.712425],
-       [-74.003626, 40.713650],
-       [-74.002666, 40.714243],
-       [-74.002136, 40.715177],
-       [-73.998493, 40.713452],
-       [-73.997981, 40.713673],
-       [-73.997586, 40.713448],
-       [-73.99256, 40.713863]]}
+ path:[]}
 ]
 export class Map extends Component {
 render() {
@@ -53,3 +46,14 @@ return (
 }
 
 export default Map
+
+
+// const mapStateToProps = state => {
+//   return {
+//     users: state.users,
+//     groups: state.groups
+//   };
+// };
+
+
+// export default connect(mapStateToProps)(Map);
