@@ -4,6 +4,7 @@ import "./Form.css";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
 import axios from "axios";
+import { addGroups } from '../Actions'
 
 class Form extends Component {
   constructor(props) {
@@ -51,34 +52,35 @@ class Form extends Component {
     e.preventDefault();
     let newGroup = {
       name: this.state.name,
-      users: this.state.selectedUsers,
       latitude: this.state.lat,
       longitude: this.state.lon
     };
-    this.props.socket.emit("create", newGroup);
 
-    await axios.post('http://localhost:4000/api/groups',{
+    await axios.post('http://localhost:4000/api/groups', {
       newGroup
     })
-    .then(res => {
+      .then(async res => {
+        newGroup.users = this.state.selectedUsers
+        await this.props.addGroups(newGroup);
 
-    })
-    .catch(err => console.log(err))
+      })
+      .catch(err => console.log(err))
+    //this.props.socket.emit("create", newGroup);
 
-    await axios.post("http://localhost:4000/api/directions", {
-      newGroup
-    })
-    .then ( response => {
-      console.log(response) 
-    })
-    .catch( err => {
-      console.log(err);
-    })
 
-    //console.log('emitted create')
-    // this.setState({
-    //   redirect: true
-    // }); 
+    // await axios.post("http://localhost:4000/api/directions", {
+    //   newGroup
+    // })
+    //   .then(response => {
+    //     console.log(response)
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   })
+
+    this.setState({
+      redirect: true
+    });
   }
 
   render() {
@@ -148,7 +150,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return { addGroups };
 };
 
 export default connect(
