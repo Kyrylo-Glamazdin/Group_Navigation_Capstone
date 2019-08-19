@@ -14,20 +14,20 @@ class Userbar extends Component {
     // console.log(this.state.user.name, "---", this.state.active);
   };
 
-  renders = () => {
-    const { user } = this.props;
-    // if (this.state.active)
-    //   return (
-    //     <div onClick={this.select} className="userbar active">
-    //       {user.name}
-    //     </div>
-    //   );
-    return (
-      <div onClick={this.select} className="userbar">
-        {user.name}
-      </div>
-    );
-  };
+  // renders = () => {
+  //   const { user } = this.props;
+  //   // if (this.state.active)
+  //   //   return (
+  //   //     <div onClick={this.select} className="userbar active">
+  //   //       {user.name}
+  //   //     </div>
+  //   //   );
+  //   return (
+  //     <div onClick={this.select} className="userbar">
+  //       {user.name}
+  //     </div>
+  //   );
+  // };
 
   //
   render() {

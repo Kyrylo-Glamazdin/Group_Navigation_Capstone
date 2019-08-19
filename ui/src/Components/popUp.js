@@ -20,6 +20,11 @@ class Popup extends Component {
     console.log(this.state.selected);
   };
 
+  pop = () => {
+    document.querySelector("#overlay").classList.remove("activ");
+    document.querySelector(".popup").classList.remove("activ");
+  };
+
   sendUsers = () => {
     console.log(
       "Senting ---",
@@ -32,9 +37,11 @@ class Popup extends Component {
   render() {
     const { users } = this.props;
     return (
-      <div className="back">
+      <div className="">
         <div className="popup">
-          <div className="x">&times;</div>
+          <div onClick={this.pop} className="x">
+            &times;
+          </div>
           {users.map(us => (
             <Userbar user={us} select={this.select} />
           ))}
@@ -42,6 +49,7 @@ class Popup extends Component {
             Invite
           </button>
         </div>
+        <div className="" id="overlay" />
       </div>
     );
   }
