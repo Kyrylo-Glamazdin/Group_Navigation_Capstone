@@ -28,17 +28,17 @@ class App extends Component {
       // window.location = "/";
     }
 
-    await axios.get('http://localhost:4000/api/users')
-    .then(res => {
-      this.props.addUsers(res.data);
-    })
-    .catch(err => console.log(err))
+    // await axios.get('http://localhost:4000/api/users')
+    // .then(res => {
+    //   this.props.addUsers(res.data);
+    // })
+    // .catch(err => console.log(err))
 
-    await axios.get('http://localhost:4000/api/groups')
-    .then(res => {
-      this.props.addGroups(res.data);
-    })
-    .catch(err => console.log(err))
+    // await axios.get('http://localhost:4000/api/groups')
+    // .then(res => {
+    //   this.props.addGroups(res.data);
+    // })
+    // .catch(err => console.log(err))
   };
 
   render() {
