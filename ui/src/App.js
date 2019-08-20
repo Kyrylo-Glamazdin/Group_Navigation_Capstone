@@ -15,9 +15,23 @@ import Form from "./Components/Form";
 import socket from "./socket";
 import { addUsers, addGroups } from "./Actions";
 import Popup from "./Components/popUp";
-import axios from 'axios';
+import axios from "axios";
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      showForm: false
+    };
+  }
+
+  toggleForm = async () => {
+    await this.setState({ showForm: !this.state.showForm });
+    console.log("toggle form");
+    // document.querySelector(".searchForm").classList.add("activ");
+    // document.querySelector("#overlay").classList.remove("activ");
+  };
+
   componentDidMount = async () => {
     // console.log("!!!!!!", token);
     try {
@@ -46,10 +60,17 @@ class App extends Component {
 
     const MainPageComponent = () => (
       <div className="App">
-        <Dashboard socket={socket} />
+        <Dashboard socket={socket} toggleForm={this.toggleForm} />
         <div id="content">{<Map />}</div>
         <Popup />
-        <Form socket={socket} />
+        {this.state.showForm ? (
+          <div>
+            <Form socket={socket} toggleForm={this.toggleForm} />
+            <div className="activ" id="overlay" />
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     );
 
@@ -81,5 +102,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  {addUsers,addGroups}
+  { addUsers, addGroups }
 )(App);

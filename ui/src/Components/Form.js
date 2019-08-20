@@ -3,7 +3,7 @@ import UserCard from "./UserCard";
 import "./Form.css";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
-import { addGroups} from "../Actions";
+import { addGroups } from "../Actions";
 import { addCurrentGroup } from "../Actions";
 import axios from "axios";
 
@@ -15,7 +15,8 @@ class Form extends Component {
       selectedUsers: [],
       lat: 0,
       lon: 0,
-      redirect: false
+      redirect: false,
+      showCards: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -31,8 +32,18 @@ class Form extends Component {
 
   pop = () => {
     // console.log(document.querySelector("#overlay"));
-    document.querySelector(".searchForm").classList.remove("activ");
-    document.querySelector("#overlay").classList.remove("activ");
+    // document.querySelector(".searchForm").classList.remove("activ");
+    // document.querySelector("#overlay").classList.remove("activ");
+    // this.setState({ showCards: !this.state.showCards });
+    // console.log("toggle");
+    // document.querySelectorAll('.selectedUse')
+    // this.setState({
+    //   name: "New Group",
+    //   selectedUsers: [],
+    //   lat: 0,
+    //   lon: 0,
+    //   redirect: false
+    // });
   };
 
   addUserToGroup(user) {
@@ -90,16 +101,29 @@ class Form extends Component {
     });
   }
 
+  log = () => {
+    console.log(this.state);
+    // console.log(document.querySelector(".selectedUser").state);
+  };
+
+  close = () => {
+    setTimeout(() => {
+      this.props.toggleForm();
+    }, 300);
+  };
+
   render() {
     // if (!localStorage.token) {
     //   return <Redirect to="/" />;
     // } else if (this.state.redirect) {
     //   return <Redirect to="/dashboard" />;
     // }
+    console.log(this.props.users);
     return (
       <div>
-        <form className="searchForm" onSubmit={this.handleSubmit}>
-          <div onClick={this.pop} className="x2">
+        {/* {this.state.showCards ? ( */}
+        <form className="searchForm activ" onSubmit={this.handleSubmit}>
+          <div onClick={this.close} className="x2">
             &times;
           </div>
           <div className="formHeader">Create a New Group</div>
@@ -116,9 +140,9 @@ class Form extends Component {
             <div className="aaa">Select Users:</div>
           </div>
           <div className="userList">
-            {this.props.users.map(user => (
+            {this.props.users.map((user, idx) => (
               <UserCard
-                key={user.id}
+                key={idx}
                 user={user}
                 selected={false}
                 addUserFunction={this.addUserToGroup}
@@ -157,8 +181,8 @@ class Form extends Component {
               />
             </div>
           </div>
+          <div onClick={this.log}>321321321321</div>
         </form>
-        {/* <div className="" id="overlay" /> */}
       </div>
     );
   }
@@ -177,6 +201,5 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(
   mapStateToProps,
-  {addGroups,
-  addCurrentGroup})
-  (Form);
+  { addGroups, addCurrentGroup }
+)(Form);
