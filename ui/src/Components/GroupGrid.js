@@ -35,9 +35,11 @@ class GroupGrid extends Component {
               onClick={async() => {
                 //console.log(group);
                 this.props.delGroup(group);
-                let req = this.props.login;
-                req.groupId = group.id;
-                await Axios.post('http://localhost:4000/api/groups/removeUser', req)
+                let req = {
+                  id: this.props.login.id,
+                  groupId:  group.id
+                }
+                await Axios.put('http://localhost:4000/api/groups/remove', req)
                 .then(res => {
                   console.log('user removed from group');
                 })
