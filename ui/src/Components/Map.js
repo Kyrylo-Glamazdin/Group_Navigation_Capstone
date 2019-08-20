@@ -29,8 +29,9 @@ class Map extends Component {
   }
 
   findGroupById(){
-    for (let i = 0; i < this.props.groups.length; i++){
+    for (let i = this.props.groups.length - 1; i >= 0; i--){
       if (this.props.groups[i].id == this.props.currentGroup){
+        console.log(this.props.groups[i]);
         return this.props.groups[i];
       }
     }
@@ -74,9 +75,10 @@ render() {
       }
       currentUserPath.push(reversedPath);
     }
+    
     let nextPath = [ 
       {
-        name: workingGroup.users[i].name + "-path",
+        name: workingGroup.Users[i].name + "-path",
         color: this.selectRandomColor(),
         path: currentUserPath,
       }

@@ -3,7 +3,7 @@ import { combineReducers } from "redux";
 
 let currentGroup = -1;
 
-let curGroupId = 1;
+let curGroupId = 0;
 
 const usersReducer = (oldUsers = [], action) => {
   switch (action.type) {

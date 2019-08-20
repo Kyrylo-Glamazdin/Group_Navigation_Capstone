@@ -34,11 +34,31 @@ class App extends Component {
     })
     .catch(err => console.log(err))
 
-    await axios.get('http://localhost:4000/api/groups')
-    .then(res => {
-      this.props.addGroups(res.data);
-    })
-    .catch(err => console.log(err))
+    try{
+      let groupsx = await axios.get('http://localhost:4000/api/groups')
+      let groups = groupsx.data
+      //console.log(groups);
+      for(let i = 0; i< groups.length; i++)
+      {
+        let users = groups[i].Users;
+        //console.log(users);
+        let newGroup = {
+          users : users,
+          latitude: groups[i].latitude,
+          longitude: groups[i].longitude
+        }
+        //console.log(newGroup)
+        let paths = await axios.post('http://localhost:4000/api/directions',{newGroup})
+        groups[i].paths = paths.data;
+      }
+      //console.log(groups);
+      this.props.addGroups(groups);
+    }
+    catch(err){
+      console.log(err);
+    }
+
+  
   };
 
   render() {

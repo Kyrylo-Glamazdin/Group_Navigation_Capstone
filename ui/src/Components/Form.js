@@ -3,7 +3,7 @@ import UserCard from "./UserCard";
 import "./Form.css";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
-import { addGroups} from "../Actions";
+import { addGroups } from "../Actions";
 import { addCurrentGroup } from "../Actions";
 import axios from "axios";
 
@@ -13,6 +13,7 @@ class Form extends Component {
     this.state = {
       name: "New Group",
       selectedUsers: [],
+      address: "",
       lat: 0,
       lon: 0,
       redirect: false
@@ -59,31 +60,52 @@ class Form extends Component {
     e.preventDefault();
     let newGroup = {
       name: this.state.name,
-      latitude: this.state.lat,
-      longitude: this.state.lon
+      users: this.state.selectedUsers,
+      address: this.state.address
     };
-
+    //console.log(newGroup)
     this.props.socket.emit("create", this.state.name);
 
-    // await axios.post('http://localhost:4000/api/groups', {
-    //   newGroup
-    // })
-    //   .then(async res => {
-    //     newGroup.users = this.state.selectedUsers
-    //     await this.props.addGroups(newGroup);
-
-    //   })
-    //   .catch(err => console.log(err))
-
-    // await axios.post("http://localhost:4000/api/directions", {newGroup})
+    // axios.post("http://localhost:4000/api/directions", {newGroup})
     // .then ( response => {
     //   newGroup.paths = response.data;
-    //   this.props.addCurrentGroup();
-    //   this.props.addGroups(newGroup);
     // })
     // .catch( err => {
     //   console.log(err);
     // })
+    try {
+      let response = await axios.post("http://localhost:4000/api/directions/address", { address : newGroup.address });
+      //console.log(response);
+      this.setState({
+          
+      })
+      //paths = response.data;
+    }
+    catch (err) {
+      console.log(err);
+    }
+
+
+    let paths = null;
+    try {
+      let response = await axios.post("http://localhost:4000/api/directions/", {newGroup});
+      //console.log(response);
+      paths = response.data;
+    }
+    catch (err) {
+      console.log(err);
+    }
+
+    try {
+      axios.post('http://localhost:4000/api/groups', {
+        newGroup
+      })
+      newGroup.paths = paths;
+      await this.props.addGroups(newGroup);
+    }
+    catch (err) {
+
+    }
 
     this.setState({
       redirect: true
@@ -91,11 +113,11 @@ class Form extends Component {
   }
 
   render() {
-    // if (!localStorage.token) {
-    //   return <Redirect to="/" />;
-    // } else if (this.state.redirect) {
-    //   return <Redirect to="/dashboard" />;
-    // }
+    if (!localStorage.token) {
+      return <Redirect to="/" />;
+    } else if (this.state.redirect) {
+      return <Redirect to="/dashboard" />;
+    }
     return (
       <div>
         <form className="searchForm" onSubmit={this.handleSubmit}>
@@ -127,9 +149,17 @@ class Form extends Component {
             ))}
           </div>
           <div className="destin">
-            <div className="subheader">Enter Meetup Location:</div>
+            <div className="subheader">Enter Meetup Address:</div>
             <div className="latLonInput">
-              <div className="subheader">Latitude:</div>
+              <div>
+                <input
+                  className="latInputField"
+                  name="address"
+                  type="text"
+                  onChange={this.handleChange}
+                />
+              </div>
+              {/* <div className="subheader">Latitude:</div>
               <div>
                 <input
                   className="latInputField"
@@ -146,7 +176,7 @@ class Form extends Component {
                   type="text"
                   onChange={this.handleChange}
                 />
-              </div>
+            </div> */}
             </div>
             <div className="createGroupButton">
               <input
@@ -177,6 +207,8 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(
   mapStateToProps,
-  {addGroups,
-  addCurrentGroup})
+  {
+    addGroups,
+    addCurrentGroup
+  })
   (Form);
