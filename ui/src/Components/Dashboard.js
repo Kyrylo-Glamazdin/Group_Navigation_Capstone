@@ -43,7 +43,9 @@ class Dashboard extends Component {
     // .catch(e => {
     //     console.log(e);
     // })
-    await this.setState({ redirect: true });
+    // await this.setState({ redirect: true });
+    document.querySelector(".searchForm").classList.add("activ");
+    document.querySelector("#overlay").classList.add("activ");
   };
 
   logOut = () => {

@@ -42,9 +42,12 @@ class Popup extends Component {
           <div onClick={this.pop} className="x">
             &times;
           </div>
-          {users.map(us => (
-            <Userbar user={us} select={this.select} />
-          ))}
+          <div className="barlist">
+            {users.map(us => (
+              <Userbar user={us} select={this.select} />
+            ))}
+          </div>
+
           <button onClick={this.sendUsers} className="loginbtn invibtn">
             Invite
           </button>

@@ -1,51 +1,77 @@
+.userCard {
+  /* display: flexbox; */
+  width: 80px;
+  height: 80px;
+  /* background-color: #fff; */
+  margin: 5px;
+  justify-content: center;
+  align-items: center;
+}
+
 .unselectedUser {
-    display: inline-block;
-    margin: 10px;
-    width: 160px;
-    background: rgb(87, 127, 187);
-    padding: 10px;
-    text-align: center;
-    border-radius: 10%;
-    transition: 0.5s;
+  /* padding: px; */
+  /* display: inline-block; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: rgb(87, 127, 187);
+
+  text-align: center;
+  border-radius: 10%;
+  transition: 200ms;
+  border: gray solid 0.3px;
 }
 
 .selectedUser {
-    display: inline-block;
-    margin: 10px;
-    width: 160px;
-    background: rgb(66, 204, 24);
-    padding: 10px;
-    text-align: center;
-    border-radius: 10%;
-    transition: 0.5s;
+  /* display: inline-block; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: gold;
+  text-align: center;
+  border-radius: 10%;
+  transform: scale(1.1);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+.unselectedUser:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
 }
 
 .userImage {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 50%;
-    padding-bottom: 10px;
-    width: 80%;
-    height: 80%;
+  display: block;
+  margin: auto;
+  border-radius: 50%;
+  padding-bottom: 3px;
+  width: 50px;
+  height: 50px;
 }
 
 .unselectedUserName {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 18px;
-    background: rgb(242, 248, 252);
-    border-radius: 40px;
-    padding-top: 2px;
-    padding-bottom: 1px;
-    transition: 0.5s;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  background: rgb(242, 248, 252);
+  border-radius: 40px;
+  /* padding-top: 2px; */
+  padding-bottom: 1px;
+  transition: 150ms;
+  width: 86%;
+  margin: 0 auto;
 }
 
 .selectedUserName {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 18px;
-    background: rgb(214, 247, 211);
-    border-radius: 40px;
-    padding-top: 2px;
-    padding-bottom: 1px;
-    transition: 0.5s;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  background: rgb(214, 247, 211);
+  border-radius: 40px;
+  padding-top: 2px;
+  padding-bottom: 1px;
+  transition: 150ms;
+  width: 99%;
+  margin: 0 auto;
 }

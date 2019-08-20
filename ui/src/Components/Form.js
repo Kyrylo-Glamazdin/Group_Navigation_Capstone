@@ -29,6 +29,12 @@ class Form extends Component {
     });
   }
 
+  pop = () => {
+    // console.log(document.querySelector("#overlay"));
+    document.querySelector(".searchForm").classList.remove("activ");
+    document.querySelector("#overlay").classList.remove("activ");
+  };
+
   addUserToGroup(user) {
     let newSelectedUsers = [...this.state.selectedUsers, user];
     this.setState({
@@ -85,60 +91,75 @@ class Form extends Component {
   }
 
   render() {
-    if (!localStorage.token) {
-      return <Redirect to="/" />;
-    } else if (this.state.redirect) {
-      return <Redirect to="/dashboard" />;
-    }
+    // if (!localStorage.token) {
+    //   return <Redirect to="/" />;
+    // } else if (this.state.redirect) {
+    //   return <Redirect to="/dashboard" />;
+    // }
     return (
-      <form className="searchForm" onSubmit={this.handleSubmit}>
-        <div className="formHeader">Create a New Group</div>
-        <div className="subheader">
-          Name of the Group:
-          <input
-            className="nameInputField"
-            name="name"
-            type="text"
-            onChange={this.handleChange}
-          />
-        </div>
-        <div className="subheader">Select Users:</div>
-        <div className="userList">
-          {this.props.users.map(user => (
-            <UserCard
-              key={user.id}
-              user={user}
-              selected={false}
-              addUserFunction={this.addUserToGroup}
-              removeUserFunction={this.removeUserFromGroup}
-            />
-          ))}
-        </div>
-        <div className="subheader">Enter Meetup Location:</div>
-        <div className="latLonInput">
-          <div className="subheader">Latitude:</div>
-          <div>
+      <div>
+        <form className="searchForm" onSubmit={this.handleSubmit}>
+          <div onClick={this.pop} className="x2">
+            &times;
+          </div>
+          <div className="formHeader">Create a New Group</div>
+          <div className="subheader">
+            Group Name:
             <input
-              className="latInputField"
-              name="lat"
+              className="nameInputField"
+              name="name"
               type="text"
               onChange={this.handleChange}
             />
           </div>
-          <div className="subheader">Longitude:</div>
-          <div>
-            <input
-              className="lonInputField"
-              name="lon"
-              type="text"
-              onChange={this.handleChange}
-            />
+          <div className="subheader subheader2">
+            <div className="aaa">Select Users:</div>
           </div>
-        </div>
-        <div className="createGroupButton">
-          <input className="submitButton" type="submit" value="Create Group!" />
-        </div>
-      </form>
+          <div className="userList">
+            {this.props.users.map(user => (
+              <UserCard
+                key={user.id}
+                user={user}
+                selected={false}
+                addUserFunction={this.addUserToGroup}
+                removeUserFunction={this.removeUserFromGroup}
+              />
+            ))}
+          </div>
+          <div className="destin">
+            <div className="subheader">Enter Meetup Location:</div>
+            <div className="latLonInput">
+              <div className="subheader">Latitude:</div>
+              <div>
+                <input
+                  className="latInputField"
+                  name="lat"
+                  type="text"
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className="subheader">Longitude:</div>
+              <div>
+                <input
+                  className="lonInputField"
+                  name="lon"
+                  type="text"
+                  onChange={this.handleChange}
+                />
+              </div>
+            </div>
+            <div className="createGroupButton">
+              <input
+                onClick={this.pop}
+                className="submitButton"
+                type="submit"
+                value="Create Group!"
+              />
+            </div>
+          </div>
+        </form>
+        {/* <div className="" id="overlay" /> */}
+      </div>
     );
   }
 }
