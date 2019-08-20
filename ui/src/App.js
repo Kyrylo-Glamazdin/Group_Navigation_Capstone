@@ -27,6 +27,7 @@ class App extends Component {
       // console.log( this.props);
       // window.location = "/";
     }
+
     await axios.get('http://localhost:4000/api/users')
     .then(res => {
       this.props.addUsers(res.data);

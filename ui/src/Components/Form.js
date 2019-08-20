@@ -6,7 +6,6 @@ import { Redirect } from "react-router";
 import { addGroups} from "../Actions";
 import { addCurrentGroup } from "../Actions";
 import axios from "axios";
-import { addGroups } from '../Actions'
 
 class Form extends Component {
   constructor(props) {

@@ -20,7 +20,7 @@ class GroupGrid extends Component {
             </button>
             <li key={group.id} onClick={() => this.props.changeGroup(group.id)}>{group.name}</li>
             <button
-              onClick={() => this.props.delGroup(group)}
+              onClick={() => {this.delete(group)}}
               className="delbtn"
             >
               -
