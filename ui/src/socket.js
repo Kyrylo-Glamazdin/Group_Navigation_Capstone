@@ -1,6 +1,4 @@
 import io from 'socket.io-client';
-import store from './';
-import {addGroups} from './Actions';
 
 const socket = io('http://localhost:4000');
 
@@ -8,13 +6,8 @@ socket.on('connect', ()=>{
     console.log("you have been connected");
 })
 
-socket.on('route', (response)=>{
-    console.log(response);
-})
-
-socket.on('success-group-made', (data) =>{
-    console.log('sucess-group-made');
-    store.dispatch(addGroups(data));
+socket.on('joined', (data) =>{
+    console.log(`${data} has joined the room`);
 })
 
 export default socket;

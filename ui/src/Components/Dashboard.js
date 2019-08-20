@@ -67,7 +67,7 @@ class Dashboard extends Component {
             Dashboard
           </div>
           <div> {this.props.login.name}</div>
-          <GroupGrid />
+          <GroupGrid socket ={this.props.socket}/>
           <button onClick={this.sendRequest}> Create New Group </button>
           <button onClick={this.logOut}> Log Out </button>
         </div>
