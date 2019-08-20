@@ -57,26 +57,27 @@ class Form extends Component {
       longitude: this.state.lon
     };
 
-    await axios.post('http://localhost:4000/api/groups', {
-      newGroup
-    })
-      .then(async res => {
-        newGroup.users = this.state.selectedUsers
-        await this.props.addGroups(newGroup);
+    this.props.socket.emit("create", this.state.name);
 
-      })
-      .catch(err => console.log(err))
-    //this.props.socket.emit("create", newGroup);
+    // await axios.post('http://localhost:4000/api/groups', {
+    //   newGroup
+    // })
+    //   .then(async res => {
+    //     newGroup.users = this.state.selectedUsers
+    //     await this.props.addGroups(newGroup);
 
-    await axios.post("http://localhost:4000/api/directions", {newGroup})
-    .then ( response => {
-      newGroup.paths = response.data;
-      this.props.addCurrentGroup();
-      this.props.addGroups(newGroup);
-    })
-    .catch( err => {
-      console.log(err);
-    })
+    //   })
+    //   .catch(err => console.log(err))
+
+    // await axios.post("http://localhost:4000/api/directions", {newGroup})
+    // .then ( response => {
+    //   newGroup.paths = response.data;
+    //   this.props.addCurrentGroup();
+    //   this.props.addGroups(newGroup);
+    // })
+    // .catch( err => {
+    //   console.log(err);
+    // })
 
     this.setState({
       redirect: true
