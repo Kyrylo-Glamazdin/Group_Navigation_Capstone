@@ -89,7 +89,7 @@ class Form extends Component {
     // await axios.post("http://localhost:4000/api/directions", {newGroup})
     // .then ( response => {
     //   newGroup.paths = response.data;
-    //   this.props.addCurrentGroup();
+    //   this.props.addCurrentGroup(); //dsadsa
     //   this.props.addGroups(newGroup);
     // })
     // .catch( err => {
