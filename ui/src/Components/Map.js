@@ -5,23 +5,101 @@ import { StaticMap } from 'react-map-gl';
 import { PathLayer } from '@deck.gl/layers';
 // data needed for overlay here
 
-const data = [{
- name: "random-name",
- color: [101, 147, 245],
- path:[]}
-]
-export class Map extends Component {
+
+let colors = [
+  [219, 0, 0],
+  [0, 196, 0],
+  [0, 0, 178],
+  [80, 180, 210],
+  [151, 0, 166],
+  [78, 72, 82],
+  [47, 123, 132],
+  [234, 242, 83],
+  [234, 6, 83],
+  [234, 123, 25]
+];
+
+let curEndOfColorArray = colors.length;
+
+class Map extends Component {
+  constructor (props){
+    super(props);
+    this.findGroupById = this.findGroupById.bind(this);
+    this.selectRandomColor = this.selectRandomColor.bind(this);
+  }
+
+  findGroupById(){
+    for (let i = 0; i < this.props.groups.length; i++){
+      if (this.props.groups[i].id == this.props.currentGroup){
+        return this.props.groups[i];
+      }
+    }
+  }
+
+  selectRandomColor(){
+    let randomColorNum = Math.floor(Math.random() * curEndOfColorArray);
+    let selectedColor = colors[randomColorNum];
+    let temp = colors[curEndOfColorArray - 1];
+    colors[curEndOfColorArray - 1] = selectedColor;
+    colors[randomColorNum] = temp;
+    curEndOfColorArray--;
+    if (curEndOfColorArray <= 0){
+      curEndOfColorArray = colors.length;
+    }
+    return selectedColor;
+  }
+
 render() {
-// below, add whatever layers you need to overlay on your map
- const layer = [
-   new PathLayer({
-    id: "path-layer",
-    data,
-    getWidth: data => 7,
-    getColor: data => data.color,
-    widthMinPixels: 7
-  })
- ]
+  if (this.props.currentGroup === -1){
+    return (
+      <div>Select a group to see the path</div>
+    );
+  }
+
+  let userPaths = [];
+  let workingGroup = this.findGroupById();
+  console.log(workingGroup)
+  console.log(workingGroup.paths);
+  for(let i = 0; i < workingGroup.paths.length; i++){
+    userPaths.push(workingGroup.paths[i]);
+  }
+
+  let pathData = [];
+  for (let i = 0; i < userPaths.length; i++){
+    let currentUserPath = [];
+    for (let j = 0; j < userPaths[i].length; j++){
+      let reversedPath = [];
+      for (let k = userPaths[i][j].length - 1; k >= 0; k--){
+        reversedPath.push(userPaths[i][j][k]);
+      }
+      currentUserPath.push(reversedPath);
+    }
+    let nextPath = [ 
+      {
+        name: workingGroup.users[i].name + "-path",
+        color: this.selectRandomColor(),
+        path: currentUserPath,
+      }
+    ]
+    pathData.push(nextPath);
+  }
+
+  let userPathLayers = [];
+  for (let i = 0; i < pathData.length; i++){
+    let curLayer = [new PathLayer({
+      id: "path-layer-" + i,
+      data: pathData[i],
+      getWidth: data => 7,
+      getColor: data => data.color,
+      widthMinPixels: 7
+    })]
+    userPathLayers.push(curLayer);
+  }
+
+
+
+
+
 return (
   <React.Fragment>
    <DeckGL
@@ -33,7 +111,7 @@ return (
     height='100%'
     width='100%'
     controller={true}
-    layers={layer} // layer here
+    layers={userPathLayers} // layer here
    >
      <StaticMap
        mapStyle='mapbox://styles/mapbox/streets-v11'
@@ -45,15 +123,14 @@ return (
  }
 }
 
-export default Map
+
+const mapStateToProps = state => {
+  return {
+    users: state.users,
+    groups: state.groups,
+    currentGroup: state.currentGroup
+  };
+};
 
 
-// const mapStateToProps = state => {
-//   return {
-//     users: state.users,
-//     groups: state.groups
-//   };
-// };
-
-
-// export default connect(mapStateToProps)(Map);
+export default connect(mapStateToProps)(Map);
