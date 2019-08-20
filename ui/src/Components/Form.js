@@ -27,6 +27,12 @@ class Form extends Component {
     });
   }
 
+  pop = () => {
+    // console.log(document.querySelector("#overlay"));
+    document.querySelector(".searchForm").classList.remove("activ");
+    document.querySelector("#overlay").classList.remove("activ");
+  };
+
   addUserToGroup(user) {
     let newSelectedUsers = [...this.state.selectedUsers, user];
     this.setState({
@@ -71,9 +77,12 @@ class Form extends Component {
     return (
       <div>
         <form className="searchForm" onSubmit={this.handleSubmit}>
+          <div onClick={this.pop} className="x2">
+            &times;
+          </div>
           <div className="formHeader">Create a New Group</div>
           <div className="subheader">
-            Name of the Group:
+            Group Name:
             <input
               className="nameInputField"
               name="name"
@@ -81,7 +90,9 @@ class Form extends Component {
               onChange={this.handleChange}
             />
           </div>
-          <div className="subheader">Select Users:</div>
+          <div className="subheader subheader2">
+            <div className="aaa">Select Users:</div>
+          </div>
           <div className="userList">
             {this.props.users.map(user => (
               <UserCard
@@ -117,14 +128,15 @@ class Form extends Component {
             </div>
             <div className="createGroupButton">
               <input
+                onClick={this.pop}
                 className="submitButton"
                 type="submit"
                 value="Create Group!"
               />
             </div>
           </div>
-          <div className="" id="overlay" />
         </form>
+        {/* <div className="" id="overlay" /> */}
       </div>
     );
   }

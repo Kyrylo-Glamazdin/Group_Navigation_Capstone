@@ -1,14 +1,15 @@
 .userCard {
-  display: flex;
-  width: 120px;
-  height: 120px;
-  background-color: #fff;
+  /* display: flexbox; */
+  width: 80px;
+  height: 80px;
+  /* background-color: #fff; */
   margin: 5px;
   justify-content: center;
   align-items: center;
 }
 
 .unselectedUser {
+  /* padding: px; */
   /* display: inline-block; */
   display: flex;
   flex-direction: column;
@@ -19,7 +20,8 @@
 
   text-align: center;
   border-radius: 10%;
-  transition: 0.3s;
+  transition: 200ms;
+  border: gray solid 0.3px;
 }
 
 .selectedUser {
@@ -32,17 +34,22 @@
   background: gold;
   text-align: center;
   border-radius: 10%;
-  transition: 0.3s ease-in-out;
+  transform: scale(1.1);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+.unselectedUser:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
 }
 
 .userImage {
   display: block;
-  margin-left: auto;
-  margin-right: auto;
+  margin: auto;
   border-radius: 50%;
-  padding-bottom: 5px;
-  width: 75%;
-  height: 75%;
+  padding-bottom: 3px;
+  width: 50px;
+  height: 50px;
 }
 
 .unselectedUserName {
@@ -50,9 +57,9 @@
   font-size: 12px;
   background: rgb(242, 248, 252);
   border-radius: 40px;
-  padding-top: 2px;
+  /* padding-top: 2px; */
   padding-bottom: 1px;
-  transition: 0.3s;
+  transition: 150ms;
   width: 86%;
   margin: 0 auto;
 }
@@ -64,7 +71,7 @@
   border-radius: 40px;
   padding-top: 2px;
   padding-bottom: 1px;
-  transition: 0.3s;
+  transition: 150ms;
   width: 99%;
   margin: 0 auto;
 }

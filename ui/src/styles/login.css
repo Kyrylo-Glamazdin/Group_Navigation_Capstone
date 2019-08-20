@@ -1,7 +1,10 @@
+/* @import url("//fonts.googleapis.com/css?family=Montserrat:thin,extra-light,light,100,200,300,400,500,600,700,800"); */
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+
 .loginbox {
   background-color: rgba(0, 0, 0, 0.8);
-  color: rgb(172, 255, 255);
-  font-family: sans-serif;
+  color: rgb(199, 245, 245);
+  font-family: Montserrat, sans-serif;
   width: 360px;
   padding: 40px 0;
   padding-bottom: 30px;
@@ -13,6 +16,8 @@
   /* text-align: center; */
   /* justify-content: center; */
   border-radius: 8px;
+  user-select: none;
+  z-index: 99;
 }
 
 .loginbox input[type="text"],
@@ -40,13 +45,20 @@
   box-shadow: 0 0 12px 0.8px rgb(141, 130, 68);
 }
 
+.loginbox input[type="text"]:hover,
+.loginbox input[type="password"]:hover {
+  border-color: gold;
+  box-shadow: 0 0 12px 0.8px rgb(141, 130, 68);
+}
+
 .login {
   font-weight: 500;
   text-align: center;
-  letter-spacing: 0;
-
+  letter-spacing: 2px;
+  font-family: Montserrat;
   margin: 0;
   margin-bottom: 25px;
+  text-shadow: 3px 1px 8px rgb(5, 5, 5);
 }
 
 .regi {
@@ -61,7 +73,8 @@
   background: none;
   margin: 0 12px;
   /* margin-top: 42px; */
-
+  font-family: Montserrat;
+  font-weight: 300;
   outline: none;
   border-radius: 8px;
   /* text-transform: uppercase; */
@@ -77,6 +90,7 @@
 }
 
 .loginbtn:hover {
+  font-weight: 300;
   background-color: gold;
   color: rgba(0, 0, 0, 0.8);
   transform: scale(1.1);

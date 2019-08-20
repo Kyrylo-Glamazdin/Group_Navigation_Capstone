@@ -15,7 +15,7 @@
   right: 0;
   pointer-events: none;
   opacity: 0;
-  transition: 150ms ease-in-out;
+  transition: 150ms all ease-in-out;
 }
 
 #overlay.activ {
@@ -28,7 +28,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
-  transition: 150ms ease-in-out;
+  transition: 150ms all ease-in-out;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -41,6 +41,17 @@
   z-index: 10;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5);
   border: 0.3px gray solid;
+  user-select: none;
+}
+.barlist {
+  /* display: flex; */
+  background-color: aquamarine;
+  overflow: scroll;
+  width: 90%;
+  height: 90%;
+}
+.barlist::-webkit-scrollbar {
+  width: 0 !important;
 }
 
 .popup.activ {
@@ -58,7 +69,7 @@
 .invibtn {
   position: absolute;
   margin: 10px;
-  bottom: 12px;
+  bottom: 0;
   background-color: rgb(255, 74, 74);
 }
 

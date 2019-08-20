@@ -2,6 +2,7 @@ import React, { Component } from "react"; //dsadsadsa
 import { Redirect } from "react-router-dom";
 import "../styles/login.css";
 import axios from "axios";
+import decode from "jwt-decode";
 const _ = require("lodash");
 
 class Login extends Component {
@@ -34,15 +35,22 @@ class Login extends Component {
       // console.log(this.props);
       let acc = this.state.acc;
       if (this.state.log) {
-        acc = _.pick(this.state.acc, ["email", "password"]);
+        acc = _.pick(this.state.acc, ["email", "password", "lat", "long"]);
       }
       console.log("sent: ", acc);
+      this.setState({ error: "Logging in ..." });
       let res = await axios.post([this.api()], acc);
-      localStorage.setItem("token", res.headers["x-auth-token"]);
-      console.log(res.data);
-      console.log("jwt: ", res.headers["x-auth-token"]); //----------
 
-      this.props.history.push("/dashboard");
+      console.log("back: ", res.data);
+      await this.setState({ error: res.data });
+      setTimeout(() => {
+        this.setState({ error: "" });
+      }, 1000);
+      console.log(decode(res.headers["x-auth-token"]));
+      localStorage.setItem("token", res.headers["x-auth-token"]);
+      // console.log("jwt: ", res.headers["x-auth-token"]); //----------
+
+      // this.props.history.push("/dashboard");
       // window.location = "/dashboard";
     } catch (err) {
       if (err.response && err.response.status === 400) {
@@ -56,7 +64,9 @@ class Login extends Component {
   };
 
   gogogo = () => {
-    this.setState({ log: !this.state.log });
+    setTimeout(() => {
+      this.setState({ log: !this.state.log });
+    }, 200);
   };
 
   render() {
@@ -130,7 +140,7 @@ class Login extends Component {
               </div>
             </div>
           )}
-          {/* <label onClick={this.gogogo}>123dsadsa</label> */}
+          {/* <div className="activ" id="overlay" /> */}
         </div>
       );
   }

@@ -15,6 +15,7 @@
   font-variant: small-caps;
   text-transform: none;
   color: red;
+  user-select: none;
 
   border: 1px solid black;
 
