@@ -133,7 +133,7 @@ class Form extends Component {
               className="nameInputField"
               name="name"
               type="text"
-              onChange={this.handleChange}
+              onChange={this.handleChange} //dsadsas
             />
           </div>
           <div className="subheader subheader2">
