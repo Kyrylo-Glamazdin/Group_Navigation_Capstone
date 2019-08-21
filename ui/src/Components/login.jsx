@@ -2,8 +2,7 @@ import React, { Component } from "react"; //dsadsadsa
 import { Redirect } from "react-router-dom";
 import "../styles/login.css";
 import axios from "axios";
-import decode from "jwt-decode";
-const _ = require("lodash");
+import _ from "lodash";
 
 class Login extends Component {
   state = {
@@ -11,8 +10,8 @@ class Login extends Component {
       email: "",
       password: "",
       name: "",
-      lat: 66.666666,
-      long: 77.777777
+      lat: 40.6385,
+      long: -73.9732
     },
     error: "",
     log: true
@@ -22,7 +21,6 @@ class Login extends Component {
     let acc = this.state.acc;
     acc[ev.target.name] = ev.target.value;
     await this.setState({ acc });
-    // console.log(this.state);
   };
 
   api = () => {
@@ -37,21 +35,15 @@ class Login extends Component {
       if (this.state.log) {
         acc = _.pick(this.state.acc, ["email", "password", "lat", "long"]);
       }
-      console.log("sent: ", acc);
+
       this.setState({ error: "Logging in ..." });
       let res = await axios.post([this.api()], acc);
 
-      console.log("back: ", res.data);
       await this.setState({ error: res.data });
       setTimeout(() => {
         this.setState({ error: "" });
       }, 1000);
-      console.log(decode(res.headers["x-auth-token"]));
       localStorage.setItem("token", res.headers["x-auth-token"]);
-      // console.log("jwt: ", res.headers["x-auth-token"]); //----------
-
-      // this.props.history.push("/dashboard");
-      // window.location = "/dashboard";
     } catch (err) {
       if (err.response && err.response.status === 400) {
         await this.setState({ error: err.response.data });

@@ -14,8 +14,6 @@ class Form extends Component {
       name: "New Group",
       selectedUsers: [],
       address: "",
-      lat: 0,
-      lon: 0,
       redirect: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -31,7 +29,6 @@ class Form extends Component {
   }
 
   pop = () => {
-    // console.log(document.querySelector("#overlay"));
     document.querySelector(".searchForm").classList.remove("activ");
     document.querySelector("#overlay").classList.remove("activ");
   };
@@ -60,52 +57,33 @@ class Form extends Component {
     e.preventDefault();
     let newGroup = {
       name: this.state.name,
-      users: this.state.selectedUsers,
-      address: this.state.address
+      users: [...this.state.selectedUsers, this.props.login]
     };
-    //console.log(newGroup)
+
     this.props.socket.emit("create", this.state.name);
 
-    // axios.post("http://localhost:4000/api/directions", {newGroup})
-    // .then ( response => {
-    //   newGroup.paths = response.data;
-    // })
-    // .catch( err => {
-    //   console.log(err);
-    // })
-    try {
-      let response = await axios.post("http://localhost:4000/api/directions/address", { address : newGroup.address });
-      //console.log(response);
-      this.setState({
-          
-      })
-      //paths = response.data;
-    }
-    catch (err) {
-      console.log(err);
-    }
+    try { //converting the address of the group into coordinates
+      let response = await axios.post("http://localhost:4000/api/directions/address",{ address: this.state.address } );
 
+      //changes local state to these coverted coordinates and appends them to the newGroup object
+      newGroup.latitude = response.data.lat;
+      newGroup.longitude = response.data.lng;
+    }
+    catch (err) {console.log(err)}
 
-    let paths = null;
-    try {
-      let response = await axios.post("http://localhost:4000/api/directions/", {newGroup});
-      //console.log(response);
-      paths = response.data;
+    try{ //getting back all user paths to destination 
+      let response = await axios.post("http://localhost:4000/api/directions", {newGroup})
+      newGroup.paths = response.data;
     }
-    catch (err) {
-      console.log(err);
-    }
+    catch(err){console.log(err)}
 
     try {
-      axios.post('http://localhost:4000/api/groups', {
-        newGroup
-      })
-      newGroup.paths = paths;
-      await this.props.addGroups(newGroup);
+      let newId= await axios.post('http://localhost:4000/api/groups', {newGroup}) //adds new group to database
+      newGroup.id = newId.data.id;
     }
-    catch (err) {
+    catch (err) {console.log(err)}
 
-    }
+    this.props.addGroups(newGroup); //adds new group and paths to the redux store
 
     this.setState({
       redirect: true
@@ -197,18 +175,11 @@ class Form extends Component {
 const mapStateToProps = state => {
   return {
     users: state.users,
-    groups: state.groups
+    login: state.login
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return { addGroups };
-};
-
-export default connect(
-  mapStateToProps,
-  {
+export default connect(mapStateToProps,{
     addGroups,
     addCurrentGroup
-  })
-  (Form);
+})(Form);

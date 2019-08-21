@@ -3,7 +3,7 @@ import { combineReducers } from "redux";
 
 let currentGroup = -1;
 
-let curGroupId = 0;
+let curGroupId = -1;
 
 const usersReducer = (oldUsers = [], action) => {
   switch (action.type) {
@@ -17,11 +17,9 @@ const usersReducer = (oldUsers = [], action) => {
 const groupsReducer = (oldGroups = [], action) => {
   switch (action.type) {
     case "ADD_GROUPS":
-      action.payload.id = curGroupId;
-      curGroupId++;
       return oldGroups.concat(action.payload);
     case "DEL_GROUP":
-      let ngr = oldGroups.filter(gp => gp != action.payload);
+      let ngr = oldGroups.filter(gp => gp !== action.payload);
       return ngr;
     default:
       return oldGroups;

@@ -9,15 +9,12 @@ class Popup extends Component {
   };
 
   select = async us => {
-    console.log("selected --- ", us.name);
-    console.log(this.state.selected.includes(us));
     if (!this.state.selected.includes(us)) {
       this.state.selected.push(us);
     } else {
-      let newsl = this.state.selected.filter(one => one != us);
+      let newsl = this.state.selected.filter(one => one !== us);
       this.setState({ selected: newsl });
     }
-    console.log(this.state.selected);
   };
 
   pop = () => {
@@ -26,12 +23,8 @@ class Popup extends Component {
   };
 
   sendUsers = () => {
-    console.log(
-      "Senting ---",
-      this.state.selected.length,
-      ": ",
-      this.state.selected
-    );
+    
+    this.pop();
   };
 
   render() {
@@ -44,7 +37,7 @@ class Popup extends Component {
           </div>
           <div className="barlist">
             {users.map(us => (
-              <Userbar user={us} select={this.select} />
+              <Userbar key = {us.id} user={us} select={this.select} />
             ))}
           </div>
 

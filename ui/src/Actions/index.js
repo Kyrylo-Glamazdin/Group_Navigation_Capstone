@@ -1,5 +1,3 @@
-import socket from "../socket";
-
 export const addUsers = users => {
   return {
     type: "ADD_USERS",
