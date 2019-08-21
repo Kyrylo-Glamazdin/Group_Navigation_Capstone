@@ -3,20 +3,22 @@ import { connect } from "react-redux";
 import DeckGL from 'deck.gl';
 import { StaticMap } from 'react-map-gl';
 import { PathLayer } from '@deck.gl/layers';
+import {IconLayer} from '@deck.gl/layers';
+import muskImage from "../Images/elon-musk.jpg";
 // data needed for overlay here
 
 
 let colors = [
-  [219, 0, 0],
+  [219, 197, 173],
   [0, 196, 0],
   [0, 0, 178],
   [80, 180, 210],
   [151, 0, 166],
-  [78, 72, 82],
+  [235, 231, 237],
   [47, 123, 132],
   [234, 242, 83],
   [234, 6, 83],
-  [234, 123, 25]
+  [235, 125, 34]
 ];
 
 let curEndOfColorArray = colors.length;
@@ -57,11 +59,32 @@ render() {
   }
 
   let userPaths = [];
+  let userIcons = [];
   let workingGroup = this.findGroupById();
   console.log(workingGroup)
   console.log(workingGroup.paths);
   for(let i = 0; i < workingGroup.paths.length; i++){
     userPaths.push(workingGroup.paths[i]);
+    // let curUserLat = workingGroup.users[i].lat;
+    // let curUserLong = workingGroup.users[i].long;
+    // let curCoordinates = [];
+    // curCoordinates.push(curUserLong);
+    // curCoordinates.push(curUserLat);
+    // let dataObject = {
+    //   position: curCoordinates,
+    //   icon: workingGroup.users[i].image
+    // }
+    // let coordinatesData = [];
+    // coordinatesData.push(dataObject);
+    // let newIcon = new IconLayer ({
+    //   id: workingGroup.users[i].name + workingGroup.users[i].id,
+    //   data: dataObject,
+    //   getIcon: d => (d.icon),
+    //   getPosition: d => (d.position)
+    // });
+    // console.log(newIcon.getIcon);
+    // console.log(newIcon.getPosition)
+    // userIcons.push(newIcon);
   }
 
   let pathData = [];
@@ -84,19 +107,21 @@ render() {
     pathData.push(nextPath);
   }
 
-  let userPathLayers = [];
+  let userPathAndIconLayers = [];
   for (let i = 0; i < pathData.length; i++){
     let curLayer = [new PathLayer({
       id: "path-layer-" + i,
       data: pathData[i],
-      getWidth: data => 7,
+      getWidth: data => 3,
       getColor: data => data.color,
-      widthMinPixels: 7
+      widthMinPixels: 3
     })]
-    userPathLayers.push(curLayer);
+    userPathAndIconLayers.push(curLayer);
   }
 
-
+  for (let i = 0; i < userIcons.length; i++){
+    userPathAndIconLayers.push(userIcons[i]);
+  }
 
 
 
@@ -111,10 +136,10 @@ return (
     height='100%'
     width='100%'
     controller={true}
-    layers={userPathLayers} // layer here
+    layers={userPathAndIconLayers} // layer here
    >
      <StaticMap
-       mapStyle='mapbox://styles/mapbox/streets-v11'
+       mapStyle='mapbox://styles/mapbox/dark-v9'
        mapboxApiAccessToken = {process.env.REACT_APP_MB_API_KEY}
       />
    </DeckGL>
