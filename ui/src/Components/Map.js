@@ -4,6 +4,7 @@ import DeckGL from 'deck.gl';
 import { StaticMap } from 'react-map-gl';
 import { PathLayer } from '@deck.gl/layers';
 import {IconLayer} from '@deck.gl/layers';
+import axios from 'axios'
 // data needed for overlay here
 
 let colors = [
@@ -24,9 +25,6 @@ let curEndOfColorArray = colors.length;
 class Map extends Component {
   constructor (props){
     super(props);
-    this.state = {
-      finishedLoading = false
-    }
     this.findGroupById = this.findGroupById.bind(this);
     this.selectRandomColor = this.selectRandomColor.bind(this);
   }
@@ -62,7 +60,12 @@ class Map extends Component {
     );
   }
 
-render() {
+  callAxios = async (workingGroup) => {
+    let response = await axios.post("http://localhost:4000/api/directions/eta", {workingGroup}).catch(err => {console.log(err)});
+    return response.data;
+  }
+
+  render() {
   if (this.props.currentGroup === -1){
     return (
       <div>Select a group to see the path</div>
@@ -72,13 +75,9 @@ render() {
   let userPaths = [];
   let userIcons = [];
   let workingGroup = this.findGroupById();
-  console.log(workingGroup)
-  console.log(workingGroup.paths);
+
   for(let i = 0; i < workingGroup.paths.length; i++){
     userPaths.push(workingGroup.paths[i]);
-
-
-
 
     let curUserLat = workingGroup.users[i].lat;
     let curUserLong = workingGroup.users[i].long;
@@ -99,18 +98,18 @@ render() {
     coordinatesData.push(dataObject);
 
     let newIcon = new IconLayer ({
-      id: workingGroup.users[i].name + workingGroup.users[i].id,
+      id: workingGroup.users[i].name + workingGroup.users[i].id + workingGroup.latitude + workingGroup.longitude,
       data: coordinatesData,
       getIcon: d => (d.icon),
       getPosition: d => (d.position),
       getSize: 90,
       pickable: true,
       getName: d => d.name,
-      onHover: info => this.setState({
-        hoveredObject: info.object,
-        pointerX: info.x,
-        pointerY: info.y
-      })
+      // onHover: info => this.setState({
+      //   hoveredObject: info.object,
+      //   pointerX: info.x,
+      //   pointerY: info.y
+      // })
       });
 
     userIcons.push(newIcon);
@@ -142,13 +141,12 @@ console.log(destinationData);
     getPosition: d => d.position,
     getSize: 90,
     pickable: true,
-    onHover: info => this.setState({
-      hoveredObject: info.object,
-      pointerX: info.x,
-      pointerY: info.y
-    })
+    // onHover: info => this.setState({
+    //   hoveredObject: info.object,
+    //   pointerX: info.x,
+    //   pointerY: info.y
+    // })
   })
-
 
   let pathData = [];
   for (let i = 0; i < userPaths.length; i++){
@@ -173,7 +171,7 @@ console.log(destinationData);
   let userPathAndIconLayers = [];
   for (let i = 0; i < pathData.length; i++){
     let curLayer = [new PathLayer({
-      id: "path-layer-" + i,
+      id: "path-layer-" + i + workingGroup.users[i] + workingGroup.latitude + workingGroup.longitude,
       data: pathData[i],
       getWidth: data => 3,
       getColor: data => data.color,
@@ -187,6 +185,9 @@ console.log(destinationData);
   }
 
   userPathAndIconLayers.push(destinationIcon);
+
+  this.callAxios(workingGroup);
+
 
 return (
   <React.Fragment>
