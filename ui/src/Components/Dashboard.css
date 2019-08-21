@@ -1,7 +1,9 @@
-#dashboard {
-  min-width: 200px;
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
 
-  width: 25vw;
+#dashboard {
+  position: absolute;
+  left: -185px;
+  width: 210px;
   height: 100vh;
 
   font-family: Verdana, Geneva, sans-serif;
@@ -9,22 +11,54 @@
   letter-spacing: -1.4px;
   word-spacing: 0px;
   color: #000000;
-  font-weight: 400;
+  /* font-weight: 400; */
   text-decoration: none;
-  font-style: normal;
+  /* font-style: normal; */
   font-variant: small-caps;
   text-transform: none;
-  color: red;
+  color: rgb(129, 68, 68);
   user-select: none;
 
-  border: 1px solid black;
-
+  border: 0.3px solid rgb(92, 86, 86);
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.3);
   position: fixed; /* Stay in place */
   z-index: 1; /* Stay on top */
   background-color: gray;
   overflow-x: hidden; /* Disable horizontal scroll */
-  transition: 0.4s; /* 0.5 second transition effect to slide in the sidebar */
+  transition: 0.3s all ease-in-out; /* 0.5 second transition effect to slide in the sidebar */
 }
+#board::-webkit-scrollbar {
+  width: 0 !important;
+}
+
+#dashboard.activ {
+  left: 0;
+}
+.createbtn {
+  font-size: 14px;
+  display: block;
+  position: absolute;
+  bottom: 10px;
+  height: 40px;
+  width: 170px;
+  margin: 0;
+  left: 10%;
+  transition: 150ms;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5);
+  outline: none;
+  background-color: rgb(196, 55, 55);
+}
+.createbtn:hover {
+  transform: scale(1.03);
+  background-color: rgb(107, 184, 107);
+}
+.createbtn:active {
+  transform: scale(1);
+  /* background-color: rgb(101, 197, 101); */
+}
+
+/* .dashbtn {
+} */
 
 .title {
   padding-top: 3vh;
@@ -35,12 +69,71 @@
 }
 
 .namefield {
+  position: relative;
   display: flex;
-  justify-content: space-evenly;
+  align-items: center;
+  background-color: rgb(192, 145, 145);
+  justify-content: center;
+  font-size: 24px;
+  height: 60px;
+  margin: 0 auto;
+  padding: 3px;
+}
+.usname {
+  position: absolute;
+  left: 60px;
+  /* background-color: black; */
+  margin: 0;
+  padding: 0;
+  font-size: 30px;
+  bottom: 4px;
+  color: rgba(0, 0, 0, 0.7);
+  font-family: Montserrat;
+  font-weight: 500;
+  transition: 200ms;
+}
+.usname:hover {
+  transform: scale(1.05);
+}
+
+.logout {
+  position: absolute;
+  width: 50px;
+  height: 25px;
+  background-color: rgb(196, 55, 55);
+  font-size: 12px;
+  padding: 0;
+  right: 8px;
+  bottom: 8px;
+  transition: 150ms;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5);
+  outline: none;
+}
+.logout:hover {
+  transform: scale(1.1);
+  background-color: rgb(101, 197, 101);
+}
+.logout:active {
+  transform: scale(1);
+  /* background-color: rgb(101, 197, 101); */
+}
+
+.dashimg {
+  position: absolute;
+  left: 6px;
+  /* background-color: black; */
+  margin: 0;
+  padding: 0;
+  /* border-radius: 10px; */
+  /* box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5); */
+  transition: 250ms;
+}
+.dashimg:hover {
+  transform: scale(1.05);
 }
 
 button {
-  background-color: red;
+  background-color: rgb(228, 72, 72);
   border: none;
   color: white;
   padding: 2vh 3vw;
@@ -57,4 +150,55 @@ button:hover {
   background-color: #4caf50;
   color: white;
   cursor: pointer;
+}
+
+.msgbox {
+  /* position: absolute;
+  right: 0;
+  /* background-color: #fff; */
+  /* margin: 0;
+  padding: 0;  */
+
+  position: absolute;
+  bottom: 103px;
+  height: 50px;
+  width: 95%;
+  margin: 0;
+  left: 2.5%;
+}
+
+.msgbtm {
+  background-color: rgba(250, 245, 245, 0.5);
+  border-radius: 5px;
+  height: 60px;
+  width: 90%;
+  margin: 2px auto;
+  margin-bottom: 10px;
+  /* margin-left: 10px; */
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+  border: gray solid 0.3px;
+  transition: 200ms;
+}
+.msgbtm:hover {
+  transform: scale(1.02);
+  background-color: rgba(250, 245, 245, 0.5);
+}
+
+.msgup {
+  background-color: #fff;
+  /* background-color: #fff; */
+  background-color: rgba(250, 245, 245, 0.5);
+  border-radius: 5px;
+  height: 100px;
+  width: 90%;
+  margin: 0 auto;
+  /* margin-left: 10px; */
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+  border: gray solid 0.3px;
+  height: 30px;
+  transition: 200ms;
+}
+.msgup:hover {
+  transform: scale(1.02);
+  background-color: rgba(250, 245, 245, 0.5);
 }

@@ -39,7 +39,7 @@ class Popup extends Component {
     return (
       <div className="">
         <div className="popup">
-          <div onClick={this.pop} className="x">
+          <div onClick={this.props.pop} className="x">
             &times;
           </div>
           <div className="barlist">
@@ -52,7 +52,6 @@ class Popup extends Component {
             Invite
           </button>
         </div>
-        <div className="" id="overlay" />
       </div>
     );
   }

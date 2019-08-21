@@ -21,15 +21,29 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      showForm: false
+      showForm: false,
+      showPop: false
     };
   }
 
   toggleForm = async () => {
+    if (this.state.showForm) {
+      setTimeout(() => {
+        this.setState({ showForm: !this.state.showForm });
+      }, 300);
+      document.querySelector(".searchForm").classList.remove("activ");
+      document.querySelector("#overlay").classList.remove("activ");
+      return;
+    }
     await this.setState({ showForm: !this.state.showForm });
+    setTimeout(() => {
+      document.querySelector(".searchForm").classList.add("activ");
+      document.querySelector("#overlay").classList.add("activ");
+    }, 100);
+    //
     console.log("toggle form");
-    // document.querySelector(".searchForm").classList.add("activ");
-    // document.querySelector("#overlay").classList.remove("activ");
+    //
+    //
   };
 
   componentDidMount = async () => {
@@ -55,33 +69,79 @@ class App extends Component {
     // .catch(err => console.log(err))
   };
 
+  closeNav = () => {
+    console.log("closing on app");
+    this.state.closing = setTimeout(() => {
+      document.getElementById("dashboard").classList.remove("activ");
+    }, 3000);
+  };
+
+  pop = async () => {
+    if (this.state.showPop) {
+      this.closeNav();
+      setTimeout(() => {
+        this.setState({ showPop: !this.state.showPop });
+      }, 300);
+      document.querySelector(".popup").classList.remove("activ");
+      document.querySelector("#overlay").classList.remove("activ");
+      return;
+    }
+    await this.setState({ showPop: !this.state.showPop });
+    setTimeout(() => {
+      document.querySelector(".popup").classList.add("activ");
+      document.querySelector("#overlay").classList.add("activ");
+    }, 100);
+  };
+
+  clear = () => {
+    clearTimeout(this.state.closing);
+    console.log("cleared on app");
+  };
+
   render() {
     const LoginComponent = () => <Login />;
 
     const MainPageComponent = () => (
       <div className="App">
-        <Dashboard socket={socket} toggleForm={this.toggleForm} />
+        <Dashboard
+          socket={socket}
+          toggleForm={this.toggleForm}
+          closeNav={this.closeNav}
+          clear={this.clear}
+          pop={this.pop}
+        />
         <div id="content">{<Map />}</div>
-        <Popup />
-        {this.state.showForm ? (
-          <div>
-            <Form socket={socket} toggleForm={this.toggleForm} />
-            <div className="activ" id="overlay" />
+
+        {this.state.showPop && (
+          <div onMouseOver={this.clear}>
+            <Popup pop={this.pop} closeNav={this.closeNav} />
           </div>
-        ) : (
-          ""
         )}
+        <div>
+          {this.state.showForm && (
+            <div onMouseOver={this.clear}>
+              <Form
+                socket={socket}
+                toggleForm={this.toggleForm}
+                closeNav={this.closeNav}
+              />
+              <div className="" id="overlay" />
+            </div>
+          )}
+        </div>
+        <div className="" id="overlay" />
       </div>
     );
 
-    const FormComponent = () => <Form socket={socket} />;
+    // const FormComponent = () => (
+
+    // );
 
     return (
       <Router>
-        <Switch>
-          <Route exact path="/" component={Login} />
-          <Route exact path="/dashboard" component={MainPageComponent} />
-          {/* <Route
+        <Route exact path="/" component={Login} />
+        <Route path="/dashboard" component={MainPageComponent} />
+        {/* <Route
             exact
             path="/dashboard"
             render={props => {
@@ -89,8 +149,7 @@ class App extends Component {
               else return <h1>12321321</h1>;
             }}
           /> */}
-          <Route exact path="/dashboard/form" component={FormComponent} />
-        </Switch>
+        {/* <Route exact path="/dashboard/form" component={FormComponent} /> */}
       </Router>
     );
   }

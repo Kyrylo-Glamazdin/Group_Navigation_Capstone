@@ -13,7 +13,7 @@ class Dashboard extends Component {
       redirect: false
     };
     this.openNav = this.openNav.bind(this);
-    this.closeNav = this.closeNav.bind(this);
+    // this.closeNav = this.closeNav.bind(this);
   } //dsadsahhh
 
   componentDidMount = () => {
@@ -22,17 +22,33 @@ class Dashboard extends Component {
       const user = decode(localStorage.getItem("token"));
       this.props.loginUser(user);
     }
+    //
+    // setTimeout(() => {
+    //   document.getElementById("dashboard").classList.remove("activ");
+    // }, 8000);
+    setTimeout(() => {
+      document.getElementById("dashboard").classList.add("activ");
+    }, 100);
   };
 
   openNav() {
-    document.getElementById("dashboard").style.width = "25vw";
-    document.getElementById("content").style.marginLeft = "25vw";
+    console.log("openning");
+
+    this.props.clear();
+
+    // document.getElementById("dashboard").style.width = "25vw";
+    // document.getElementById("content").style.marginLeft = "25vw";
+    document.getElementById("dashboard").classList.add("activ");
   }
 
-  closeNav() {
-    document.getElementById("dashboard").style.width = "1vw";
-    document.getElementById("content").style.marginLeft = "1vw";
-  }
+  // closeNav() {
+  //   console.log("closing");
+  //   // document.getElementById("dashboard").style.width = "1vw";
+  //   // document.getElementById("content").style.marginLeft = "1vw";
+  //   this.closing = setTimeout(() => {
+  //     document.getElementById("dashboard").classList.remove("activ");
+  //   }, 10000);
+  // }
 
   sendRequest = async () => {
     // await axios.get('localhost:5000/users')
@@ -60,21 +76,30 @@ class Dashboard extends Component {
       return <Redirect to="/" />;
     } else {
       return (
-        <div id="dashboard">
-          <div
-            className="title"
-            onMouseOut={this.closeNav}
-            onMouseOver={this.openNav}
-          >
-            Dashboard
-          </div>
+        <div
+          id="dashboard"
+          onMouseLeave={this.props.closeNav}
+          onMouseOver={this.openNav}
+          className="activ"
+        >
+          <div className="title">Dashboard</div>
           <div className="namefield">
-            {this.props.login.name}
-            <button onClick={this.logOut}> Log Out </button>
+            <img className="userImage dashimg" src={this.props.login.image} />
+            <div className="usname">{this.props.login.name}</div>
+            <button className="logout" onClick={this.logOut}>
+              Log Out
+            </button>
           </div>
 
-          <GroupGrid />
-          <button onClick={this.props.toggleForm}>Create New Group</button>
+          <GroupGrid pop={this.props.pop} />
+          <div className="msgbox">
+            <div className="msgup" />
+            <div className="msgbtm" />
+          </div>
+
+          <button className="createbtn dashbtn" onClick={this.props.toggleForm}>
+            Create New Group
+          </button>
         </div>
       );
     }

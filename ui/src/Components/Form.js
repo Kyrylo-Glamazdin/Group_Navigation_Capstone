@@ -107,9 +107,8 @@ class Form extends Component {
   };
 
   close = () => {
-    setTimeout(() => {
-      this.props.toggleForm();
-    }, 300);
+    this.props.toggleForm();
+    this.props.closeNav();
   };
 
   render() {
@@ -121,8 +120,7 @@ class Form extends Component {
     console.log(this.props.users);
     return (
       <div>
-        {/* {this.state.showCards ? ( */}
-        <form className="searchForm activ" onSubmit={this.handleSubmit}>
+        <form className="searchForm" onSubmit={this.handleSubmit}>
           <div onClick={this.close} className="x2">
             &times;
           </div>
