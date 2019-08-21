@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 
+let invMembersGroupId = -1;
 
 let currentGroup = -1;
 
@@ -39,6 +40,15 @@ const currentGroupReducer = (oldCurrentGroup = currentGroup, action) => {
   }
 }
 
+const invMembersReducer = (oldInvMembersGroupId = invMembersGroupId, action) => {
+  switch(action.type){
+    case 'CHANGE_INVITE_GROUP':
+      return action.payload
+    default:
+      return oldInvMembersGroupId;
+  }
+}
+
 const loginReducer = (currentUser = {}, action) => {
   switch (action.type) {
     case "SET_USER":
@@ -52,5 +62,6 @@ export default combineReducers({
   users: usersReducer,
   groups: groupsReducer,
   login: loginReducer,
-  currentGroup: currentGroupReducer
+  currentGroup: currentGroupReducer,
+  invGroup : invMembersReducer
 });

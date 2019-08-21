@@ -11,7 +11,9 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      redirect: false
+      redirect: false,
+      inviteGroup: '',
+      inviteSender: ''
     };
   }
 
@@ -48,6 +50,14 @@ class Dashboard extends Component {
     }
     catch (err) { console.log(err) }
 
+    try{
+      let loggedInUser = await axios.get('http://localhost:4000/api/users/'+user.id)
+      console.log(loggedInUser)
+      this.setState({
+        inviteGroup : loggedInUser.data.inviteGroup,
+        inviteSender: loggedInUser.data.inviteSender
+      })
+    }catch(e){console.log(e)}
   };
 
   openNav() {
@@ -75,7 +85,7 @@ class Dashboard extends Component {
       return <Redirect to="/dashboard/form" />;
     } else if (!localStorage.token) {
       return <Redirect to="/" />;
-    } else {
+    } else if(this.state.inviteGroup !== ''){
       return (
         <div id="dashboard" onMouseOut={this.closeNav} onMouseOver={this.openNav}>
           <div className="title" >
@@ -85,6 +95,35 @@ class Dashboard extends Component {
           <GroupGrid socket={this.props.socket} />
           <button onClick={this.sendRequest}> Create New Group </button>
           <button onClick={this.logOut}> Log Out </button>
+          <div id="invite-section"> 
+            Invitations:
+            <ul id= "invite-messages">
+              {/* {this.state.invitations.map(invite => (
+                <li>{`${this.state.invitations[0]} has invited you to join ${this.state.invitations[1]}`}</li>
+              ))} */
+              <li>{`${this.state.inviteSender} has invited you to join ${this.state.inviteGroup}`}</li>
+              }
+            </ul> 
+          </div>
+        </div>
+      );
+    }
+    else{
+      return (
+        <div id="dashboard" onMouseOut={this.closeNav} onMouseOver={this.openNav}>
+          <div className="title" >
+            Dashboard
+          </div>
+          <div> {this.props.login.name}</div>
+          <GroupGrid socket={this.props.socket} />
+          <button onClick={this.sendRequest}> Create New Group </button>
+          <button onClick={this.logOut}> Log Out </button>
+          <div id="invite-section"> 
+            Invitations:
+            <ul id= "invite-messages">
+              
+            </ul> 
+          </div>
         </div>
       );
     }

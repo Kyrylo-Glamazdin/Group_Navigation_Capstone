@@ -38,3 +38,10 @@ export const addCurrentGroup = () => {
     type: "ADD_CURRENT_GROUP"
   }
 }
+
+export const changeInviteGroup = groupId => {
+  return {
+    type: "CHANGE_INVITE_GROUP",
+    payload: groupId
+  }
+}
