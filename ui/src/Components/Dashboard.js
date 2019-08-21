@@ -1,65 +1,76 @@
 import React, { Component } from "react";
 import decode from "jwt-decode";
-import { loginUser } from "../Actions";
+import { loginUser, addUsers, addGroups } from "../Actions";
 import "./Dashboard.css";
 import GroupGrid from "./GroupGrid";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
+import axios from 'axios';
 
 class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      redirect: false
+      redirect: false,
+      inviteGroup: '',
+      inviteSender: ''
     };
     this.openNav = this.openNav.bind(this);
-    // this.closeNav = this.closeNav.bind(this);
-  } //dsadsahhh
+  } 
 
-  componentDidMount = () => {
-    console.log("ondash: ");
-    if (localStorage.token) {
-      const user = decode(localStorage.getItem("token"));
+  componentDidMount = async () => {
+    let user = null;
+    if (localStorage.token) {   //Stores loged in user information in the redux store
+      user = decode(localStorage.getItem("token"));
       this.props.loginUser(user);
     }
-    //
-    // setTimeout(() => {
-    //   document.getElementById("dashboard").classList.remove("activ");
-    // }, 8000);
+
     setTimeout(() => {
       document.getElementById("dashboard").classList.add("activ");
     }, 100);
+
+    await axios.put('http://localhost:4000/api/users', { user })  //on dashboard init, we will retrieve a list of all
+      .then(res => {                //other users from the database to select from, and store them in the redux store
+        this.props.addUsers(res.data);
+      })
+      .catch(err => console.log(err))
+
+    try {
+      let response = await axios.put('http://localhost:4000/api/users/id', {id: user.id}) //return logged in user
+      let groupsArr = response.data[0].Groups
+      for (let i = 0; i < groupsArr.length; i++) {
+        let group = groupsArr[i].id;
+        let users = await axios.put('http://localhost:4000/api/groups', {id :group}) //returns a list of all users assosiated to the group
+        groupsArr[i].users = users.data;
+        delete groupsArr[i].GroupUsers;
+        let newGroup = {
+          users: users.data,
+          latitude: groupsArr[i].latitude,
+          longitude: groupsArr[i].longitude
+        }
+        let path = await axios.post('http://localhost:4000/api/directions', { newGroup }) //get the paths for each user in that group
+        groupsArr[i].paths =path.data; //assigns the paths of all users in this group to a paths property
+      }
+      this.props.addGroups(groupsArr); //Finally add all current user groups and paths to the redux store
+    }
+    catch (err) { console.log(err) }
+
+    try{
+      let loggedInUser = await axios.get('http://localhost:4000/api/users/'+user.id)
+      console.log(loggedInUser)
+      this.setState({
+        inviteGroup : loggedInUser.data.inviteGroup,
+        inviteSender: loggedInUser.data.inviteSender
+      })
+    }catch(e){console.log(e)}
   };
 
   openNav() {
-    console.log("openning");
-
     this.props.clear();
-
-    // document.getElementById("dashboard").style.width = "25vw";
-    // document.getElementById("content").style.marginLeft = "25vw";
     document.getElementById("dashboard").classList.add("activ");
   }
 
-  // closeNav() {
-  //   console.log("closing");
-  //   // document.getElementById("dashboard").style.width = "1vw";
-  //   // document.getElementById("content").style.marginLeft = "1vw";
-  //   this.closing = setTimeout(() => {
-  //     document.getElementById("dashboard").classList.remove("activ");
-  //   }, 10000);
-  // }
-
-  sendRequest = async () => {
-    // await axios.get('localhost:5000/users')
-    // .then(res => {
-    //     //send response to action creator
-    //      this.props.addUsers(res);
-    // })
-    // .catch(e => {
-    //     console.log(e);
-    // })
-    // await this.setState({ redirect: true });
+  sendRequest = () => {
     document.querySelector(".searchForm").classList.add("activ");
     document.querySelector("#overlay").classList.add("activ");
   };
@@ -74,7 +85,30 @@ class Dashboard extends Component {
       return <Redirect to="/dashboard/form" />;
     } else if (!localStorage.token) {
       return <Redirect to="/" />;
-    } else {
+    } else if(this.state.inviteGroup !== ''){
+      return (
+        <div id="dashboard" onMouseOut={this.closeNav} onMouseOver={this.openNav}>
+          <div className="title" >
+            Dashboard
+          </div>
+          <div> {this.props.login.name}</div>
+          <GroupGrid socket={this.props.socket} />
+          <button onClick={this.sendRequest}> Create New Group </button>
+          <button onClick={this.logOut}> Log Out </button>
+          <div id="invite-section"> 
+            Invitations:
+            <ul id= "invite-messages">
+              {/* {this.state.invitations.map(invite => (
+                <li>{`${this.state.invitations[0]} has invited you to join ${this.state.invitations[1]}`}</li>
+              ))} */
+              <li>{`${this.state.inviteSender} has invited you to join ${this.state.inviteGroup}`}</li>
+              }
+            </ul> 
+          </div>
+        </div>
+      );
+    }
+    else{
       return (
         <div
           id="dashboard"
@@ -91,15 +125,17 @@ class Dashboard extends Component {
             </button>
           </div>
 
-          <GroupGrid pop={this.props.pop} />
+          <GroupGrid socket={this.props.socket} pop={this.props.pop} />
           <div className="msgbox">
-            <div className="msgup" />
-            <div className="msgbtm" />
+            <div className="msgup"> Invitations: </div>
+            <ul className="msgbtm">
+              
+            </ul>
           </div>
 
           <button className="createbtn dashbtn" onClick={this.props.toggleForm}>
             Create New Group
-          </button>
+          </button> 
         </div>
       );
     }
@@ -108,12 +144,11 @@ class Dashboard extends Component {
 
 const mapStateToProps = state => {
   return {
-    groups: state.groups,
     login: state.login
   };
 };
 
 export default connect(
   mapStateToProps,
-  { loginUser }
+  { loginUser, addUsers, addGroups }
 )(Dashboard);

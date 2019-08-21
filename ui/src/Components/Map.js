@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import DeckGL from 'deck.gl';
 import { StaticMap } from 'react-map-gl';
 import { PathLayer } from '@deck.gl/layers';
+import 'mapbox-gl/dist/mapbox-gl.css';
 // data needed for overlay here
 
 
@@ -29,8 +30,8 @@ class Map extends Component {
   }
 
   findGroupById(){
-    for (let i = 0; i < this.props.groups.length; i++){
-      if (this.props.groups[i].id == this.props.currentGroup){
+    for (let i = this.props.groups.length - 1; i >= 0; i--){
+      if (this.props.groups[i].id === this.props.currentGroup){
         return this.props.groups[i];
       }
     }
@@ -58,13 +59,11 @@ render() {
 
   let userPaths = [];
   let workingGroup = this.findGroupById();
-  console.log(workingGroup)
-  console.log(workingGroup.paths);
-  for(let i = 0; i < workingGroup.paths.length; i++){
+  for(let i = 0; i < workingGroup.paths.length; i++){ //Get the generated api paths from the group state
     userPaths.push(workingGroup.paths[i]);
   }
 
-  let pathData = [];
+  let pathData = [];  //reversing the 3d array to be compatable with the map gl component
   for (let i = 0; i < userPaths.length; i++){
     let currentUserPath = [];
     for (let j = 0; j < userPaths[i].length; j++){
@@ -74,6 +73,7 @@ render() {
       }
       currentUserPath.push(reversedPath);
     }
+    
     let nextPath = [ 
       {
         name: workingGroup.users[i].name + "-path",
@@ -89,7 +89,7 @@ render() {
     let curLayer = [new PathLayer({
       id: "path-layer-" + i,
       data: pathData[i],
-      getWidth: data => 7,
+      getWidth: data => 3,
       getColor: data => data.color,
       widthMinPixels: 7
     })]

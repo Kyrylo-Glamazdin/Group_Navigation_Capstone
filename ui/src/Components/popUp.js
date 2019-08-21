@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Userbar from "./userBar";
 import "./popUp.css";
+import Axios from "axios";
 
 class Popup extends Component {
   state = {
@@ -9,15 +10,12 @@ class Popup extends Component {
   };
 
   select = async us => {
-    console.log("selected --- ", us.name);
-    console.log(this.state.selected.includes(us));
     if (!this.state.selected.includes(us)) {
       this.state.selected.push(us);
     } else {
-      let newsl = this.state.selected.filter(one => one != us);
+      let newsl = this.state.selected.filter(one => one !== us);
       this.setState({ selected: newsl });
     }
-    console.log(this.state.selected);
   };
 
   pop = () => {
@@ -25,26 +23,28 @@ class Popup extends Component {
     document.querySelector(".popup").classList.remove("activ");
   };
 
-  sendUsers = () => {
-    console.log(
-      "Senting ---",
-      this.state.selected.length,
-      ": ",
-      this.state.selected
-    );
+  sendUsers = async() => {
+    let groupN = await Axios.get('http://localhost:4000/api/groups/' + this.props.invGroup)
+    let newGroup = {
+      users: this.state.selected,
+      name: this.props.login.name,
+      groupName : groupN.data.name
+    }
+    await Axios.post('http://localhost:4000/api/users/invitation',{newGroup})
+    this.pop();
   };
 
   render() {
     const { users } = this.props;
     return (
       <div className="">
-        <div className="popup">
+        <div className="popup activ">
           <div onClick={this.props.pop} className="x">
             &times;
           </div>
           <div className="barlist">
             {users.map(us => (
-              <Userbar user={us} select={this.select} />
+              <Userbar key = {us.id} user={us} select={this.select} />
             ))}
           </div>
 
@@ -59,7 +59,9 @@ class Popup extends Component {
 
 const mapState = state => {
   return {
-    users: state.users
+    users: state.users,
+    login: state.login,
+    invGroup: state.invGroup
   };
 };
 

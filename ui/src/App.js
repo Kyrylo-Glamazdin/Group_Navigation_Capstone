@@ -1,21 +1,17 @@
 import React, { Component } from "react";
-import decode from "jwt-decode";
 import "./App.css";
 import Dashboard from "./Components/Dashboard.js";
 import Map from "./Components/Map.js";
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Redirect
+  Route
 } from "react-router-dom";
 import { connect } from "react-redux";
 import Login from "./Components/login";
 import Form from "./Components/Form";
 import socket from "./socket";
-import { addUsers, addGroups } from "./Actions";
 import Popup from "./Components/popUp";
-import axios from "axios";
 
 class App extends Component {
   constructor() {
@@ -40,33 +36,6 @@ class App extends Component {
       document.querySelector(".searchForm").classList.add("activ");
       document.querySelector("#overlay").classList.add("activ");
     }, 100);
-    //
-    console.log("toggle form");
-    //
-    //
-  };
-
-  componentDidMount = async () => {
-    // console.log("!!!!!!", token);
-    try {
-      const user = decode(localStorage.token);
-      //Add user to store
-    } catch (error) {
-      // console.log( this.props);
-      // window.location = "/";
-    }
-
-    // await axios.get('http://localhost:4000/api/users')
-    // .then(res => {
-    //   this.props.addUsers(res.data);
-    // })
-    // .catch(err => console.log(err))
-
-    // await axios.get('http://localhost:4000/api/groups')
-    // .then(res => {
-    //   this.props.addGroups(res.data);
-    // })
-    // .catch(err => console.log(err))
   };
 
   closeNav = () => {
@@ -88,8 +57,8 @@ class App extends Component {
     }
     await this.setState({ showPop: !this.state.showPop });
     setTimeout(() => {
-      document.querySelector(".popup").classList.add("activ");
-      document.querySelector("#overlay").classList.add("activ");
+      // document.querySelector(".popup").classList.add("activ");
+      // document.querySelector("#overlay").classList.add("activ");
     }, 100);
   };
 
@@ -133,23 +102,12 @@ class App extends Component {
       </div>
     );
 
-    // const FormComponent = () => (
-
-    // );
-
     return (
       <Router>
-        <Route exact path="/" component={Login} />
-        <Route path="/dashboard" component={MainPageComponent} />
-        {/* <Route
-            exact
-            path="/dashboard"
-            render={props => {
-              if (user) return <Redirect to="/" />;
-              else return <h1>12321321</h1>;
-            }}
-          /> */}
-        {/* <Route exact path="/dashboard/form" component={FormComponent} /> */}
+        <Switch>
+          <Route exact path="/" component={LoginComponent} />
+          <Route exact path="/dashboard" component={MainPageComponent} />
+        </Switch>
       </Router>
     );
   }
@@ -161,5 +119,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { addUsers, addGroups }
+  {}
 )(App);
