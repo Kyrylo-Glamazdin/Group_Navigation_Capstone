@@ -108,6 +108,7 @@
   transition: 150ms;
   box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5);
   outline: none;
+  border-radius: 3px;
 }
 .logout:hover {
   transform: scale(1.1);
