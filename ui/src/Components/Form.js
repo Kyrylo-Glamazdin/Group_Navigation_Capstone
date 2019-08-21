@@ -13,8 +13,7 @@ class Form extends Component {
     this.state = {
       name: "New Group",
       selectedUsers: [],
-      address: "",
-      redirect: false
+      address: ""
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -85,9 +84,7 @@ class Form extends Component {
 
     this.props.addGroups(newGroup); //adds new group and paths to the redux store
 
-    this.setState({
-      redirect: true
-    });
+    this.close();
   }
 
   close = () => {
@@ -98,9 +95,7 @@ class Form extends Component {
   render() {
     if (!localStorage.token) {
       return <Redirect to="/" />;
-    } else if (this.state.redirect) {
-      return <Redirect to="/dashboard" />;
-    }
+    } 
     return (
       <div>
         <form className="searchForm" onSubmit={this.handleSubmit}>
@@ -145,7 +140,6 @@ class Form extends Component {
             </div>
             <div className="createGroupButton">
               <input
-                onClick={this.pop}
                 className="submitButton"
                 type="submit"
                 value="Create Group!"

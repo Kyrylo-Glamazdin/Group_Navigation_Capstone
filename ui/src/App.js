@@ -17,6 +17,8 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
+      formPreviousState: false,
+      popPreviousState: false,
       showForm: false,
       showPop: false
     };
@@ -25,13 +27,13 @@ class App extends Component {
   toggleForm = async () => {
     if (this.state.showForm) {
       setTimeout(() => {
-        this.setState({ showForm: !this.state.showForm });
+        this.setState({ showForm: false });
       }, 300);
       document.querySelector(".searchForm").classList.remove("activ");
       document.querySelector("#overlay").classList.remove("activ");
       return;
     }
-    await this.setState({ showForm: !this.state.showForm });
+    await this.setState({ showForm: true });
     setTimeout(() => {
       document.querySelector(".searchForm").classList.add("activ");
       document.querySelector("#overlay").classList.add("activ");
@@ -57,8 +59,8 @@ class App extends Component {
     }
     await this.setState({ showPop: !this.state.showPop });
     setTimeout(() => {
-      // document.querySelector(".popup").classList.add("activ");
-      // document.querySelector("#overlay").classList.add("activ");
+      document.querySelector(".popup").classList.add("activ");
+      document.querySelector("#overlay").classList.add("activ");
     }, 100);
   };
 
