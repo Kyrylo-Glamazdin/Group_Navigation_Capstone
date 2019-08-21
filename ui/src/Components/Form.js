@@ -61,26 +61,38 @@ class Form extends Component {
 
     this.props.socket.emit("create", this.state.name);
 
-    try { //converting the address of the group into coordinates
-      let response = await axios.post("http://localhost:4000/api/directions/address",{ address: this.state.address } );
+    try {
+      //converting the address of the group into coordinates
+      let response = await axios.post(
+        "http://localhost:4000/api/directions/address",
+        { address: this.state.address }
+      );
 
       //changes local state to these coverted coordinates and appends them to the newGroup object
       newGroup.latitude = response.data.lat;
       newGroup.longitude = response.data.lng;
+    } catch (err) {
+      console.log(err);
     }
-    catch (err) {console.log(err)}
-
-    try{ //getting back all user paths to destination 
-      let response = await axios.post("http://localhost:4000/api/directions", {newGroup})
-      newGroup.paths = response.data;
-    }
-    catch(err){console.log(err)}
 
     try {
-      let newId= await axios.post('http://localhost:4000/api/groups', {newGroup}) //adds new group to database
-      newGroup.id = newId.data.id;
+      //getting back all user paths to destination
+      let response = await axios.post("http://localhost:4000/api/directions", {
+        newGroup
+      });
+      newGroup.paths = response.data;
+    } catch (err) {
+      console.log(err);
     }
-    catch (err) {console.log(err)}
+
+    try {
+      let newId = await axios.post("http://localhost:4000/api/groups", {
+        newGroup
+      }); //adds new group to database
+      newGroup.id = newId.data.id;
+    } catch (err) {
+      console.log(err);
+    }
 
     this.props.addGroups(newGroup); //adds new group and paths to the redux store
 
@@ -88,8 +100,8 @@ class Form extends Component {
   }
 
   close = () => {
-    this.props.toggleForm();
     this.props.closeNav();
+    this.props.toggleForm();
   };
 
   render() {
@@ -109,7 +121,7 @@ class Form extends Component {
               className="nameInputField"
               name="name"
               type="text"
-              onChange={this.handleChange} 
+              onChange={this.handleChange}
             />
           </div>
           <div className="subheader subheader2">
@@ -159,7 +171,10 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps,{
+export default connect(
+  mapStateToProps,
+  {
     addGroups,
     addCurrentGroup
-})(Form);
+  }
+)(Form);
