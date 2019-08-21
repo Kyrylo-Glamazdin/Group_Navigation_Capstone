@@ -1,11 +1,10 @@
 import { combineReducers } from "redux";
-import muskImage from "../Images/elon-musk.jpg";
 
 let users = [
   {
     id: 1,
     name: "Elon Musk",
-    image: muskImage,
+    image: "https://render.fineartamerica.com/images/rendered/default/flat/round-beach-towel/images/artworkimages/medium/1/elon-musk-greg-joens.jpg?&targetx=0&targety=-98&imagewidth=787&imageheight=985&modelwidth=788&modelheight=788&backgroundcolor=F8F8F8&orientation=0",
     long: -73.95648,
     lat: 40.631054
   },

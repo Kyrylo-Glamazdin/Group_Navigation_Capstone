@@ -4,9 +4,7 @@ import DeckGL from 'deck.gl';
 import { StaticMap } from 'react-map-gl';
 import { PathLayer } from '@deck.gl/layers';
 import {IconLayer} from '@deck.gl/layers';
-import muskImage from "../Images/elon-musk.jpg";
 // data needed for overlay here
-
 
 let colors = [
   [115, 241, 206],
@@ -26,9 +24,13 @@ let curEndOfColorArray = colors.length;
 class Map extends Component {
   constructor (props){
     super(props);
+    this.state = {
+      finishedLoading = false
+    }
     this.findGroupById = this.findGroupById.bind(this);
     this.selectRandomColor = this.selectRandomColor.bind(this);
   }
+  
 
   findGroupById(){
     for (let i = 0; i < this.props.groups.length; i++){
@@ -51,6 +53,15 @@ class Map extends Component {
     return selectedColor;
   }
 
+  _renderTooltip() {
+    const {hoveredObject, pointerX, pointerY} = this.state || {};
+    return hoveredObject && (
+      <div style={{position: 'absolute', zIndex: 1, pointerEvents: 'none', left: pointerX, top: pointerY}}>
+        { hoveredObject.message }
+      </div>
+    );
+  }
+
 render() {
   if (this.props.currentGroup === -1){
     return (
@@ -65,27 +76,79 @@ render() {
   console.log(workingGroup.paths);
   for(let i = 0; i < workingGroup.paths.length; i++){
     userPaths.push(workingGroup.paths[i]);
-    // let curUserLat = workingGroup.users[i].lat;
-    // let curUserLong = workingGroup.users[i].long;
-    // let curCoordinates = [];
-    // curCoordinates.push(curUserLong);
-    // curCoordinates.push(curUserLat);
-    // let dataObject = {
-    //   position: curCoordinates,
-    //   icon: workingGroup.users[i].image
-    // }
-    // let coordinatesData = [];
-    // coordinatesData.push(dataObject);
-    // let newIcon = new IconLayer ({
-    //   id: workingGroup.users[i].name + workingGroup.users[i].id,
-    //   data: dataObject,
-    //   getIcon: d => (d.icon),
-    //   getPosition: d => (d.position)
-    // });
-    // console.log(newIcon.getIcon);
-    // console.log(newIcon.getPosition)
-    // userIcons.push(newIcon);
+
+
+
+
+    let curUserLat = workingGroup.users[i].lat;
+    let curUserLong = workingGroup.users[i].long;
+    let curCoordinates = [];
+    curCoordinates.push(curUserLong);
+    curCoordinates.push(curUserLat);
+    let dataObject = {
+      position: curCoordinates,
+      icon: {
+        url: "https://cors-anywhere.herokuapp.com/" + workingGroup.users[i].image,
+        width: 128,
+        height: 128,
+        anchorY: 128
+      },
+      name: workingGroup.users[i].name
+    }
+    let coordinatesData = [];
+    coordinatesData.push(dataObject);
+
+    let newIcon = new IconLayer ({
+      id: workingGroup.users[i].name + workingGroup.users[i].id,
+      data: coordinatesData,
+      getIcon: d => (d.icon),
+      getPosition: d => (d.position),
+      getSize: 90,
+      pickable: true,
+      getName: d => d.name,
+      onHover: info => this.setState({
+        hoveredObject: info.object,
+        pointerX: info.x,
+        pointerY: info.y
+      })
+      });
+
+    userIcons.push(newIcon);
+
   }
+
+  let destinationData = [];
+  let destinationCoordinates = [];
+  destinationCoordinates.push(workingGroup.paths[0][workingGroup.paths[0].length - 1][1]);
+  destinationCoordinates.push(workingGroup.paths[0][workingGroup.paths[0].length - 1][0]);
+  console.log(destinationCoordinates);
+  let destinationObject = {
+    position: destinationCoordinates,
+    icon: {
+      url: "https://cdn2.iconfinder.com/data/icons/bitsies/128/Location-512.png",
+      width: 128,
+      height: 128,
+      anchorY: 128
+    },
+    message: "Hover over me!"
+  }
+destinationData.push(destinationObject);
+console.log(destinationData);
+
+  let destinationIcon = new IconLayer({
+    id: "destinationMarker",
+    data: destinationData,
+    getIcon: d => d.icon,
+    getPosition: d => d.position,
+    getSize: 90,
+    pickable: true,
+    onHover: info => this.setState({
+      hoveredObject: info.object,
+      pointerX: info.x,
+      pointerY: info.y
+    })
+  })
+
 
   let pathData = [];
   for (let i = 0; i < userPaths.length; i++){
@@ -123,7 +186,7 @@ render() {
     userPathAndIconLayers.push(userIcons[i]);
   }
 
-
+  userPathAndIconLayers.push(destinationIcon);
 
 return (
   <React.Fragment>
@@ -138,6 +201,7 @@ return (
     controller={true}
     layers={userPathAndIconLayers} // layer here
    >
+   {this._renderTooltip()}
      <StaticMap
        mapStyle='mapbox://styles/mapbox/dark-v9'
        mapboxApiAccessToken = {process.env.REACT_APP_MB_API_KEY}
