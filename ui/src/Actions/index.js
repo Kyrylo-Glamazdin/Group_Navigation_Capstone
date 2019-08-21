@@ -1,5 +1,3 @@
-import socket from "../socket";
-
 export const addUsers = users => {
   return {
     type: "ADD_USERS",
@@ -38,5 +36,12 @@ export const changeGroup = groupId => {
 export const addCurrentGroup = () => {
   return {
     type: "ADD_CURRENT_GROUP"
+  }
+}
+
+export const changeInviteGroup = groupId => {
+  return {
+    type: "CHANGE_INVITE_GROUP",
+    payload: groupId
   }
 }

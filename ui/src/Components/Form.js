@@ -3,7 +3,7 @@ import UserCard from "./UserCard";
 import "./Form.css";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
-import { addGroups} from "../Actions";
+import { addGroups } from "../Actions";
 import { addCurrentGroup } from "../Actions";
 import axios from "axios";
 
@@ -13,8 +13,7 @@ class Form extends Component {
     this.state = {
       name: "New Group",
       selectedUsers: [],
-      lat: 0,
-      lon: 0,
+      address: "",
       redirect: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,7 +29,6 @@ class Form extends Component {
   }
 
   pop = () => {
-    // console.log(document.querySelector("#overlay"));
     document.querySelector(".searchForm").classList.remove("activ");
     document.querySelector("#overlay").classList.remove("activ");
   };
@@ -59,31 +57,33 @@ class Form extends Component {
     e.preventDefault();
     let newGroup = {
       name: this.state.name,
-      latitude: this.state.lat,
-      longitude: this.state.lon
+      users: [...this.state.selectedUsers, this.props.login]
     };
 
     this.props.socket.emit("create", this.state.name);
 
-    // await axios.post('http://localhost:4000/api/groups', {
-    //   newGroup
-    // })
-    //   .then(async res => {
-    //     newGroup.users = this.state.selectedUsers
-    //     await this.props.addGroups(newGroup);
+    try { //converting the address of the group into coordinates
+      let response = await axios.post("http://localhost:4000/api/directions/address",{ address: this.state.address } );
 
-    //   })
-    //   .catch(err => console.log(err))
+      //changes local state to these coverted coordinates and appends them to the newGroup object
+      newGroup.latitude = response.data.lat;
+      newGroup.longitude = response.data.lng;
+    }
+    catch (err) {console.log(err)}
 
-    // await axios.post("http://localhost:4000/api/directions", {newGroup})
-    // .then ( response => {
-    //   newGroup.paths = response.data;
-    //   this.props.addCurrentGroup();
-    //   this.props.addGroups(newGroup);
-    // })
-    // .catch( err => {
-    //   console.log(err);
-    // })
+    try{ //getting back all user paths to destination 
+      let response = await axios.post("http://localhost:4000/api/directions", {newGroup})
+      newGroup.paths = response.data;
+    }
+    catch(err){console.log(err)}
+
+    try {
+      let newId= await axios.post('http://localhost:4000/api/groups', {newGroup}) //adds new group to database
+      newGroup.id = newId.data.id;
+    }
+    catch (err) {console.log(err)}
+
+    this.props.addGroups(newGroup); //adds new group and paths to the redux store
 
     this.setState({
       redirect: true
@@ -91,11 +91,11 @@ class Form extends Component {
   }
 
   render() {
-    // if (!localStorage.token) {
-    //   return <Redirect to="/" />;
-    // } else if (this.state.redirect) {
-    //   return <Redirect to="/dashboard" />;
-    // }
+    if (!localStorage.token) {
+      return <Redirect to="/" />;
+    } else if (this.state.redirect) {
+      return <Redirect to="/dashboard" />;
+    }
     return (
       <div>
         <form className="searchForm" onSubmit={this.handleSubmit}>
@@ -127,9 +127,17 @@ class Form extends Component {
             ))}
           </div>
           <div className="destin">
-            <div className="subheader">Enter Meetup Location:</div>
+            <div className="subheader">Enter Meetup Address:</div>
             <div className="latLonInput">
-              <div className="subheader">Latitude:</div>
+              <div>
+                <input
+                  className="latInputField"
+                  name="address"
+                  type="text"
+                  onChange={this.handleChange}
+                />
+              </div>
+              {/* <div className="subheader">Latitude:</div>
               <div>
                 <input
                   className="latInputField"
@@ -146,7 +154,7 @@ class Form extends Component {
                   type="text"
                   onChange={this.handleChange}
                 />
-              </div>
+            </div> */}
             </div>
             <div className="createGroupButton">
               <input
@@ -167,16 +175,11 @@ class Form extends Component {
 const mapStateToProps = state => {
   return {
     users: state.users,
-    groups: state.groups
+    login: state.login
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return { addGroups };
-};
-
-export default connect(
-  mapStateToProps,
-  {addGroups,
-  addCurrentGroup})
-  (Form);
+export default connect(mapStateToProps,{
+    addGroups,
+    addCurrentGroup
+})(Form);
