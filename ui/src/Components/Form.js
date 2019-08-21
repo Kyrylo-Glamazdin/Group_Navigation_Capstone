@@ -13,12 +13,29 @@ class Form extends Component {
     this.state = {
       name: "New Group",
       selectedUsers: [],
-      address: ""
+      address: "",
+      selected:[]
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.addUserToGroup = this.addUserToGroup.bind(this);
     this.removeUserFromGroup = this.removeUserFromGroup.bind(this);
+  }
+
+  componentDidMount = async () => {
+    console.log('form mount');
+    setTimeout(() => {
+      console.log('users: ',this.props.users);
+      let selected2 = this.props.users.map(us => {
+      if(true) return 0;
+    });
+    this.setState({selected: selected2})
+     console.log(this.state.selected);
+    }, 2000);
+  }
+
+  componentWillUnmount =() => {
+    console.log(this.state.selectedUsers);
   }
 
   handleChange(event) {
@@ -99,10 +116,25 @@ class Form extends Component {
     this.close();
   }
 
-  close = () => {
+  close = async () => {
     this.props.closeNav();
-    this.props.toggleForm();
+    document.querySelector(".searchForm").classList.remove("activ");
+    document.querySelector("#overlay").classList.remove("activ");
+    let newsl = this.state.selected.map(sl => { sl=0; return sl;})
+    await this.setState({selected:newsl});
+    // console.log(document.querySelector('.nameInputField').value);
+    document.querySelector('.nameInputField').value='';
+    document.querySelector('.latInputField').value='';
+    
+    // this.props.toggleForm();
   };
+
+  toggleCard = (cardId) =>{
+    if(this.state.selected[cardId]===1) {
+      this.state.selected[cardId]=0;
+    }
+    else this.state.selected[cardId]=1;
+  }
 
   render() {
     if (!localStorage.token) {
@@ -128,11 +160,14 @@ class Form extends Component {
             <div className="aaa">Select Users:</div>
           </div>
           <div className="userList">
+
             {this.props.users.map((user, idx) => (
               <UserCard
+                num={idx}
                 key={idx}
                 user={user}
-                selected={false}
+                toggle={this.toggleCard}
+                selected= {this.state.selected[idx]} //
                 addUserFunction={this.addUserToGroup}
                 removeUserFunction={this.removeUserFromGroup}
               />

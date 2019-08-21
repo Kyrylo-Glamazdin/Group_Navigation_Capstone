@@ -25,19 +25,23 @@ class App extends Component {
   }
 
   toggleForm = async () => {
-    if (this.state.showForm) {
-      setTimeout(() => {
-        this.setState({ showForm: false });
-      }, 300);
-      document.querySelector(".searchForm").classList.remove("activ");
-      document.querySelector("#overlay").classList.remove("activ");
-      return;
-    }
-    await this.setState({ showForm: true });
-    setTimeout(() => {
-      document.querySelector(".searchForm").classList.add("activ");
-      document.querySelector("#overlay").classList.add("activ");
-    }, 100);
+    document.querySelector(".searchForm").classList.add("activ");
+    document.querySelector("#overlay").classList.add("activ");
+
+
+    // if (this.state.showForm) {
+    //   // setTimeout(() => {
+    //   //   this.setState({ showForm: false });
+    //   // }, 300);
+    //   document.querySelector(".searchForm").classList.remove("activ");
+    //   document.querySelector("#overlay").classList.remove("activ");
+    //   return;
+    // }
+    // // await this.setState({ showForm: true });
+    // setTimeout(() => {
+    //   document.querySelector(".searchForm").classList.add("activ");
+    //   document.querySelector("#overlay").classList.add("activ");
+    // }, 100);
   };
 
   closeNav = () => {
@@ -83,14 +87,14 @@ class App extends Component {
         />
         <div id="content">{<Map />}</div>
 
-        {this.state.showPop && (
+        {/* {this.state.showPop && (
           <div onMouseOver={this.clear}>
             <Popup pop={this.pop} closeNav={this.closeNav} />
           </div>
-        )}
+        )} */}
         <div>
-          {this.state.showForm && (
-            <div onMouseOver={this.clear}>
+         
+          <div onMouseOver={this.clear}>
               <Form
                 socket={socket}
                 toggleForm={this.toggleForm}
@@ -98,7 +102,6 @@ class App extends Component {
               />
               <div className="" id="overlay" />
             </div>
-          )}
         </div>
         <div className="" id="overlay" />
       </div>
