@@ -9,7 +9,7 @@ import muskImage from "../Images/elon-musk.jpg";
 
 
 let colors = [
-  [219, 197, 173],
+  [115, 241, 206],
   [0, 196, 0],
   [0, 0, 178],
   [80, 180, 210],
