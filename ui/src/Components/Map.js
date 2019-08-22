@@ -6,6 +6,7 @@ import { PathLayer } from '@deck.gl/layers';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import {IconLayer} from '@deck.gl/layers';
 import axios from 'axios'
+import './Map.css'
 // data needed for overlay here
 
 let colors = [
@@ -22,6 +23,8 @@ let colors = [
 ];
 
 let selectedColors = [];
+let travelTimes = [];
+let onHoverColors = [];
 
 let curEndOfColorArray = colors.length;
 
@@ -33,10 +36,18 @@ class Map extends Component {
       y: 0,
       hoveredItems: null,
       expanded: false,
-      colorsSelected: false
+      colorsSelected: false,
+      previousGroup: this.props.currentGroup,
+      etaResponse: [],
+      hoveredUser: null,
+      loadedETA: false
     };
     this.findGroupById = this.findGroupById.bind(this);
     this.selectRandomColor = this.selectRandomColor.bind(this);
+    this.selectChosenColor = this.selectChosenColor.bind(this);
+    this.getUserETA = this.getUserETA.bind(this);
+    this.findLargestTravelTime = this.findLargestTravelTime.bind(this);
+    this.convertTravelTimeToMinutes = this.convertTravelTimeToMinutes.bind(this);
   }
   
 
@@ -69,30 +80,119 @@ class Map extends Component {
     return [235, 231, 237];
   }
 
+  getUserETA(number){
+    if (travelTimes[number] !== undefined){
+      return travelTimes[number];
+    }
+    return 0;
+  }
+
+  convertTravelTimeToMinutes(travelTime){
+    let minutes = 0;
+    let allNums = [];
+    for (let i = 0; i < travelTime.length; i++){
+      if (!isNaN(travelTime[i])){
+        let curNum = travelTime[i];
+        let index = i + 1;
+        while (!isNaN(travelTime[index])){
+          curNum = curNum + travelTime[index];
+          index++;
+        }
+        i = index;
+        allNums.push(curNum);
+      }
+    }
+    if (allNums.length >= 2){
+      minutes = minutes + parseInt(allNums[0]) * 60;
+      minutes = minutes + parseInt(allNums[1]);
+    }
+    else if (allNums.length >= 1){
+      minutes = minutes + parseInt(allNums[0]);
+    }
+    return minutes;
+  }
+
+  findLargestTravelTime(){
+    if (this.state.etaResponse.length <= 0){
+      return "0 minutes"
+    }
+    let maxTime = "0 minutes";
+    let maxTimeInt = 0;
+    for (let i = 0; i < this.state.etaResponse.length; i++){
+      if (this.convertTravelTimeToMinutes(this.state.etaResponse[i][0]) > maxTimeInt){
+        maxTime = this.state.etaResponse[i][0];
+        maxTimeInt = this.convertTravelTimeToMinutes(this.state.etaResponse[i][0])
+      }
+    }
+    return maxTime;
+  }
+
   _renderTooltip() {
     const {hoveredObject, pointerX, pointerY} = this.state || {};
+    if (hoveredObject && hoveredObject.message == "Your Destination"){
+      return hoveredObject && (
+        <div className = "infoMessage" style={{position: 'absolute', zIndex: 1, pointerEvents: 'none', left: pointerX, top: pointerY}}>
+          {this.state.loadedETA ?
+          hoveredObject.travelTime :
+          "Loading..."
+          }
+        </div>    
+      );
+    }
+    if (hoveredObject){
+      // let hoveredUser = this.findUserByLocation()
+    }
     return hoveredObject && (
-      <div style={{position: 'absolute', background: "white", zIndex: 1, pointerEvents: 'none', left: pointerX, top: pointerY}}>
-        { hoveredObject.message }
-      </div>
+      <div className = "infoMessage" style={{position: 'absolute', zIndex: 1, pointerEvents: 'none', left: pointerX, top: pointerY}}>
+        {this.state.loadedETA ?
+        hoveredObject.message  + " will reach the destination in " +  hoveredObject.travelTime
+        :
+        "Loading..." }
+      </div>    
     );
   }
 
   callAxios = async (workingGroup) => {
     let response = await axios.post("http://localhost:4000/api/directions/eta", {workingGroup}).catch(err => {console.log(err)});
+    this.setState({
+      etaResponse: response.data
+    })
     return response.data;
   }
 
   render() {
   if (this.props.currentGroup === -1){
     return (
-      <div>Select a group to see the path</div>
+      <div>
+        Select a group to see the path
+      </div>
     );
   }
 
   let userPaths = [];
   let userIcons = [];
   let workingGroup = this.findGroupById();
+  console.log(this.state.previousGroup);
+    console.log(workingGroup.id)
+
+
+    if (this.state.previousGroup !== this.props.currentGroup){
+      this.setState({
+        previousGroup: this.props.currentGroup,
+        loadedETA: false
+      })
+
+      //fetching travel times for all users
+      this.callAxios(workingGroup)
+      .then(result => {
+        travelTimes = (result);
+        this.setState({
+          loadedETA: true
+        })
+      })
+      .catch(err => {console.log(err)})
+      }
+
   for(let i = 0; i < workingGroup.paths.length; i++){ //Get the generated api paths from the group state
     userPaths.push(workingGroup.paths[i]);
 
@@ -109,7 +209,8 @@ class Map extends Component {
         height: 128,
         anchorY: 128
       },
-      message: workingGroup.users[i].name
+      message: workingGroup.users[i].name,
+      travelTime: this.getUserETA(i)
     }
     let coordinatesData = [];
     coordinatesData.push(dataObject);
@@ -122,8 +223,6 @@ class Map extends Component {
       getSize: 90,
       pickable: true,
       onHover: info =>{ 
-      console.log(info)
-      console.log("object above")
       this.setState({
         hoveredObject: info.object,
         pointerX: info.x+16,
@@ -133,14 +232,12 @@ class Map extends Component {
       });
 
     userIcons.push(newIcon);
-      console.log(workingGroup.users[i]);
   }
 
   let destinationData = [];
   let destinationCoordinates = [];
   destinationCoordinates.push(workingGroup.paths[0][workingGroup.paths[0].length - 1][1]);
   destinationCoordinates.push(workingGroup.paths[0][workingGroup.paths[0].length - 1][0]);
-  console.log(destinationCoordinates);
   let destinationObject = {
     position: destinationCoordinates,
     icon: {
@@ -149,10 +246,10 @@ class Map extends Component {
       height: 128,
       anchorY: 128
     },
-    message: "Your Destination"
+    message: "Your Destination",
+    travelTime: "All members will reach the destination in " + this.findLargestTravelTime()
   }
 destinationData.push(destinationObject);
-console.log(destinationData);
 
   let destinationIcon = new IconLayer({
     id: "destinationMarker",
@@ -219,9 +316,15 @@ console.log(destinationData);
 
   userPathAndIconLayers.push(destinationIcon);
 
-  this.callAxios(workingGroup);
-
 return (
+  <div>
+    <div className = "infoMessage" style={{position: 'absolute', zIndex: 1, left: 1350, top: 20}}>
+      {this.state.loadedETA ?
+      <div>
+        All members will reach the destination in {this.findLargestTravelTime()}
+      </div> :
+      "Loading..."}
+    </div>
   <React.Fragment>
    <DeckGL
     initialViewState={{
@@ -241,6 +344,7 @@ return (
       { this._renderTooltip() }
    </DeckGL>
   </React.Fragment>
+  </div>
   )
  }
 }
