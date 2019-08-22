@@ -8,6 +8,7 @@ import Login from "./Components/login";
 import Form from "./Components/Form";
 import socket from "./socket";
 import Popup from "./Components/popUp";
+import ChatRoom from './Components/ChatRoom';
 
 class App extends Component {
   constructor() {
@@ -16,8 +17,16 @@ class App extends Component {
       formPreviousState: false,
       popPreviousState: false,
       showForm: false,
-      showPop: false
+      showPop: false,
+      message: ''
     };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
   }
 
   toggleForm = async () => {
@@ -101,6 +110,7 @@ class App extends Component {
           </div>
         </div>
         <div className="" id="overlay" />
+        <ChatRoom />
       </div>
     );
 

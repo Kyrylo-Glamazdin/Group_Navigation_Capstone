@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import decode from "jwt-decode";
-import { loginUser, addUsers, addGroups, addInvitations } from "../Actions";
+import { loginUser, addUsers, addGroups, addInvitations, removeInvitation } from "../Actions";
 import "./Dashboard.css";
 import GroupGrid from "./GroupGrid";
 import { Redirect } from "react-router";
@@ -63,14 +63,27 @@ class Dashboard extends Component {
     }
 
       //stores all invites for the loged in user to the redux store
-    try {
-      let response = await axios.put("http://localhost:4000/api/invitations", {
-        id: user.id
-      });
-      this.props.addInvitations(response.data);
-    } catch (e) {
-      console.log(e);
-    }
+      try {
+        let response = await axios.put("http://localhost:4000/api/invitations", {
+          id: this.props.login.id
+        });
+        console.log('CALLED');
+        this.props.addInvitations(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+
+    this.props.socket.on('refresh-dashboard', async()=>{
+      try {
+        let response = await axios.put("http://localhost:4000/api/invitations", {
+          id: user.id
+        });
+        console.log('CALLED');
+        this.props.addInvitations(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    })
   };
 
   openNav() {
@@ -117,7 +130,31 @@ class Dashboard extends Component {
             {this.props.invites.map(invite => (
               <li className="inviteList">{`${invite.sender} has invited you to join ${
                 invite.groupName
-              }`}</li>
+              }`}
+              <button
+              onClick = {async() => {
+                await axios.put('http://localhost:4000/api/groups/add',{
+                groupId: invite.groupId,
+                id: invite.UserId
+                }).catch(err=>console.log(err))
+
+                await axios.post('http://localhost:4000/api/invitations/delete',{
+                  id: invite.id
+                }).catch(err=>console.log(err))
+
+                this.props.removeInvitation(invite);
+              }}
+              >Accept</button>
+              <button
+              onClick = {async()=>{
+                await axios.post('http://localhost:4000/api/invitations/delete',{
+                  id: invite.id
+                }).catch(err=>console.log(err))
+            
+                this.props.removeInvitation(invite);
+              }}
+              >Decline</button>
+              </li>
             ))}
           </ul>
         </div>
@@ -139,5 +176,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { loginUser, addUsers, addGroups, addInvitations }
+  { loginUser, addUsers, addGroups, addInvitations, removeInvitation }
 )(Dashboard);

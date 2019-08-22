@@ -52,3 +52,10 @@ export const addInvitations = inviteArr =>{
     payload: inviteArr
   }
 }
+
+export const removeInvitation = invite => {
+  return{
+    type: "REMOVE_INVITATION",
+    payload: invite
+  }
+}
