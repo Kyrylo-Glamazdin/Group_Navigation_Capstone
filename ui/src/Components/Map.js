@@ -110,11 +110,15 @@ class Map extends Component {
       getPosition: d => (d.position),
       getSize: 90,
       pickable: true,
-      onHover: info => this.setState({
+      onHover: info =>{ 
+      console.log(info)
+      console.log("object above")
+      this.setState({
         hoveredObject: info.object,
-        pointerX: info.x,
-        pointerY: info.y
+        pointerX: info.x+16,
+        pointerY: info.y-3
       })
+    }
       });
 
     userIcons.push(newIcon);
@@ -148,8 +152,8 @@ console.log(destinationData);
     pickable: true,
     onHover: info => this.setState({
       hoveredObject: info.object,
-      pointerX: info.x,
-      pointerY: info.y
+      pointerX: info.x+16,
+      pointerY: info.y-3
     })
   })
 
