@@ -2,8 +2,8 @@
 
 #dashboard {
   position: absolute;
-  left: -185px;
-  width: 210px;
+  left: -190px;
+  width: 220px;
   height: 100vh;
 
   font-family: Verdana, Geneva, sans-serif;
@@ -156,12 +156,11 @@ button:hover {
 .msgbox {
   /* position: absolute;
   right: 0;
-  /* background-color: #fff; */
   /* margin: 0;
   padding: 0;  */
-
+  /* background-color: #fff; */
   position: absolute;
-  bottom: 103px;
+  bottom: 123px;
   height: 50px;
   width: 95%;
   margin: 0;
@@ -169,25 +168,44 @@ button:hover {
 }
 
 .msgbtm {
+  position: relative;
   background-color: rgba(250, 245, 245, 0.5);
   border-radius: 5px;
-  height: 60px;
-  width: 90%;
+  height: 84px;
+  width: 66%;
   margin: 2px auto;
   margin-bottom: 10px;
   /* margin-left: 10px; */
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
   border: gray solid 0.3px;
   transition: 200ms;
+  font-size: 13px;
 }
 .msgbtm:hover {
   transform: scale(1.02);
   background-color: rgba(250, 245, 245, 0.5);
 }
+.inviMsg {
+  /* font-size: 16px; */
+  position: absolute;
+  left: 8px;
+  margin-left: 0;
+  padding: 1px;
+  /* background-color: #4caf50; */
+}
 
+#invitag {
+  /* background: #4caf50; */
+  margin: auto 12px;
+}
 .msgup {
+  /* text-transform: capitalize; */
+  display: flex;
+  align-items: center;
+  justify-content: left;
   background-color: #fff;
-  /* background-color: #fff; */
+  /* font-family: sans-serif; */
+  /* background-color: #fff;      Montserrat;  */
   background-color: rgba(250, 245, 245, 0.5);
   border-radius: 5px;
   height: 100px;
@@ -198,6 +216,7 @@ button:hover {
   border: gray solid 0.3px;
   height: 30px;
   transition: 200ms;
+  font-size: 18px;
 }
 .msgup:hover {
   transform: scale(1.02);

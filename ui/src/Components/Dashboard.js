@@ -19,12 +19,13 @@ class Dashboard extends Component {
   }
 
   componentDidMount = async () => {
-      let user = null;
-    if (localStorage.token) {   //Stores loged in user information in the redux store
+    let user = null;
+    if (localStorage.token) {
+      //Stores loged in user information in the redux store
       user = decode(localStorage.getItem("token"));
       this.props.loginUser(user);
     }
-    console.log('Run');
+    console.log("Run");
 
     setTimeout(() => {
       document.getElementById("dashboard").classList.add("activ");
@@ -107,9 +108,7 @@ class Dashboard extends Component {
           onMouseOver={this.openNav}
           className="activ"
         >
-          <div className="title" >
-            Dashboard
-          </div>
+          <div className="title">Dashboard</div>
           <div className="namefield">
             <img className="userImage dashimg" src={this.props.login.image} />
             <div className="usname">{this.props.login.name}</div>
@@ -121,19 +120,26 @@ class Dashboard extends Component {
           <GroupGrid socket={this.props.socket} pop={this.props.pop} />
 
           <div className="msgbox">
-            <div className="msgup"> Invitations: </div>
+            <div className="msgup">
+              <div id="invitag"> Invitations:</div>
+            </div>
             <ul className="msgbtm">
-              {/* {this.state.invitations.map(invite => (
+              {
+                /* {this.state.invitations.map(invite => (
                 <li>{`${this.state.invitations[0]} has invited you to join ${this.state.invitations[1]}`}</li>
               ))} */
-              <li>{`${this.state.inviteSender} has invited you to join ${this.state.inviteGroup}`}</li>
+                <li className="inviMsg">
+                  {`${this.state.inviteSender} has invited you to join ${
+                    this.state.inviteGroup
+                  }`}
+                </li>
               }
             </ul>
           </div>
 
           <button className="createbtn dashbtn" onClick={this.props.toggleForm}>
             Create New Group
-          </button> 
+          </button>
         </div>
       );
     } else {
