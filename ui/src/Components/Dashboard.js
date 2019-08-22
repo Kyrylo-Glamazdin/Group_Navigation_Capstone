@@ -178,7 +178,7 @@ class Dashboard extends Component {
       >
         <div className="title">Dashboard</div>
         <div className="namefield">
-          <img className="userImage dashimg" src={this.props.login.image} />
+          <img className="dashimg" src={this.props.login.image} />
           <div className="usname">{this.props.login.name}</div>
           <button className="logout" onClick={this.logOut}>
             Log Out
@@ -188,7 +188,9 @@ class Dashboard extends Component {
         <GroupGrid socket={this.props.socket} pop={this.props.pop} />
 
         <div className="msgbox">
-          <div className="msgup"> Invitations: </div>
+          <div className="msgup">
+            <div id="inviTag">Invitations:</div>
+          </div>
           <ul className="msgbtm">
             {this.props.invites.map(invite => (
               <li className="inviteList">{`${invite.sender} has invited you to join ${
@@ -224,7 +226,7 @@ class Dashboard extends Component {
         </div>
 
         <button className="createbtn dashbtn" onClick={this.props.toggleForm}>
-          Create New Group
+          Create Group
         </button>
       </div>
     );

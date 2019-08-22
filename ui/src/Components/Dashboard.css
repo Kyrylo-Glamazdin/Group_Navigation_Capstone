@@ -15,7 +15,7 @@
   text-decoration: none;
   /* font-style: normal; */
   font-variant: small-caps;
-  text-transform: none;
+  /* text-transform: lowercase; */
   color: rgb(129, 68, 68);
   user-select: none;
 
@@ -27,7 +27,7 @@
   overflow-x: hidden; /* Disable horizontal scroll */
   transition: 0.3s all ease-in-out; /* 0.5 second transition effect to slide in the sidebar */
 }
-#board::-webkit-scrollbar {
+#dashboard::-webkit-scrollbar {
   width: 0 !important;
 }
 
@@ -122,10 +122,12 @@
 
 .dashimg {
   position: absolute;
-  left: 6px;
+  left: 3px;
+  height: 55px;
   /* background-color: black; */
   margin: 0;
   padding: 0;
+
   /* border-radius: 10px; */
   /* box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5); */
   transition: 250ms;
@@ -173,7 +175,7 @@ button:hover {
   background-color: rgba(250, 245, 245, 0.5);
   border-radius: 5px;
   height: 84px;
-  width: 66%;
+  width: 88%;
   margin: 2px auto;
   margin-bottom: 10px;
   /* margin-left: 10px; */
@@ -181,10 +183,23 @@ button:hover {
   border: gray solid 0.3px;
   transition: 200ms;
   font-size: 13px;
+  /* display: flex; */
+  display: block;
+  list-style-position: inside;
+  padding-left: 8px;
+  padding-right: 10px;
+  overflow: hidden;
 }
 .msgbtm:hover {
   transform: scale(1.02);
   background-color: rgba(250, 245, 245, 0.5);
+}
+.inviteList {
+  /* position: absolute; */
+
+  /* font-size: 10pt;
+  height: 15pt; */
+  padding: 1px 0;
 }
 .inviMsg {
   /* font-size: 16px; */
@@ -195,16 +210,16 @@ button:hover {
   /* background-color: #4caf50; */
 }
 
-#invitag {
+#inviTag {
   /* background: #4caf50; */
   margin: auto 12px;
 }
 .msgup {
-  /* text-transform: capitalize; */
+  /* text-transform: lowercase; */
   display: flex;
   align-items: center;
   justify-content: left;
-  background-color: #fff;
+  /* background-color: #fff; */
   /* font-family: sans-serif; */
   /* background-color: #fff;      Montserrat;  */
   background-color: rgba(250, 245, 245, 0.5);
@@ -222,8 +237,4 @@ button:hover {
 .msgup:hover {
   transform: scale(1.02);
   background-color: rgba(250, 245, 245, 0.5);
-}
-
-.inviteList {
-  font-size: 12pt;
 }

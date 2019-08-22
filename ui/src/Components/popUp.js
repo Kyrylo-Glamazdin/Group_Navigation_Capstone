@@ -31,27 +31,37 @@ class Popup extends Component {
     }
   };
 
-  pop = () => {
-    document.querySelector("#overlay").classList.remove("activ");
-    document.querySelector(".popup").classList.remove("activ");
-  };
+  // pop = () => {
+  //   document.querySelector("#overlay").classList.remove("activ");
+  //   document.querySelector(".popup").classList.remove("activ");
+  // };
 
-  sendUsers = async() => {
+  sendUsers = async () => {
+    this.closePop();
+
     //retrieve the group that this pop up is referring to
+    let groupN = await Axios.get(
+      "http://localhost:4000/api/groups/" + this.props.invGroup
+    );
+    //add current user to group
+    await Axios.put("http://localhost:4000/api/groups/add", {
+      groupId: groupN.data.id,
+      id: this.props.login.id
+    });
+
     let groupN = await Axios.get('http://localhost:4000/api/groups/' + this.props.invGroup)
     let newGroup = {
       users: this.state.selected,
-      groupName : groupN.data.name,
+      groupName: groupN.data.name,
       name: this.props.login.name,
       groupId: groupN.data.id
-    }
+    };
     // send invitations to other members
     await Axios.post('http://localhost:4000/api/invitations',{newGroup})
 
     //socket event will fire a rerender of the dashboard to all users to mimic real-time invitation sent
     this.props.socket.emit("refresh", {invite: newGroup});
     //enter socket event here
-    this.pop();
   };
 
   closePop = async () => {

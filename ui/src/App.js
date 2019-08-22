@@ -8,6 +8,7 @@ import Login from "./Components/login";
 import Form from "./Components/Form";
 import socket from "./socket";
 import Popup from "./Components/popUp";
+import Chat from "./Components/Chat";
 
 class App extends Component {
   constructor() {
@@ -16,7 +17,9 @@ class App extends Component {
       formPreviousState: false,
       popPreviousState: false,
       showForm: false,
-      showPop: false
+      showPop: false,
+      chatBtn: "Chat",
+      chatActive: false
     };
   }
   toggleForm = async () => {
@@ -64,14 +67,6 @@ class App extends Component {
     //   document.querySelector("#overlay").classList.add("activ");
     // }, 100);
   };
-  chatUnpop = () => {
-    // document.querySelector("#overlay").classList.remove("activ");
-    document.querySelector(".chatPopup").classList.remove("activ");
-  };
-  chatPop = () => {
-    // document.querySelector("#overlay").classList.add("activ");
-    document.querySelector(".chatPopup").classList.add("activ");
-  };
 
   clear = () => {
     clearTimeout(this.state.closing);
@@ -107,19 +102,7 @@ class App extends Component {
             {/* <div className="" id="overlay" /> */}
           </div>
         </div>
-        <div className="chatPopup">
-          <div className="chatBar">
-            <div id="msgtag1">Messages:</div>
-          </div>
-          <div id="msgInput">Input</div>
-          <div onClick={this.chatUnpop} className="x2">
-            &times;
-          </div>
-        </div>
-        <div className="" id="overlay" />
-        <div onClick={this.chatPop} className="chatbtn">
-          Chat !
-        </div>
+        <Chat />
       </div>
     );
 

@@ -45,10 +45,11 @@
 }
 .barlist {
   /* display: flex; */
-  background-color: aquamarine;
+  /* background-color: rgb(218, 174, 162); */
   overflow: scroll;
   width: 90%;
   height: 90%;
+  /* padding: 20px; */
 }
 .barlist::-webkit-scrollbar {
   width: 0 !important;
@@ -60,10 +61,19 @@
 
 .userbar {
   width: 90%;
-  margin: 2px;
+  margin: 2px auto;
   border-radius: 3px;
   background-color: rgb(182, 150, 150);
   cursor: pointer;
+  transition: 200ms;
+}
+.userbar:hover {
+  transform: scale(1.1);
+  background-color: rgb(202, 68, 68);
+}
+.userbar:active {
+  transform: scale(1.1);
+  /* background-color: rgb(202, 68, 68); */
 }
 
 .invibtn {
