@@ -22,6 +22,7 @@ let colors = [
 ];
 
 let selectedColors = [];
+let travelTimes = [];
 
 let curEndOfColorArray = colors.length;
 
@@ -33,7 +34,8 @@ class Map extends Component {
       y: 0,
       hoveredItems: null,
       expanded: false,
-      colorsSelected: false
+      colorsSelected: false,
+      travelTimesReceived: false
     };
     this.findGroupById = this.findGroupById.bind(this);
     this.selectRandomColor = this.selectRandomColor.bind(this);
@@ -95,6 +97,18 @@ class Map extends Component {
   let workingGroup = this.findGroupById();
   for(let i = 0; i < workingGroup.paths.length; i++){ //Get the generated api paths from the group state
     userPaths.push(workingGroup.paths[i]);
+
+    //fetching travel times for all users
+    if (!this.state.travelTimesReceived){
+      this.callAxios(workingGroup)
+      .then(result => {
+        travelTimes.push(result);
+      })
+      .catch(err => {console.log(err)})
+      this.setState({
+        travelTimesReceived: true
+      })
+    }
 
     let curUserLat = parseFloat(workingGroup.users[i].lat);
     let curUserLong = parseFloat(workingGroup.users[i].long);
@@ -219,7 +233,6 @@ console.log(destinationData);
 
   userPathAndIconLayers.push(destinationIcon);
 
-  this.callAxios(workingGroup);
 
 return (
   <React.Fragment>
