@@ -39,12 +39,6 @@ class Popup extends Component {
   sendUsers = async() => {
     //retrieve the group that this pop up is referring to
     let groupN = await Axios.get('http://localhost:4000/api/groups/' + this.props.invGroup)
-    //add current user to group
-    await Axios.put('http://localhost:4000/api/groups/add', {
-      groupId: groupN.data.id,
-      id: this.props.login.id
-    })
-
     let newGroup = {
       users: this.state.selected,
       groupName : groupN.data.name,
@@ -52,8 +46,10 @@ class Popup extends Component {
       groupId: groupN.data.id
     }
     // send invitations to other members
-    await Axios.post('http://localhost:4000/api/users/invitations',{newGroup})
+    let res = await Axios.post('http://localhost:4000/api/invitations',{newGroup})
 
+    //socket event will fire a rerender of the dashboard to all users to mimic real-time invitation sent
+    this.props.socket.emit("invite-refresh", null);
     //enter socket event here
     this.pop();
   };

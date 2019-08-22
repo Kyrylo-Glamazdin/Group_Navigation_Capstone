@@ -20,11 +20,10 @@ class GroupGrid extends Component {
           <div className="groupbar" key={group.id}>
             <button
               onClick={async () => {
-                console.log("opening popup !!!!");
                 document.querySelector("#overlay").classList.add("activ");
                 document.querySelector(".popup").classList.add("activ");
 
-                // await this.props.changeInviteGroup(group.id);// ------------------------------
+                this.props.changeInviteGroup(group.id);
               }}
               className="delbtn delbtn1"
             >

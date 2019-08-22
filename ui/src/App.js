@@ -84,7 +84,7 @@ class App extends Component {
           pop={this.pop}
         />
         <div id="content">{<Map />}</div>
-        <Popup pop={this.pop} closeNav={this.closeNav} />
+        <Popup pop={this.pop} closeNav={this.closeNav} socket = {socket}/>
         {/* {this.state.showPop && (
           <div onMouseOver={this.clear}>
             <Popup pop={this.pop} closeNav={this.closeNav} />
