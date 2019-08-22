@@ -49,6 +49,16 @@ const invMembersReducer = (oldInvMembersGroupId = invMembersGroupId, action) => 
   }
 }
 
+const invitationReducer = (oldInvitations = [], action) =>{
+  switch(action.type){
+    case "ADD_INVITATIONS":
+      return oldInvitations.concat(action.payload);
+
+    default:
+      return oldInvitations;
+  }
+}
+
 const loginReducer = (currentUser = {}, action) => {
   switch (action.type) {
     case "SET_USER":
@@ -63,5 +73,6 @@ export default combineReducers({
   groups: groupsReducer,
   login: loginReducer,
   currentGroup: currentGroupReducer,
-  invGroup : invMembersReducer
+  invGroup : invMembersReducer,
+  invites : invitationReducer
 });

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import decode from "jwt-decode";
-import { loginUser, addUsers, addGroups } from "../Actions";
+import { loginUser, addUsers, addGroups, addInvitations } from "../Actions";
 import "./Dashboard.css";
 import GroupGrid from "./GroupGrid";
 import { Redirect } from "react-router";
@@ -10,21 +10,16 @@ import axios from "axios";
 class Dashboard extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      redirect: false,
-      inviteGroup: "",
-      inviteSender: ""
-    };
     this.openNav = this.openNav.bind(this);
   }
 
   componentDidMount = async () => {
-      let user = null;
-    if (localStorage.token) {   //Stores loged in user information in the redux store
+    let user = null;
+    if (localStorage.token) {
+      //Stores loged in user information in the redux store
       user = decode(localStorage.getItem("token"));
       this.props.loginUser(user);
     }
-    console.log('Run');
 
     setTimeout(() => {
       document.getElementById("dashboard").classList.add("activ");
@@ -41,8 +36,9 @@ class Dashboard extends Component {
     try {
       let response = await axios.put("http://localhost:4000/api/users/id", {
         id: user.id
-      }); //return logged in user
+      }); //return logged in user with its associated groups
       let groupsArr = response.data[0].Groups;
+
       for (let i = 0; i < groupsArr.length; i++) {
         let group = groupsArr[i].id;
         let users = await axios.put("http://localhost:4000/api/groups", {
@@ -60,20 +56,18 @@ class Dashboard extends Component {
         }); //get the paths for each user in that group
         groupsArr[i].paths = path.data; //assigns the paths of all users in this group to a paths property
       }
+
       this.props.addGroups(groupsArr); //Finally add all current user groups and paths to the redux store
     } catch (err) {
       console.log(err);
     }
 
+      //stores all invites for the loged in user to the redux store
     try {
-      let loggedInUser = await axios.get(
-        "http://localhost:4000/api/users/" + user.id
-      );
-      console.log(loggedInUser);
-      this.setState({
-        inviteGroup: loggedInUser.data.inviteGroup,
-        inviteSender: loggedInUser.data.inviteSender
+      let response = await axios.put("http://localhost:4000/api/invitations", {
+        id: user.id
       });
+      this.props.addInvitations(response.data);
     } catch (e) {
       console.log(e);
     }
@@ -95,86 +89,55 @@ class Dashboard extends Component {
   };
 
   render() {
-    if (this.state.redirect) {
-      return <Redirect to="/dashboard/form" />;
-    } else if (!localStorage.token) {
+    if (!localStorage.token) {
       return <Redirect to="/" />;
-    } else if (this.state.inviteGroup !== "") {
-      return (
-        <div
-          id="dashboard"
-          onMouseLeave={this.props.closeNav}
-          onMouseOver={this.openNav}
-          className="activ"
-        >
-          <div className="title" >
-            Dashboard
-          </div>
-          <div className="namefield">
-            <img className="userImage dashimg" src={this.props.login.image} />
-            <div className="usname">{this.props.login.name}</div>
-            <button className="logout" onClick={this.logOut}>
-              Log Out
-            </button>
-          </div>
+    }
 
-          <GroupGrid socket={this.props.socket} pop={this.props.pop} />
-
-          <div className="msgbox">
-            <div className="msgup"> Invitations: </div>
-            <ul className="msgbtm">
-              {/* {this.state.invitations.map(invite => (
-                <li>{`${this.state.invitations[0]} has invited you to join ${this.state.invitations[1]}`}</li>
-              ))} */
-              <li>{`${this.state.inviteSender} has invited you to join ${this.state.inviteGroup}`}</li>
-              }
-            </ul>
-          </div>
-
-          <button className="createbtn dashbtn" onClick={this.props.toggleForm}>
-            Create New Group
-          </button> 
-        </div>
-      );
-    } else {
-      return (
-        <div
-          id="dashboard"
-          onMouseLeave={this.props.closeNav}
-          onMouseOver={this.openNav}
-          className="activ"
-        >
-          <div className="title">Dashboard</div>
-          <div className="namefield">
-            <img className="userImage dashimg" src={this.props.login.image} />
-            <div className="usname">{this.props.login.name}</div>
-            <button className="logout" onClick={this.logOut}>
-              Log Out
-            </button>
-          </div>
-
-          <GroupGrid socket={this.props.socket} pop={this.props.pop} />
-          <div className="msgbox">
-            <div className="msgup"> Invitations: </div>
-            <ul className="msgbtm" />
-          </div>
-
-          <button className="createbtn dashbtn" onClick={this.props.toggleForm}>
-            Create New Group
+    return (
+      <div
+        id="dashboard"
+        onMouseLeave={this.props.closeNav}
+        onMouseOver={this.openNav}
+        className="activ"
+      >
+        <div className="title">Dashboard</div>
+        <div className="namefield">
+          <img className="userImage dashimg" src={this.props.login.image} />
+          <div className="usname">{this.props.login.name}</div>
+          <button className="logout" onClick={this.logOut}>
+            Log Out
           </button>
         </div>
-      );
-    }
+
+        <GroupGrid socket={this.props.socket} pop={this.props.pop} />
+
+        <div className="msgbox">
+          <div className="msgup"> Invitations: </div>
+          <ul className="msgbtm">
+            {this.props.invites.map(invite => (
+              <li className="inviteList">{`${invite.sender} has invited you to join ${
+                invite.groupName
+              }`}</li>
+            ))}
+          </ul>
+        </div>
+
+        <button className="createbtn dashbtn" onClick={this.props.toggleForm}>
+          Create New Group
+        </button>
+      </div>
+    );
   }
 }
 
 const mapStateToProps = state => {
   return {
-    login: state.login
+    login: state.login,
+    invites: state.invites
   };
 };
 
 export default connect(
   mapStateToProps,
-  { loginUser, addUsers, addGroups }
+  { loginUser, addUsers, addGroups, addInvitations }
 )(Dashboard);
