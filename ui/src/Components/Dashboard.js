@@ -62,7 +62,6 @@ class Dashboard extends Component {
       console.log(err);
     }
 
-<<<<<<< HEAD
       //stores all invites for the loged in user to the redux store
       try {
         let response = await axios.put("http://localhost:4000/api/invitations", {
@@ -85,17 +84,6 @@ class Dashboard extends Component {
         console.log(e);
       }
     })
-=======
-    //stores all invites for the loged in user to the redux store
-    try {
-      let response = await axios.put("http://localhost:4000/api/invitations", {
-        id: user.id
-      });
-      this.props.addInvitations(response.data);
-    } catch (e) {
-      console.log(e);
-    }
->>>>>>> ken8
   };
 
   openNav() {
@@ -140,7 +128,6 @@ class Dashboard extends Component {
           <div className="msgup"> Invitations: </div>
           <ul className="msgbtm">
             {this.props.invites.map(invite => (
-<<<<<<< HEAD
               <li className="inviteList">{`${invite.sender} has invited you to join ${
                 invite.groupName
               }`}
@@ -168,11 +155,6 @@ class Dashboard extends Component {
               }}
               >Decline</button>
               </li>
-=======
-              <li className="inviteList">{`${
-                invite.sender
-              } has invited you to join ${invite.groupName}`}</li>
->>>>>>> ken8
             ))}
           </ul>
         </div>
