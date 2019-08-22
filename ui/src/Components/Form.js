@@ -15,7 +15,7 @@ class Form extends Component {
       selectedUsers: [],
       address: "",
       selected: [],
-      error: ''
+      error: ""
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -84,10 +84,9 @@ class Form extends Component {
         { address: this.state.address }
       );
 
-      if(response.data ==="")
-      {
+      if (response.data === "") {
         await this.setState({
-          error: 'Please enter a valid address'
+          error: "Please enter a valid address"
         });
         return;
       }
@@ -159,7 +158,7 @@ class Form extends Component {
           </div>
           <div className="formHeader">Create a New Group</div>
           <div className="subheader">
-            Group Name:
+            <div className="gpName">Group Name:</div>
             <input
               className="nameInputField"
               name="name"
@@ -184,26 +183,29 @@ class Form extends Component {
             ))}
           </div>
           <div className="destin">
-            <div className="subheader">Enter Meetup Address:</div>
-            <div className="latLonInput">
-              <div>
+            <div className="destin1">
+              <div className="">Enter Meetup Address:</div>
+              <div className="latLonInput">
+                <div>
+                  <input
+                    className="latInputField"
+                    name="address"
+                    type="text"
+                    onChange={this.handleChange}
+                  />
+                </div>
+              </div>
+              <div className="createGroupButton">
                 <input
-                  className="latInputField"
-                  name="address"
-                  type="text"
-                  onChange={this.handleChange}
+                  className="submitButton"
+                  type="submit"
+                  value="Create Group!"
                 />
               </div>
             </div>
-            <div className="createGroupButton">
-              <input
-                className="submitButton"
-                type="submit"
-                value="Create Group!"
-              />
-            </div>
+
+            <div className="errorMessages">{this.state.error}error</div>
           </div>
-          <div className="errorMessages">{this.state.error}</div>
         </form>
       </div>
     );

@@ -62,7 +62,7 @@ class Dashboard extends Component {
       console.log(err);
     }
 
-      //stores all invites for the loged in user to the redux store
+    //stores all invites for the loged in user to the redux store
     try {
       let response = await axios.put("http://localhost:4000/api/invitations", {
         id: user.id
@@ -115,9 +115,9 @@ class Dashboard extends Component {
           <div className="msgup"> Invitations: </div>
           <ul className="msgbtm">
             {this.props.invites.map(invite => (
-              <li className="inviteList">{`${invite.sender} has invited you to join ${
-                invite.groupName
-              }`}</li>
+              <li className="inviteList">{`${
+                invite.sender
+              } has invited you to join ${invite.groupName}`}</li>
             ))}
           </ul>
         </div>

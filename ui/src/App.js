@@ -43,7 +43,7 @@ class App extends Component {
     console.log("closing on app");
     this.state.closing = setTimeout(() => {
       document.getElementById("dashboard").classList.remove("activ");
-    }, 3000);
+    }, 10000);
   };
 
   pop = async () => {
@@ -64,6 +64,14 @@ class App extends Component {
     //   document.querySelector(".popup").classList.add("activ");
     //   document.querySelector("#overlay").classList.add("activ");
     // }, 100);
+  };
+  chatUnpop = () => {
+    // document.querySelector("#overlay").classList.remove("activ");
+    document.querySelector(".chatPopup").classList.remove("activ");
+  };
+  chatPop = () => {
+    // document.querySelector("#overlay").classList.add("activ");
+    document.querySelector(".chatPopup").classList.add("activ");
   };
 
   clear = () => {
@@ -97,10 +105,22 @@ class App extends Component {
               toggleForm={this.toggleForm}
               closeNav={this.closeNav}
             />
-            <div className="" id="overlay" />
+            {/* <div className="" id="overlay" /> */}
+          </div>
+        </div>
+        <div className="chatPopup">
+          <div className="chatBar">
+            <div id="msgtag1">Messages:</div>
+          </div>
+          <div id="msgInput">Input</div>
+          <div onClick={this.chatUnpop} className="x2">
+            &times;
           </div>
         </div>
         <div className="" id="overlay" />
+        <div onClick={this.chatPop} className="chatbtn">
+          Chat !
+        </div>
       </div>
     );
 
