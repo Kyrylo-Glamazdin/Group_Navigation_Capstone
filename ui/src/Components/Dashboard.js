@@ -90,6 +90,11 @@ class Dashboard extends Component {
     })
 
     this.props.socket.on('refresh-existing-group', async(data)=>{
+      if(data.group.users.length == 0)
+      {
+        this.props.removeGroups(data.group);
+        return;
+      }
       let copy = data.group;
       let userId = data.userId;
       let userArr = copy.Users;
