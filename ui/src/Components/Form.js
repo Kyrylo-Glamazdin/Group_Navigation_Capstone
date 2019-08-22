@@ -204,7 +204,7 @@ class Form extends Component {
               </div>
             </div>
 
-            <div className="errorMessages">{this.state.error}error</div>
+            <div className="errorMessages">{this.state.error}</div>
           </div>
         </form>
       </div>

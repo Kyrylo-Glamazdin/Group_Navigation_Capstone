@@ -31,31 +31,36 @@ class Popup extends Component {
     }
   };
 
-  pop = () => {
-    document.querySelector("#overlay").classList.remove("activ");
-    document.querySelector(".popup").classList.remove("activ");
-  };
+  // pop = () => {
+  //   document.querySelector("#overlay").classList.remove("activ");
+  //   document.querySelector(".popup").classList.remove("activ");
+  // };
 
-  sendUsers = async() => {
+  sendUsers = async () => {
+    this.closePop();
+
     //retrieve the group that this pop up is referring to
-    let groupN = await Axios.get('http://localhost:4000/api/groups/' + this.props.invGroup)
+    let groupN = await Axios.get(
+      "http://localhost:4000/api/groups/" + this.props.invGroup
+    );
     //add current user to group
-    await Axios.put('http://localhost:4000/api/groups/add', {
+    await Axios.put("http://localhost:4000/api/groups/add", {
       groupId: groupN.data.id,
       id: this.props.login.id
-    })
+    });
 
     let newGroup = {
       users: this.state.selected,
-      groupName : groupN.data.name,
+      groupName: groupN.data.name,
       name: this.props.login.name,
       groupId: groupN.data.id
-    }
+    };
     // send invitations to other members
-    await Axios.post('http://localhost:4000/api/users/invitations',{newGroup})
+    await Axios.post("http://localhost:4000/api/users/invitations", {
+      newGroup
+    });
 
     //enter socket event here
-    this.pop();
   };
 
   closePop = async () => {

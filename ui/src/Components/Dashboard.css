@@ -15,7 +15,7 @@
   text-decoration: none;
   /* font-style: normal; */
   font-variant: small-caps;
-  text-transform: none;
+  /* text-transform: lowercase; */
   color: rgb(129, 68, 68);
   user-select: none;
 
@@ -215,11 +215,11 @@ button:hover {
   margin: auto 12px;
 }
 .msgup {
-  /* text-transform: capitalize; */
+  /* text-transform: lowercase; */
   display: flex;
   align-items: center;
   justify-content: left;
-  background-color: #fff;
+  /* background-color: #fff; */
   /* font-family: sans-serif; */
   /* background-color: #fff;      Montserrat;  */
   background-color: rgba(250, 245, 245, 0.5);
