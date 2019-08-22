@@ -112,7 +112,9 @@ class Dashboard extends Component {
         <GroupGrid socket={this.props.socket} pop={this.props.pop} />
 
         <div className="msgbox">
-          <div className="msgup"> Invitations: </div>
+          <div className="msgup">
+            <div id="inviTag">Invitations:</div>
+          </div>
           <ul className="msgbtm">
             {this.props.invites.map(invite => (
               <li className="inviteList">{`${

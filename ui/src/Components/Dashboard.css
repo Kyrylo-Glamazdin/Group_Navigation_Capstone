@@ -175,7 +175,7 @@ button:hover {
   background-color: rgba(250, 245, 245, 0.5);
   border-radius: 5px;
   height: 84px;
-  width: 66%;
+  width: 88%;
   margin: 2px auto;
   margin-bottom: 10px;
   /* margin-left: 10px; */
@@ -183,10 +183,28 @@ button:hover {
   border: gray solid 0.3px;
   transition: 200ms;
   font-size: 13px;
+  /* display: flex; */
+  display: block;
+  list-style-position: inside;
+  padding-left: 0;
 }
 .msgbtm:hover {
   transform: scale(1.02);
   background-color: rgba(250, 245, 245, 0.5);
+}
+.inviteList {
+  /* position: absolute; */
+
+  /* font-size: 10pt;
+  height: 15pt; */
+
+  left: 8px;
+  margin-left: 0;
+  padding: 1px;
+  margin-left: 0;
+  padding-left: 0;
+  /* list-style: none; */
+  background-color: #fff;
 }
 .inviMsg {
   /* font-size: 16px; */
@@ -197,7 +215,7 @@ button:hover {
   /* background-color: #4caf50; */
 }
 
-#invitag {
+#inviTag {
   /* background: #4caf50; */
   margin: auto 12px;
 }
@@ -224,8 +242,4 @@ button:hover {
 .msgup:hover {
   transform: scale(1.02);
   background-color: rgba(250, 245, 245, 0.5);
-}
-
-.inviteList {
-  font-size: 12pt;
 }

@@ -17,7 +17,8 @@
   width: 140px;
   margin: 0;
   right: 6%;
-  color: rgb(127, 201, 127);
+  color: rgb(247, 252, 247);
+  border: gray solid 0.5px;
   transition: 150ms;
   box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5);
   outline: none;
@@ -29,8 +30,8 @@
   cursor: pointer;
 }
 .chatbtn:hover {
-  transform: scale(1.03);
-  background-color: rgb(107, 184, 107);
+  transform: scale(1.05);
+  background-color: rgb(229, 240, 229);
   color: rgb(196, 55, 55);
 }
 .chatbtn:active {
@@ -58,6 +59,7 @@
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5);
   border: 0.3px gray solid;
   user-select: none;
+  font-weight: 300;
 }
 .chatPopup.activ {
   transform: scale(1);
@@ -127,6 +129,8 @@
 .chatDisplay {
   /* background-color: antiquewhite; */
   /* display: flex; */
+  /* font-family: Verdana, Geneva, sans-serif, Montserrat; */
+
   margin-top: 3px;
   width: 95%;
   height: 100%;
@@ -134,7 +138,8 @@
   /* overflow-x: auto; */
   overflow: scroll;
   text-align: left;
-  color: rgb(85, 69, 69);
+  /* color: rgb(85, 69, 69); */
+  color: rgb(229, 240, 229);
   font-size: 15px;
 }
 .chatDisplay::-webkit-scrollbar {

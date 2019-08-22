@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+
 ul {
   list-style: none;
   display: flex;
@@ -10,12 +12,34 @@ ul {
   /* display: block; */
   /* width: 100%; */
   display: flex;
-
+  /* background-color: #fff; */
   align-items: center;
-  font-size: 24px;
+  /* font-size: 18px; */
   justify-content: center;
   margin: 1px auto;
   list-style: none;
+}
+.liGroupName {
+  /* background-color: rgba(255, 255, 255, 0.2); */
+  background-color: rgb(163, 68, 68);
+  width: 56%;
+  margin: 1px 0;
+  transition: all 150ms ease-in-out;
+  padding: 3px;
+  /* color: rgb(179, 165, 148); */
+  color: rgb(224, 221, 221);
+  font-size: 16px;
+  font-weight: 100;
+  border-radius: 5px;
+  font-family: Verdana, Geneva, sans-serif, Montserrat;
+}
+.liGroupName:hover {
+  transform: scale(1.1);
+  background-color: rgb(176, 187, 176);
+  color: rgb(221, 24, 24);
+}
+.liGroupName:active {
+  transform: scale(1);
 }
 
 /* .delbtn {
