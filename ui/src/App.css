@@ -62,6 +62,10 @@
 .chatPopup.activ {
   transform: scale(1);
 }
+.chatPopup::-webkit-scrollbar {
+  width: 0 !important;
+}
+/* .element::-webkit-scrollbar { width: 0 !important } */
 
 .chatBar {
   display: flex;
@@ -79,10 +83,59 @@
 
 #msgInput {
   position: absolute;
+  display: flex;
+  align-items: center;
   width: 100%;
-  background-color: rgba(250, 245, 245, 0.5);
-  height: 30px;
+  background-color: rgba(224, 193, 193, 0.5);
+  height: 32px;
   bottom: 0;
+  margin: 0.1px;
+  border-top: rgb(141, 126, 126) solid 0.4px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+#usNameTag {
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background-color: #fff; */
+  height: 100%;
+  width: 30%;
+  margin-right: 6px;
+}
+#msgInputBox {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 70%;
+  /* background-color: rgb(134, 104, 104); */
+}
+#msgInputField {
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  border-radius: 6px;
+  background: none;
+  outline: none;
+  border: 0.8px solid rgb(122, 131, 146);
+  margin: 0;
+  padding: 2px;
+  color: aliceblue;
+  background-color: rgba(163, 129, 129, 0.5);
+}
+.chatDisplay {
+  /* background-color: antiquewhite; */
+  /* display: flex; */
+  width: 100%;
+  height: 100%;
+  overflow-wrap: normal;
+  /* overflow-x: auto; */
+  overflow: scroll;
+  text-align: left;
+}
+.chatDisplay::-webkit-scrollbar {
+  width: 0 !important;
 }
 
 /* .x2 {

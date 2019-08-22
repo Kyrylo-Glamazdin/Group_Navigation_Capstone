@@ -123,7 +123,7 @@ class Dashboard extends Component {
         </div>
 
         <button className="createbtn dashbtn" onClick={this.props.toggleForm}>
-          Create New Group
+          Create Group
         </button>
       </div>
     );
