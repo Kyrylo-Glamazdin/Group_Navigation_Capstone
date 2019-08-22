@@ -41,8 +41,11 @@ class Chat extends Component {
           </div>
           <div className="chatDisplay">
             {/* messagess */}
-            <div>dsadsadsadsadsadsadsadsadsadsadsadsa</div>
-            <div>dsadsadsa dsadsadsa dsadsadsa dsadsadsa dsadsadsa </div>
+            <div>dsadsadsadsadsad</div>
+            <div>
+              dsadsadsa dsadsadsa dsadsadsa dsadsadsa dsadsadsa dsadsadsa
+              dsadsadsa
+            </div>
             <div>dsadsaddsadsa</div>
           </div>
           <div id="msgInput">

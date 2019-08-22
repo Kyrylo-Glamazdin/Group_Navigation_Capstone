@@ -102,7 +102,7 @@ class Dashboard extends Component {
       >
         <div className="title">Dashboard</div>
         <div className="namefield">
-          <img className="userImage dashimg" src={this.props.login.image} />
+          <img className="dashimg" src={this.props.login.image} />
           <div className="usname">{this.props.login.name}</div>
           <button className="logout" onClick={this.logOut}>
             Log Out
