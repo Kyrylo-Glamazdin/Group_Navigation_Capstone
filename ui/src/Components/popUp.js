@@ -46,10 +46,10 @@ class Popup extends Component {
       groupId: groupN.data.id
     }
     // send invitations to other members
-    let res = await Axios.post('http://localhost:4000/api/invitations',{newGroup})
+    await Axios.post('http://localhost:4000/api/invitations',{newGroup})
 
     //socket event will fire a rerender of the dashboard to all users to mimic real-time invitation sent
-    this.props.socket.emit("refresh", {invite: res});
+    this.props.socket.emit("refresh", {invite: newGroup});
     //enter socket event here
     this.pop();
   };

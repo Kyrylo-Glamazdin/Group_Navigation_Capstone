@@ -22,6 +22,9 @@ const groupsReducer = (oldGroups = [], action) => {
     case "DEL_GROUP":
       let ngr = oldGroups.filter(gp => gp !== action.payload);
       return ngr;
+    case "REMOVE_GROUP":
+      let no = oldGroups.filter(gp => gp.id !== action.payload.id);
+      return no;
     default:
       return oldGroups;
   }
@@ -72,7 +75,7 @@ const invitationReducer = (oldInvitations = [], action) =>{
     case "REMOVE_INVITATION":
       let newInv= oldInvitations.filter(inv => !isEquivalent(inv,action.payload));
       return newInv;
-    case "CHANGE_INVITATION":
+    case "SET_INVITATION":
       oldInvitations = action.payload;
       return action.payload;
     default:

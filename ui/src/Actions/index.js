@@ -12,6 +12,13 @@ export const addGroups = groups => {
   };
 };
 
+export const removeGroups = group => {
+  return{
+    type: "REMOVE_GROUP",
+    payload: group
+  }
+}
+
 export const delGroup = group => {
   return {
     type: "DEL_GROUP",
