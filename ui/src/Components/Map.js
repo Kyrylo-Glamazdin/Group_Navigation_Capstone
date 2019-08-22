@@ -24,6 +24,7 @@ let colors = [
 
 let selectedColors = [];
 let travelTimes = [];
+let onHoverColors = [];
 
 let curEndOfColorArray = colors.length;
 
@@ -37,7 +38,9 @@ class Map extends Component {
       expanded: false,
       colorsSelected: false,
       previousGroup: this.props.currentGroup,
-      etaResponse: []
+      etaResponse: [],
+      hoveredUser: null,
+      loadedETA: false
     };
     this.findGroupById = this.findGroupById.bind(this);
     this.selectRandomColor = this.selectRandomColor.bind(this);
@@ -133,6 +136,9 @@ class Map extends Component {
         </div>    
       );
     }
+    if (hoveredObject){
+      // let hoveredUser = this.findUserByLocation()
+    }
     return hoveredObject && (
       <div className = "infoMessage" style={{position: 'absolute', zIndex: 1, pointerEvents: 'none', left: pointerX, top: pointerY}}>
         { hoveredObject.message  + " will reach the destination in " +  hoveredObject.travelTime }
@@ -166,13 +172,17 @@ class Map extends Component {
 
     if (this.state.previousGroup !== this.props.currentGroup){
       this.setState({
-        previousGroup: this.props.currentGroup
+        previousGroup: this.props.currentGroup,
+        loadedETA: false
       })
 
       //fetching travel times for all users
       this.callAxios(workingGroup)
       .then(result => {
         travelTimes = (result);
+        this.setState({
+          loadedETA: true
+        })
       })
       .catch(err => {console.log(err)})
       }
@@ -303,11 +313,11 @@ destinationData.push(destinationObject);
 return (
   <div>
     <div className = "infoMessage" style={{position: 'absolute', zIndex: 1, left: 1350, top: 20}}>
-      {this.findLargestTravelTime() !== "0 minutes" ?
+      {this.state.loadedETA ?
       <div>
         All members will reach the destination in {this.findLargestTravelTime()}
       </div> :
-      ""}
+      "Loading..."}
     </div>
   <React.Fragment>
    <DeckGL
