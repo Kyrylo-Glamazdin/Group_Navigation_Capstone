@@ -54,6 +54,7 @@ class Dashboard extends Component {
         let path = await axios.post("http://localhost:4000/api/directions", {
           newGroup
         }); //get the paths for each user in that group
+        console.log(path);
         groupsArr[i].paths = path.data; //assigns the paths of all users in this group to a paths property
       }
 
