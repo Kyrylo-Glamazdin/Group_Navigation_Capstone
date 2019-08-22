@@ -128,13 +128,13 @@ class Map extends Component {
     const {hoveredObject, pointerX, pointerY} = this.state || {};
     if (hoveredObject && hoveredObject.message == "Your Destination"){
       return hoveredObject && (
-        <div className = "hoverInfo" style={{position: 'absolute', background: "white", zIndex: 1, pointerEvents: 'none', left: pointerX, top: pointerY}}>
+        <div className = "infoMessage" style={{position: 'absolute', zIndex: 1, pointerEvents: 'none', left: pointerX, top: pointerY}}>
           {hoveredObject.travelTime }
         </div>    
       );
     }
     return hoveredObject && (
-      <div className = "hoverInfo" style={{position: 'absolute', background: "white", zIndex: 1, pointerEvents: 'none', left: pointerX, top: pointerY}}>
+      <div className = "infoMessage" style={{position: 'absolute', zIndex: 1, pointerEvents: 'none', left: pointerX, top: pointerY}}>
         { hoveredObject.message  + " will reach the destination in " +  hoveredObject.travelTime }
       </div>    
     );
@@ -151,7 +151,7 @@ class Map extends Component {
   render() {
   if (this.props.currentGroup === -1){
     return (
-      <div className = "masterETA">
+      <div>
         Select a group to see the path
       </div>
     );
@@ -302,7 +302,7 @@ destinationData.push(destinationObject);
 
 return (
   <div>
-    <div className = "masterETA" style={{position: 'absolute', background: "white", zIndex: 1, left: 1250, top: 20}}>
+    <div className = "infoMessage" style={{position: 'absolute', zIndex: 1, left: 1350, top: 20}}>
       {this.findLargestTravelTime() !== "0 minutes" ?
       <div>
         All members will reach the destination in {this.findLargestTravelTime()}
