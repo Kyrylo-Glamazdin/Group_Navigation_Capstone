@@ -14,7 +14,7 @@ class Form extends Component {
       name: "New Group",
       selectedUsers: [],
       address: "",
-      selected:[]
+      selected: []
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -23,20 +23,20 @@ class Form extends Component {
   }
 
   componentDidMount = async () => {
-    console.log('form mount');
+    console.log("form mount");
     setTimeout(() => {
-      console.log('users: ',this.props.users);
+      console.log("users: ", this.props.users);
       let selected2 = this.props.users.map(us => {
-      if(true) return 0;
-    });
-    this.setState({selected: selected2})
-     console.log(this.state.selected);
+        if (true) return 0;
+      });
+      this.setState({ selected: selected2 });
+      console.log(this.state.selected);
     }, 2000);
-  }
+  };
 
-  componentWillUnmount =() => {
+  componentWillUnmount = () => {
     console.log(this.state.selectedUsers);
-  }
+  };
 
   handleChange(event) {
     this.setState({
@@ -120,26 +120,28 @@ class Form extends Component {
     this.props.closeNav();
     document.querySelector(".searchForm").classList.remove("activ");
     document.querySelector("#overlay").classList.remove("activ");
-    let newsl = this.state.selected.map(sl => { sl=0; return sl;})
-    await this.setState({selected:newsl});
+    let newsl = this.state.selected.map(sl => {
+      sl = 0;
+      return sl;
+    });
+    await this.setState({ selected: newsl });
     // console.log(document.querySelector('.nameInputField').value);
-    document.querySelector('.nameInputField').value='';
-    document.querySelector('.latInputField').value='';
-    
+    document.querySelector(".nameInputField").value = "";
+    document.querySelector(".latInputField").value = "";
+
     // this.props.toggleForm();
   };
 
-  toggleCard = (cardId) =>{
-    if(this.state.selected[cardId]===1) {
-      this.state.selected[cardId]=0;
-    }
-    else this.state.selected[cardId]=1;
-  }
+  toggleCard = cardId => {
+    if (this.state.selected[cardId] === 1) {
+      this.state.selected[cardId] = 0;
+    } else this.state.selected[cardId] = 1;
+  };
 
   render() {
     if (!localStorage.token) {
       return <Redirect to="/" />;
-    } 
+    }
     return (
       <div>
         <form className="searchForm" onSubmit={this.handleSubmit}>
@@ -160,14 +162,13 @@ class Form extends Component {
             <div className="aaa">Select Users:</div>
           </div>
           <div className="userList">
-
             {this.props.users.map((user, idx) => (
               <UserCard
                 num={idx}
                 key={idx}
                 user={user}
                 toggle={this.toggleCard}
-                selected= {this.state.selected[idx]} //
+                selected={this.state.selected[idx]} //
                 addUserFunction={this.addUserToGroup}
                 removeUserFunction={this.removeUserFromGroup}
               />

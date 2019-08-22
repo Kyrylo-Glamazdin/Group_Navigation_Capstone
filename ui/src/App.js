@@ -2,11 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import Dashboard from "./Components/Dashboard.js";
 import Map from "./Components/Map.js";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import Login from "./Components/login";
 import Form from "./Components/Form";
@@ -27,7 +23,6 @@ class App extends Component {
   toggleForm = async () => {
     document.querySelector(".searchForm").classList.add("activ");
     document.querySelector("#overlay").classList.add("activ");
-
 
     // if (this.state.showForm) {
     //   // setTimeout(() => {
@@ -52,20 +47,23 @@ class App extends Component {
   };
 
   pop = async () => {
-    if (this.state.showPop) {
-      this.closeNav();
-      setTimeout(() => {
-        this.setState({ showPop: !this.state.showPop });
-      }, 300);
-      document.querySelector(".popup").classList.remove("activ");
-      document.querySelector("#overlay").classList.remove("activ");
-      return;
-    }
-    await this.setState({ showPop: !this.state.showPop });
-    setTimeout(() => {
-      document.querySelector(".popup").classList.add("activ");
-      document.querySelector("#overlay").classList.add("activ");
-    }, 100);
+    document.querySelector(".popup").classList.remove("activ");
+    document.querySelector("#overlay").classList.remove("activ");
+    this.closeNav();
+    // if (this.state.showPop) {
+    //   this.closeNav();
+    //   setTimeout(() => {
+    //     this.setState({ showPop: !this.state.showPop });
+    //   }, 300);
+    //   document.querySelector(".popup").classList.remove("activ");
+    //   document.querySelector("#overlay").classList.remove("activ");
+    //   return;
+    // }
+    // await this.setState({ showPop: !this.state.showPop });
+    // setTimeout(() => {
+    //   document.querySelector(".popup").classList.add("activ");
+    //   document.querySelector("#overlay").classList.add("activ");
+    // }, 100);
   };
 
   clear = () => {
@@ -86,22 +84,21 @@ class App extends Component {
           pop={this.pop}
         />
         <div id="content">{<Map />}</div>
-
+        <Popup pop={this.pop} closeNav={this.closeNav} />
         {/* {this.state.showPop && (
           <div onMouseOver={this.clear}>
             <Popup pop={this.pop} closeNav={this.closeNav} />
           </div>
         )} */}
         <div>
-         
           <div onMouseOver={this.clear}>
-              <Form
-                socket={socket}
-                toggleForm={this.toggleForm}
-                closeNav={this.closeNav}
-              />
-              <div className="" id="overlay" />
-            </div>
+            <Form
+              socket={socket}
+              toggleForm={this.toggleForm}
+              closeNav={this.closeNav}
+            />
+            <div className="" id="overlay" />
+          </div>
         </div>
         <div className="" id="overlay" />
       </div>

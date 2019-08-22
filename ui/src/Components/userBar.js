@@ -8,9 +8,13 @@ class Userbar extends Component {
   };
 
   select = async () => {
-    await this.setState({ active: !this.state.active });
+    console.log(this.props.num);
+    console.log("!!!!!!!!");
+    // await this.setState({ active: !this.state.active });
     // console.log("on bar: ", this.state.user);
     this.props.select(this.props.user);
+
+    this.props.toggle(this.props.num);
     // console.log(this.state.user.name, "---", this.state.active);
   };
 
@@ -32,10 +36,11 @@ class Userbar extends Component {
   //
   render() {
     const { user } = this.props;
-    if (this.state.active)
+    if (this.props.active)
       return (
         <div onClick={this.select} className="userbar active">
           {user.name}
+          <div>{this.props.active}</div>
         </div>
       );
     return (

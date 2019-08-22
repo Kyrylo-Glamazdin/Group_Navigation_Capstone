@@ -18,31 +18,51 @@ class GroupGrid extends Component {
       <div id="groups">
         {this.props.groups.map(group => (
           <div className="groupbar" key={group.id}>
-            <button onClick={async() => {
-              await this.props.changeInviteGroup(group.id);
-              // document.querySelector("#overlay").classList.add("activ");
-              // document.querySelector(".popup").classList.add("activ");
-            }} className="delbtn">
+            <button
+              onClick={async () => {
+                console.log("opening popup !!!!");
+                document.querySelector("#overlay").classList.add("activ");
+                document.querySelector(".popup").classList.add("activ");
+
+                // await this.props.changeInviteGroup(group.id);// ------------------------------
+              }}
+              className="delbtn"
+            >
               +
             </button>
-            <li key={group.id} onClick={async () => {
-              if (this.props.currentGroup !== -1) {
-                let oldGroupName = await Axios.get('http://localhost:4000/api/groups/' + this.props.currentGroup)
-                this.props.socket.emit('leave-current-room', oldGroupName.data.name);
-              }
-              let newGroupName = await Axios.get('http://localhost:4000/api/groups/' + group.id);
-              this.props.socket.emit('enter-group', newGroupName.data.name);
-              this.props.changeGroup(group.id)
-            }
-            }>{group.name}</li>
-            <button key={group.id}
+            <li
+              key={group.id}
+              onClick={async () => {
+                if (this.props.currentGroup !== -1) {
+                  let oldGroupName = await Axios.get(
+                    "http://localhost:4000/api/groups/" +
+                      this.props.currentGroup
+                  );
+                  this.props.socket.emit(
+                    "leave-current-room",
+                    oldGroupName.data.name
+                  );
+                }
+                let newGroupName = await Axios.get(
+                  "http://localhost:4000/api/groups/" + group.id
+                );
+                this.props.socket.emit("enter-group", newGroupName.data.name);
+                this.props.changeGroup(group.id);
+              }}
+            >
+              {group.name}
+            </li>
+            <button
+              key={group.id}
               onClick={async () => {
                 let req = {
                   id: this.props.login.id,
                   groupId: group.id
-                }
-                await Axios.put('http://localhost:4000/api/groups/remove', req)
-                  .catch(err => console.log(err))
+                };
+                await Axios.put(
+                  "http://localhost:4000/api/groups/remove",
+                  req
+                ).catch(err => console.log(err));
                 this.props.delGroup(group);
               }}
               className="delbtn"
