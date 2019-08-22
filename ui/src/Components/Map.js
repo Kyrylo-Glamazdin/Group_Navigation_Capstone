@@ -79,8 +79,8 @@ class Map extends Component {
   for(let i = 0; i < workingGroup.paths.length; i++){ //Get the generated api paths from the group state
     userPaths.push(workingGroup.paths[i]);
 
-    let curUserLat = workingGroup.users[i].lat;
-    let curUserLong = workingGroup.users[i].long;
+    let curUserLat = parseFloat(workingGroup.users[i].lat);
+    let curUserLong = parseFloat(workingGroup.users[i].long);
     let curCoordinates = [];
     curCoordinates.push(curUserLong);
     curCoordinates.push(curUserLat);
@@ -112,7 +112,7 @@ class Map extends Component {
       });
 
     userIcons.push(newIcon);
-
+      console.log(workingGroup.users[i]);
   }
 
   let destinationData = [];
