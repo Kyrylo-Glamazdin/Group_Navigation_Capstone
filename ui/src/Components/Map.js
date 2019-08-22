@@ -21,6 +21,8 @@ let colors = [
   [235, 125, 34]
 ];
 
+let selectedColors = [];
+
 let curEndOfColorArray = colors.length;
 
 class Map extends Component {
@@ -30,7 +32,8 @@ class Map extends Component {
       x: 0,
       y: 0,
       hoveredItems: null,
-      expanded: false
+      expanded: false,
+      colorsSelected: false
     };
     this.findGroupById = this.findGroupById.bind(this);
     this.selectRandomColor = this.selectRandomColor.bind(this);
@@ -55,7 +58,15 @@ class Map extends Component {
     if (curEndOfColorArray <= 0){
       curEndOfColorArray = colors.length;
     }
+    selectedColors.push(selectedColor)
     return selectedColor;
+  }
+
+  selectChosenColor(number){
+    if (selectedColors[number] !== undefined){
+      return selectedColors[number];
+    }
+    return [235, 231, 237];
   }
 
   _renderTooltip() {
@@ -167,15 +178,27 @@ console.log(destinationData);
       }
       currentUserPath.push(reversedPath);
     }
-    
+
     let nextPath = [ 
       {
         name: workingGroup.users[i].name + "-path",
-        color: this.selectRandomColor(),
         path: currentUserPath,
       }
     ]
+
+    if (!this.state.colorsSelected){
+      nextPath[0].color = this.selectRandomColor();
+    }
+    else {
+      nextPath[0].color = this.selectChosenColor(i);
+    }
     pathData.push(nextPath);
+  }
+
+  if (!this.state.colorsSelected){
+    this.setState({
+      colorsSelected: true
+    })
   }
 
   let userPathAndIconLayers = [];
@@ -197,7 +220,6 @@ console.log(destinationData);
   userPathAndIconLayers.push(destinationIcon);
 
   this.callAxios(workingGroup);
-
 
 return (
   <React.Fragment>
