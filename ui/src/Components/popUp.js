@@ -36,18 +36,25 @@ class Popup extends Component {
     document.querySelector(".popup").classList.remove("activ");
   };
 
-  sendUsers = async () => {
-    let groupN = await Axios.get(
-      "http://localhost:4000/api/groups/" + this.props.invGroup
-    );
+  sendUsers = async() => {
+    //retrieve the group that this pop up is referring to
+    let groupN = await Axios.get('http://localhost:4000/api/groups/' + this.props.invGroup)
+    //add current user to group
+    await Axios.put('http://localhost:4000/api/groups/add', {
+      groupId: groupN.data.id,
+      id: this.props.login.id
+    })
+
     let newGroup = {
       users: this.state.selected,
+      groupName : groupN.data.name,
       name: this.props.login.name,
-      groupName: groupN.data.name
-    };
-    await Axios.post("http://localhost:4000/api/users/invitation", {
-      newGroup
-    });
+      groupId: groupN.data.id
+    }
+    // send invitations to other members
+    await Axios.post('http://localhost:4000/api/users/invitations',{newGroup})
+
+    //enter socket event here
     this.pop();
   };
 
