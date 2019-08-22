@@ -31,7 +31,7 @@ class Userbar extends Component {
   //       {user.name}
   //     </div>
   //   );
-  // };
+  // };    // dsadsadsa
 
   //
   render() {
@@ -40,7 +40,6 @@ class Userbar extends Component {
       return (
         <div onClick={this.select} className="userbar active">
           {user.name}
-          <div>{this.props.active}</div>
         </div>
       );
     return (

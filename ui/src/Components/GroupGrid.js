@@ -26,12 +26,13 @@ class GroupGrid extends Component {
 
                 // await this.props.changeInviteGroup(group.id);// ------------------------------
               }}
-              className="delbtn"
+              className="delbtn delbtn1"
             >
               +
             </button>
             <li
               key={group.id}
+              className="liGroupName"
               onClick={async () => {
                 if (this.props.currentGroup !== -1) {
                   let oldGroupName = await Axios.get(
@@ -66,7 +67,7 @@ class GroupGrid extends Component {
                 ).catch(err => console.log(err));
                 this.props.delGroup(group);
               }}
-              className="delbtn"
+              className="delbtn delbtn2"
             >
               -
             </button>
