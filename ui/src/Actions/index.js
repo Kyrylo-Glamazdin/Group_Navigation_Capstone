@@ -46,9 +46,16 @@ export const changeInviteGroup = groupId => {
   }
 }
 
-export const addInvitations = inviteArr =>{
+export const addInvitation = inviteArr =>{
   return{
-    type: "ADD_INVITATIONS",
+    type: "ADD_INVITATION",
+    payload: inviteArr
+  }
+}
+
+export const setInvitation = inviteArr =>{
+  return{
+    type: "SET_INVITATION",
     payload: inviteArr
   }
 }

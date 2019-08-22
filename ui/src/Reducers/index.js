@@ -67,11 +67,14 @@ function isEquivalent(a, b) {
 
 const invitationReducer = (oldInvitations = [], action) =>{
   switch(action.type){
-    case "ADD_INVITATIONS":
+    case "ADD_INVITATION":
       return oldInvitations.concat(action.payload);
     case "REMOVE_INVITATION":
       let newInv= oldInvitations.filter(inv => !isEquivalent(inv,action.payload));
       return newInv;
+    case "CHANGE_INVITATION":
+      oldInvitations = action.payload;
+      return action.payload;
     default:
       return oldInvitations;
   }
