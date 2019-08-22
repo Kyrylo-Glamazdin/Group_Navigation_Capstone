@@ -55,6 +55,7 @@ class GroupGrid extends Component {
             <button
               key={group.id}
               onClick={async () => {
+                this.props.changeGroup(-1);
                 let req = {
                   id: this.props.login.id,
                   groupId: group.id

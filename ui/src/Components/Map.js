@@ -104,7 +104,6 @@ class Map extends Component {
       getPosition: d => (d.position),
       getSize: 90,
       pickable: true,
-      getName: d => d.name,
       // onHover: info => this.setState({
       //   hoveredObject: info.object,
       //   pointerX: info.x,
