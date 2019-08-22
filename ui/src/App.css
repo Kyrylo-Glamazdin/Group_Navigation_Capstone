@@ -1,4 +1,101 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+
 .App {
   text-align: center;
-  transition: margin-left .4s; /* If you want a transition effect */
+  transition: margin-left 0.4s; /* If you want a transition effect */
 }
+
+.chatbtn {
+  font-family: Montserrat, "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS";
+  font-weight: 400;
+  font-size: 14px;
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  bottom: 6%;
+  height: 40px;
+  width: 140px;
+  margin: 0;
+  right: 6%;
+  color: rgb(127, 201, 127);
+  transition: 150ms;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5);
+  outline: none;
+  background-color: rgb(209, 68, 68);
+  border-radius: 8px;
+  align-items: center;
+  font-size: 20px;
+  user-select: none;
+  cursor: pointer;
+}
+.chatbtn:hover {
+  transform: scale(1.03);
+  background-color: rgb(107, 184, 107);
+  color: rgb(196, 55, 55);
+}
+.chatbtn:active {
+  transform: scale(0.95);
+  /* background-color: rgb(101, 197, 101);  dsadsa */
+}
+
+.chatPopup {
+  font-family: Montserrat, "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS";
+  position: fixed;
+  bottom: 16%;
+  right: 30px;
+  transform: scale(0);
+  transition: 150ms all ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 28%;
+  width: 300px;
+  /* max-width: 80%; */
+  height: 200px;
+  background-color: rgb(163, 129, 129, 0.9);
+  border-radius: 8px;
+  z-index: 1;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5);
+  border: 0.3px gray solid;
+  user-select: none;
+}
+.chatPopup.activ {
+  transform: scale(1);
+}
+
+.chatBar {
+  display: flex;
+  align-items: center;
+  /* border-radius: 8px; */
+  /* background-color: rgb(167, 175, 182); */
+  border-bottom: black solid 0.3px;
+  width: 100%;
+  height: 32px;
+}
+
+#msgtag1 {
+  margin: 0 12px;
+}
+
+#msgInput {
+  position: absolute;
+  width: 100%;
+  background-color: rgba(250, 245, 245, 0.5);
+  height: 30px;
+  bottom: 0;
+}
+
+/* .x2 {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  right: 8px;
+
+  font-size: 28px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.1s all ease-in-out;
+}
+.x2:hover {
+  transform: scale(1.1);
+} */
