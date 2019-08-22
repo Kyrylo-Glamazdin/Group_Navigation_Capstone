@@ -14,7 +14,8 @@ class Form extends Component {
       name: "New Group",
       selectedUsers: [],
       address: "",
-      selected: []
+      selected: [],
+      error: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -76,8 +77,6 @@ class Form extends Component {
       users: [...this.state.selectedUsers, this.props.login]
     };
 
-    this.props.socket.emit("create", this.state.name);
-
     try {
       //converting the address of the group into coordinates
       let response = await axios.post(
@@ -85,12 +84,21 @@ class Form extends Component {
         { address: this.state.address }
       );
 
+      if(response.data ==="")
+      {
+        await this.setState({
+          error: 'Please enter a valid address'
+        });
+        return;
+      }
       //changes local state to these coverted coordinates and appends them to the newGroup object
       newGroup.latitude = response.data.lat;
       newGroup.longitude = response.data.lng;
     } catch (err) {
       console.log(err);
     }
+
+    this.props.socket.emit("create", this.state.name);
 
     try {
       //getting back all user paths to destination
@@ -111,6 +119,7 @@ class Form extends Component {
       console.log(err);
     }
 
+    console.log("HANDLE SUMBIT");
     this.props.addGroups(newGroup); //adds new group and paths to the redux store
 
     this.close();
@@ -194,6 +203,7 @@ class Form extends Component {
               />
             </div>
           </div>
+          <div className="errorMessages">{this.state.error}</div>
         </form>
       </div>
     );
