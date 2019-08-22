@@ -132,7 +132,10 @@ class Map extends Component {
     if (hoveredObject && hoveredObject.message == "Your Destination"){
       return hoveredObject && (
         <div className = "infoMessage" style={{position: 'absolute', zIndex: 1, pointerEvents: 'none', left: pointerX, top: pointerY}}>
-          {hoveredObject.travelTime }
+          {this.state.loadedETA ?
+          hoveredObject.travelTime :
+          "Loading..."
+          }
         </div>    
       );
     }
@@ -141,7 +144,10 @@ class Map extends Component {
     }
     return hoveredObject && (
       <div className = "infoMessage" style={{position: 'absolute', zIndex: 1, pointerEvents: 'none', left: pointerX, top: pointerY}}>
-        { hoveredObject.message  + " will reach the destination in " +  hoveredObject.travelTime }
+        {this.state.loadedETA ?
+        hoveredObject.message  + " will reach the destination in " +  hoveredObject.travelTime
+        :
+        "Loading..." }
       </div>    
     );
   }
