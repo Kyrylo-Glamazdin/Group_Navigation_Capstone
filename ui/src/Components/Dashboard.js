@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import decode from "jwt-decode";
-import { loginUser, addUsers, addGroups, addInvitations } from "../Actions";
+import { loginUser, addUsers, addGroups, addInvitation, setInvitation, removeInvitation, removeGroups } from "../Actions";
 import "./Dashboard.css";
 import GroupGrid from "./GroupGrid";
 import { Redirect } from "react-router";
@@ -62,15 +62,91 @@ class Dashboard extends Component {
       console.log(err);
     }
 
-    //stores all invites for the loged in user to the redux store
-    try {
-      let response = await axios.put("http://localhost:4000/api/invitations", {
-        id: user.id
-      });
-      this.props.addInvitations(response.data);
-    } catch (e) {
-      console.log(e);
-    }
+      //stores all invites for the loged in user to the redux store
+      try {
+        let response = await axios.put("http://localhost:4000/api/invitations", {
+          id: this.props.login.id
+        });
+        console.log('CALLED');
+        this.props.addInvitation(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+
+    this.props.socket.on('refresh-groups', async(data)=>{
+      try {
+        let users= data.newGroup.users;
+        console.log(data.newGroup);
+        for(let i = 0; i< users.length; i++)
+        {
+          if(users[i].id === this.props.login.id)
+          {
+            this.props.addGroups(data.newGroup); //Finally add all current user groups and paths to the redux store
+          }
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    })
+
+    this.props.socket.on('refresh-existing-group', async(data)=>{
+      if(data.group.users.length == 0)
+      {
+        this.props.removeGroups(data.group);
+        return;
+      }
+      let copy = data.group;
+      let userId = data.userId;
+      let userArr = copy.Users;
+      copy.users = userArr;
+      delete copy.Users;
+      delete copy.userId;
+      console.log(copy);
+      
+      let newGroup = {
+        users: copy.users,
+        latitude: copy.latitude,
+        longitude: copy.longitude
+      };
+      let path = await axios.post("http://localhost:4000/api/directions", {
+        newGroup})
+
+      copy.paths = path.data;
+      for(let i = 0; i< copy.users.length; i++)
+        {
+          if(copy.users[i].id == userId)
+          {
+            this.props.addGroups(copy);
+            break;
+          }
+          if(copy.users[i].id === this.props.login.id)
+          {
+            this.props.removeGroups(copy);// implement remove group
+            //Finally add all current user groups and paths to the redux store
+          }
+        }
+    })
+
+    this.props.socket.on('refresh-invitations', async(filler)=>{
+      try {
+        let invitations = await axios.put("http://localhost:4000/api/invitations", {
+          id: this.props.login.id
+        });
+        this.props.setInvitation(invitations.data);
+      } catch (e) {
+        console.log(e);
+      }
+    })
+
+    this.props.socket.on('refresh-shrinked-group', async(data) =>{
+      let newGroup =data.shrinkedGroup;
+      let id = data.userId;
+      if(this.props.login.id !== id){
+        this.props.removeGroups(newGroup);
+        this.props.addGroups(newGroup);
+      }
+
+    })
   };
 
   openNav() {
@@ -117,9 +193,34 @@ class Dashboard extends Component {
           </div>
           <ul className="msgbtm">
             {this.props.invites.map(invite => (
-              <li className="inviteList">{`${
-                invite.sender
-              } has invited you to join ${invite.groupName}`}</li>
+              <li className="inviteList">{`${invite.sender} has invited you to join ${
+                invite.groupName
+              }`}
+              <button
+              onClick = {async() => {
+                let group =await axios.put('http://localhost:4000/api/groups/add',{
+                  groupId: invite.groupId,
+                  id: invite.UserId
+                }).catch(err=>console.log(err))
+
+                await axios.post('http://localhost:4000/api/invitations/delete',{
+                  id: invite.id
+                }).catch(err=>console.log(err))
+
+                this.props.removeInvitation(invite);
+                this.props.socket.emit('refresh',{group: group.data[0],userId:this.props.login.id});
+              }}
+              >Accept</button>
+              <button
+              onClick = {async()=>{
+                await axios.post('http://localhost:4000/api/invitations/delete',{
+                  id: invite.id
+                }).catch(err=>console.log(err))
+            
+                this.props.removeInvitation(invite);
+              }}
+              >Decline</button>
+              </li>
             ))}
           </ul>
         </div>
@@ -141,5 +242,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { loginUser, addUsers, addGroups, addInvitations }
+  { loginUser, addUsers, addGroups, addInvitation,setInvitation, removeInvitation, removeGroups }
 )(Dashboard);

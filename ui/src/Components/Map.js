@@ -21,11 +21,20 @@ let colors = [
   [235, 125, 34]
 ];
 
+let selectedColors = [];
+
 let curEndOfColorArray = colors.length;
 
 class Map extends Component {
   constructor (props){
     super(props);
+    this.state = {
+      x: 0,
+      y: 0,
+      hoveredItems: null,
+      expanded: false,
+      colorsSelected: false
+    };
     this.findGroupById = this.findGroupById.bind(this);
     this.selectRandomColor = this.selectRandomColor.bind(this);
   }
@@ -49,13 +58,21 @@ class Map extends Component {
     if (curEndOfColorArray <= 0){
       curEndOfColorArray = colors.length;
     }
+    selectedColors.push(selectedColor)
     return selectedColor;
+  }
+
+  selectChosenColor(number){
+    if (selectedColors[number] !== undefined){
+      return selectedColors[number];
+    }
+    return [235, 231, 237];
   }
 
   _renderTooltip() {
     const {hoveredObject, pointerX, pointerY} = this.state || {};
     return hoveredObject && (
-      <div style={{position: 'absolute', zIndex: 1, pointerEvents: 'none', left: pointerX, top: pointerY}}>
+      <div style={{position: 'absolute', background: "white", zIndex: 1, pointerEvents: 'none', left: pointerX, top: pointerY}}>
         { hoveredObject.message }
       </div>
     );
@@ -92,7 +109,7 @@ class Map extends Component {
         height: 128,
         anchorY: 128
       },
-      name: workingGroup.users[i].name
+      message: workingGroup.users[i].name
     }
     let coordinatesData = [];
     coordinatesData.push(dataObject);
@@ -104,11 +121,15 @@ class Map extends Component {
       getPosition: d => (d.position),
       getSize: 90,
       pickable: true,
-      // onHover: info => this.setState({
-      //   hoveredObject: info.object,
-      //   pointerX: info.x,
-      //   pointerY: info.y
-      // })
+      onHover: info =>{ 
+      console.log(info)
+      console.log("object above")
+      this.setState({
+        hoveredObject: info.object,
+        pointerX: info.x+16,
+        pointerY: info.y-3
+      })
+    }
       });
 
     userIcons.push(newIcon);
@@ -128,7 +149,7 @@ class Map extends Component {
       height: 128,
       anchorY: 128
     },
-    message: "Hover over me!"
+    message: "Your Destination"
   }
 destinationData.push(destinationObject);
 console.log(destinationData);
@@ -140,11 +161,11 @@ console.log(destinationData);
     getPosition: d => d.position,
     getSize: 90,
     pickable: true,
-    // onHover: info => this.setState({
-    //   hoveredObject: info.object,
-    //   pointerX: info.x,
-    //   pointerY: info.y
-    // })
+    onHover: info => this.setState({
+      hoveredObject: info.object,
+      pointerX: info.x+16,
+      pointerY: info.y-3
+    })
   })
 
   let pathData = [];
@@ -157,15 +178,27 @@ console.log(destinationData);
       }
       currentUserPath.push(reversedPath);
     }
-    
+
     let nextPath = [ 
       {
         name: workingGroup.users[i].name + "-path",
-        color: this.selectRandomColor(),
         path: currentUserPath,
       }
     ]
+
+    if (!this.state.colorsSelected){
+      nextPath[0].color = this.selectRandomColor();
+    }
+    else {
+      nextPath[0].color = this.selectChosenColor(i);
+    }
     pathData.push(nextPath);
+  }
+
+  if (!this.state.colorsSelected){
+    this.setState({
+      colorsSelected: true
+    })
   }
 
   let userPathAndIconLayers = [];
@@ -188,7 +221,6 @@ console.log(destinationData);
 
   this.callAxios(workingGroup);
 
-
 return (
   <React.Fragment>
    <DeckGL
@@ -202,11 +234,11 @@ return (
     controller={true}
     layers={userPathAndIconLayers} // layer here
    >
-   {this._renderTooltip()}
      <StaticMap
        mapStyle='mapbox://styles/mapbox/dark-v9'
        mapboxApiAccessToken = {process.env.REACT_APP_MB_API_KEY}
       />
+      { this._renderTooltip() }
    </DeckGL>
   </React.Fragment>
   )

@@ -20,11 +20,10 @@ class GroupGrid extends Component {
           <div className="groupbar" key={group.id}>
             <button
               onClick={async () => {
-                console.log("opening popup !!!!");
                 document.querySelector("#overlay").classList.add("activ");
                 document.querySelector(".popup").classList.add("activ");
 
-                // await this.props.changeInviteGroup(group.id);// ------------------------------
+                this.props.changeInviteGroup(group.id);
               }}
               className="delbtn delbtn1"
             >
@@ -61,11 +60,25 @@ class GroupGrid extends Component {
                   id: this.props.login.id,
                   groupId: group.id
                 };
+
+                let newGroup = group;
+                for(let i = 0; i < newGroup.users.length;i++)
+                {
+                  if(newGroup.users[i].id === this.props.login.id)
+                  {
+                    newGroup.users.splice(i, 1);
+                    newGroup.paths.splice(i,1);
+                    break;
+                  }
+                }
+
                 await Axios.put(
                   "http://localhost:4000/api/groups/remove",
                   req
                 ).catch(err => console.log(err));
                 this.props.delGroup(group);
+
+                this.props.socket.emit('refresh', {shrinkedGroup: newGroup, userId: this.props.login.id})
               }}
               className="delbtn delbtn2"
             >

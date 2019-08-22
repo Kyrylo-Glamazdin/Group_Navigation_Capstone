@@ -104,6 +104,22 @@ class Form extends Component {
       let response = await axios.post("http://localhost:4000/api/directions", {
         newGroup
       });
+      let bool = true;
+      for(let j = 0; j < response.data.length; j++)
+      {
+        if(response.data[j].length === 0)
+        {
+          bool = false;
+          break;
+        }
+      }
+
+      if(!bool){
+        await this.setState({
+          error: "Paths could not be found to destination"
+        });
+        return;
+      }
       newGroup.paths = response.data;
     } catch (err) {
       console.log(err);
@@ -117,10 +133,9 @@ class Form extends Component {
     } catch (err) {
       console.log(err);
     }
+  //adds new group and paths to the redux store
 
-    console.log("HANDLE SUMBIT");
-    this.props.addGroups(newGroup); //adds new group and paths to the redux store
-
+    this.props.socket.emit('refresh',{newGroup: newGroup});
     this.close();
   }
 

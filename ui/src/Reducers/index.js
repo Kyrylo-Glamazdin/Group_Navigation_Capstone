@@ -22,6 +22,9 @@ const groupsReducer = (oldGroups = [], action) => {
     case "DEL_GROUP":
       let ngr = oldGroups.filter(gp => gp !== action.payload);
       return ngr;
+    case "REMOVE_GROUP":
+      let no = oldGroups.filter(gp => gp.id !== action.payload.id);
+      return no;
     default:
       return oldGroups;
   }
@@ -49,11 +52,32 @@ const invMembersReducer = (oldInvMembersGroupId = invMembersGroupId, action) => 
   }
 }
 
+function isEquivalent(a, b) {
+  var aProps = Object.getOwnPropertyNames(a);
+  var bProps = Object.getOwnPropertyNames(b);
+
+  if (aProps.length != bProps.length) {
+      return false;
+  }
+  for (var i = 0; i < aProps.length; i++) {
+      var propName = aProps[i];
+      if (a[propName] !== b[propName]) {
+          return false;
+      }
+  }
+  return true;
+}
+
 const invitationReducer = (oldInvitations = [], action) =>{
   switch(action.type){
-    case "ADD_INVITATIONS":
+    case "ADD_INVITATION":
       return oldInvitations.concat(action.payload);
-
+    case "REMOVE_INVITATION":
+      let newInv= oldInvitations.filter(inv => !isEquivalent(inv,action.payload));
+      return newInv;
+    case "SET_INVITATION":
+      oldInvitations = action.payload;
+      return action.payload;
     default:
       return oldInvitations;
   }

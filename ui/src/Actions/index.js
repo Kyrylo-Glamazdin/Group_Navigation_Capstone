@@ -12,6 +12,13 @@ export const addGroups = groups => {
   };
 };
 
+export const removeGroups = group => {
+  return{
+    type: "REMOVE_GROUP",
+    payload: group
+  }
+}
+
 export const delGroup = group => {
   return {
     type: "DEL_GROUP",
@@ -46,9 +53,23 @@ export const changeInviteGroup = groupId => {
   }
 }
 
-export const addInvitations = inviteArr =>{
+export const addInvitation = inviteArr =>{
   return{
-    type: "ADD_INVITATIONS",
+    type: "ADD_INVITATION",
     payload: inviteArr
+  }
+}
+
+export const setInvitation = inviteArr =>{
+  return{
+    type: "SET_INVITATION",
+    payload: inviteArr
+  }
+}
+
+export const removeInvitation = invite => {
+  return{
+    type: "REMOVE_INVITATION",
+    payload: invite
   }
 }
