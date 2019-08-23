@@ -187,20 +187,28 @@ button:hover {
   /* display: flex; */
   display: block;
   list-style-position: inside;
-  padding-left: 8px;
-  padding-right: 10px;
+  padding-left: 0;
+  padding-right: 20px;
   overflow: visible;
+  /* padding: 0;
+  list-style-type: none; */
 }
+
 .msgbtm:hover {
   transform: scale(1.02);
   background-color: rgba(250, 245, 245, 0.5);
 }
 .inviteList {
   /* position: absolute; */
-
   /* font-size: 10pt;
   height: 15pt; */
-  padding: 1px 0;
+  /* width: 110%; */
+  /* background-color: #524444; */
+  padding-bottom: 2px;
+  margin: auto;
+  color: rgb(63, 54, 54);
+  border-bottom: #d4b1b1 solid 0.6px;
+  font-size: 13px;
 }
 .inviMsg {
   /* font-size: 16px; */
@@ -214,6 +222,10 @@ button:hover {
 #inviTag {
   /* background: #4caf50; */
   margin: auto 12px;
+  font-family: Verdana, Geneva, sans-serif;
+  /* font-weight: 400; */
+  font-size: 17px;
+  color: rgb(63, 54, 54);
 }
 .msgup {
   /* text-transform: lowercase; */
@@ -250,7 +262,7 @@ button:hover {
   left: 0;
   bottom: -46px;
   width: 100px;
-  background-color: rgb(163, 136, 136);
+  background-color: rgb(161, 131, 131);
   text-align: center;
 }
 .acceptBtn:hover {
@@ -269,6 +281,7 @@ button:hover {
 .declineBtn:hover {
   transform: scale(1.1);
   z-index: 1000;
-  /* background-color: rgb(196, 55, 55); */
+
+  background-color: rgb(90, 59, 59);
   box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.3);
 }

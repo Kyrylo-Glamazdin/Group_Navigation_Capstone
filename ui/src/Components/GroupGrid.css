@@ -8,6 +8,10 @@ ul {
   padding-right: 3vw;
 }
 
+#groups {
+  padding-top: 5px;
+}
+
 .groupbar {
   /* display: block; */
   /* width: 100%; */
@@ -29,9 +33,11 @@ ul {
   /* color: rgb(179, 165, 148); */
   color: rgb(224, 221, 221);
   font-size: 16px;
-  font-weight: 100;
   border-radius: 5px;
-  font-family: Verdana, Geneva, sans-serif, Montserrat;
+  font-family: Montserrat, Verdana, Geneva, sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.3px;
+  word-spacing: 4px;
 }
 .liGroupName:hover {
   transform: scale(1.1);
