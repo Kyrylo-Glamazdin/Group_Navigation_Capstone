@@ -48,6 +48,7 @@ class Map extends Component {
     this.getUserETA = this.getUserETA.bind(this);
     this.findLargestTravelTime = this.findLargestTravelTime.bind(this);
     this.convertTravelTimeToMinutes = this.convertTravelTimeToMinutes.bind(this);
+    this.findUserByName = this.findUserByName.bind(this);
   }
   
 
@@ -127,6 +128,16 @@ class Map extends Component {
     return maxTime;
   }
 
+  findUserByName(name){
+    let workingGroup = this.findGroupById();
+    for (let i = 0; i < workingGroup.users.length; i++){
+      if (workingGroup.users[i].name == name){
+        return workingGroup.users[i];
+      }
+    }
+    return undefined;
+  }
+
   _renderTooltip() {
     const {hoveredObject, pointerX, pointerY} = this.state || {};
     if (hoveredObject && hoveredObject.message == "Your Destination"){
@@ -140,7 +151,19 @@ class Map extends Component {
       );
     }
     if (hoveredObject){
-      // let hoveredUser = this.findUserByLocation()
+      let curHoveredUser = this.findUserByName(hoveredObject.message);
+      if (curHoveredUser !== undefined && this.state.hoveredUser == null){
+        this.setState({
+          hoveredUser: curHoveredUser
+        })
+      }
+    }
+    else{
+      if (this.state.hoveredUser != null){
+        this.setState({
+          hoveredUser: null
+        })
+      }
     }
     return hoveredObject && (
       <div className = "infoMessage" style={{position: 'absolute', zIndex: 1, pointerEvents: 'none', left: pointerX, top: pointerY}}>
@@ -172,8 +195,6 @@ class Map extends Component {
   let userPaths = [];
   let userIcons = [];
   let workingGroup = this.findGroupById();
-  console.log(this.state.previousGroup);
-    console.log(workingGroup.id)
 
 
     if (this.state.previousGroup !== this.props.currentGroup){
@@ -286,8 +307,18 @@ destinationData.push(destinationObject);
     if (!this.state.colorsSelected){
       nextPath[0].color = this.selectRandomColor();
     }
-    else {
-      nextPath[0].color = this.selectChosenColor(i);
+    else{
+      if (this.state.hoveredUser == null){
+        nextPath[0].color = this.selectChosenColor(i);
+      }
+      else{
+        if (workingGroup.users[i].name == this.state.hoveredUser.name){
+          nextPath[0].color = this.selectChosenColor(i);
+        }
+        else{
+          nextPath[0].color = [255,255,255,1]
+        }
+      }
     }
     pathData.push(nextPath);
   }
