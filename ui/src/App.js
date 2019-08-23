@@ -102,7 +102,7 @@ class App extends Component {
             {/* <div className="" id="overlay" /> */}
           </div>
         </div>
-        <Chat />
+        <Chat socket = {socket}/>
       </div>
     );
 
