@@ -10,8 +10,8 @@ class Login extends Component {
       email: "",
       password: "",
       name: "",
-      lat: 40.6385,
-      long: -73.9732
+      lat: 40.771835,
+      long: -73.974812
     },
     error: "",
     log: true
