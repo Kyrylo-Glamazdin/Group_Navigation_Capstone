@@ -388,7 +388,7 @@ destinationData.push(destinationObject);
 
 return (
   <div>
-    <div className = "infoMessage" style={{position: 'absolute', zIndex: 1, left: 1350, top: 20}}>
+    <div className = "infoMessage" style={{position: 'absolute', zIndex: 1, left: '80vw', top: 20}}>
       {this.state.loadedETA ?
       <div>
         All members will reach the destination in {this.findLargestTravelTime()}
@@ -398,7 +398,7 @@ return (
 
     <div className = "clearSelection" onClick = {this.resetClickedUser}>
       {this.state.clickedUser ?
-      <div className = "resetButton" style={{position: 'absolute', zIndex: 1, left: 1495, top: 65}}>
+      <div className = "resetButton" style={{position: 'absolute', zIndex: 1, left: '87vw', top: '12vh'}}>
         Clear Selection
       </div> :
       ""}
