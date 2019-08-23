@@ -56,10 +56,6 @@ class GroupGrid extends Component {
               key={group.id}
               onClick={async () => {
                 this.props.changeGroup(-1);
-                let req = {
-                  id: this.props.login.id,
-                  groupId: group.id
-                };
 
                 let newGroup = group;
                 for(let i = 0; i < newGroup.users.length;i++)
@@ -72,11 +68,10 @@ class GroupGrid extends Component {
                   }
                 }
 
-                await Axios.put(
-                  "http://localhost:4000/api/groups/remove",
-                  req
-                ).catch(err => console.log(err));
-                this.props.delGroup(group);
+                await Axios.put("http://localhost:4000/api/groups/remove",{
+                  id: this.props.login.id,
+                  groupId: group.id
+                }).catch(err => console.log(err));
 
                 this.props.socket.emit('refresh', {shrinkedGroup: newGroup, userId: this.props.login.id})
               }}

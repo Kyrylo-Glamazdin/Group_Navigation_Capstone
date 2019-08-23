@@ -82,7 +82,7 @@ class Dashboard extends Component {
       console.log(e);
     }
 
-    this.props.socket.on('refresh-add-groups', async(data)=>{
+    this.props.socket.on('refresh-add-groups', async(data)=>{ //submitting form func
       try {
         let users = data.newGroup.users;
         console.log(data.newGroup);
@@ -96,42 +96,40 @@ class Dashboard extends Component {
       }
     });
 
-    this.props.socket.on("refresh-existing-group", async data => {
-      if (data.group.users.length == 0) {
-        this.props.removeGroups(data.group);
-        return;
-      }
-      let copy = data.group;
+    this.props.socket.on("refresh-existing-group", async data => { //accepting invite func
+
+      let group = data.group;
       let userId = data.userId;
-      let userArr = copy.Users;
-      copy.users = userArr;
-      delete copy.Users;
-      delete copy.userId;
-      console.log(copy);
 
       let newGroup = {
-        users: copy.users,
-        latitude: copy.latitude,
-        longitude: copy.longitude
+        users: group.Users,
+        latitude: group.latitude,
+        longitude: group.longitude
       };
+
       let path = await axios.post("http://localhost:4000/api/directions", {
         newGroup
       });
 
-      copy.paths = path.data;
-      for (let i = 0; i < copy.users.length; i++) {
-        if (copy.users[i].id == userId) {
-          this.props.addGroups(copy);
-          break;
-        }
-        if (copy.users[i].id === this.props.login.id) {
-          this.props.removeGroups(copy); // implement remove group
-          //Finally add all current user groups and paths to the redux store
+      newGroup.paths = path.data;
+      newGroup.id = group.id;
+      newGroup.name = group.name;
+      if (this.props.login.id === userId) {
+        await this.props.addGroups(newGroup); //simply add group because this user acepted the invite
+      }
+      else
+      {
+        for (let i = 0; i < newGroup.users.length; i++) {
+          if (newGroup.users[i].id === this.props.login.id) {
+            await this.props.removeGroups(newGroup); // removes instance of the newGroup
+            await this.props.addGroups(newGroup);// add adds an updated instance of that group
+            break;
+          }
         }
       }
     });
 
-    this.props.socket.on("refresh-invitations", async filler => {
+    this.props.socket.on("refresh-invitations", async filler => { //sending invites func
       try {
         let invitations = await axios.put(
           "http://localhost:4000/api/invitations",
@@ -148,9 +146,21 @@ class Dashboard extends Component {
     this.props.socket.on("refresh-shrinked-group", async data => {
       let newGroup = data.shrinkedGroup;
       let id = data.userId;
-      if (this.props.login.id !== id) {
-        this.props.removeGroups(newGroup);
-        this.props.addGroups(newGroup);
+      console.log(newGroup);
+
+      if (this.props.login.id === id) {
+        this.props.removeGroups(newGroup); //remove group from user that clicked remove
+      }
+      else
+      {
+        for(let i = 0; i< newGroup.users.length; i++)
+        {
+          if (newGroup.users[i].id === this.props.login.id) {
+            await this.props.removeGroups(newGroup); // removes instance of the newGroup
+            await this.props.addGroups(newGroup);// add adds an updated instance of that group
+            break;
+          }
+        }
       }
     });
   };
