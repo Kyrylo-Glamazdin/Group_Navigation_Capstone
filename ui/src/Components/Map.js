@@ -355,7 +355,7 @@ destinationData.push(destinationObject);
           nextPath[0].color = this.selectChosenColor(i);
         }
         else{
-          nextPath[0].color = [255,255,255,1]
+          nextPath[0].color = [20,20,20,0]
         }
       }
     }
