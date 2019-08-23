@@ -39,6 +39,7 @@ class Popup extends Component {
   sendUsers = async () => {
     //retrieve the group that this pop up is referring to
     let groupN = await Axios.get('http://localhost:4000/api/groups/' + this.props.invGroup)
+    console.log(groupN.data);
     let newGroup = {
       users: this.state.selected,
       groupName : groupN.data.name,

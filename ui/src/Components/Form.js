@@ -11,7 +11,7 @@ class Form extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "New Group",
+      name: "",
       selectedUsers: [],
       address: "",
       selected: [],
@@ -78,6 +78,21 @@ class Form extends Component {
     };
 
     try {
+      if(this.state.address === '')
+      {
+        this.setState({
+          error: 'Please Enter an Address'
+        })
+        return;
+      }
+      if(this.state.name === '')
+      {
+        this.setState({
+          error: 'Please enter a group name'
+        })
+        return;
+      }
+
       //converting the address of the group into coordinates
       let response = await axios.post(
         "http://localhost:4000/api/directions/address",

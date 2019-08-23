@@ -74,7 +74,7 @@ class Dashboard extends Component {
         console.log(e);
       }
 
-    this.props.socket.on('refresh-groups', async(data)=>{
+    this.props.socket.on('refresh-add-groups', async(data)=>{
       try {
         let users= data.newGroup.users;
         console.log(data.newGroup);
