@@ -52,6 +52,15 @@ const invMembersReducer = (oldInvMembersGroupId = invMembersGroupId, action) => 
   }
 }
 
+const popupUsers = (oldPopupUsers = [], action) =>{
+  switch(action.type){
+    case 'SET_POPUP_USERS':
+      oldPopupUsers = action.payload
+      return oldPopupUsers;
+    default:
+      return oldPopupUsers;
+  }
+}
 function isEquivalent(a, b) {
   var aProps = Object.getOwnPropertyNames(a);
   var bProps = Object.getOwnPropertyNames(b);
@@ -98,5 +107,6 @@ export default combineReducers({
   login: loginReducer,
   currentGroup: currentGroupReducer,
   invGroup : invMembersReducer,
-  invites : invitationReducer
+  invites : invitationReducer,
+  popupUsers: popupUsers
 });

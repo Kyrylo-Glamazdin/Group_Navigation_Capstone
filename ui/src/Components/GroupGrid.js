@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./GroupGrid.css";
 import { connect } from "react-redux";
 import { delGroup } from "../Actions";
-import { changeGroup, changeInviteGroup } from "../Actions";
+import { changeGroup, changeInviteGroup, setPopupUsers } from "../Actions";
 import Axios from "axios";
 
 class GroupGrid extends Component {
@@ -23,6 +23,20 @@ class GroupGrid extends Component {
                 document.querySelector("#overlay").classList.add("activ");
                 document.querySelector(".popup").classList.add("activ");
 
+                let response = await Axios.put('http://localhost:4000/api/groups/', {id:group.id});
+                let users = response.data;
+                let all = this.props.users;
+                let filtered = all.filter(user =>{
+                  for(let i = 0; i < users.length; i++)
+                  {
+                    if(users[i].id === user.id)
+                    {
+                      return false;
+                    }
+                  }
+                  return true;
+                })
+                this.props.setPopupUsers(filtered);
                 this.props.changeInviteGroup(group.id);
               }}
               className="delbtn delbtn1"
@@ -91,11 +105,12 @@ const mapStateToProps = state => {
   return {
     groups: state.groups,
     login: state.login,
+    users: state.users,
     currentGroup: state.currentGroup
   };
 };
 
 export default connect(
   mapStateToProps,
-  { delGroup, changeGroup, changeInviteGroup }
+  { delGroup, changeGroup, changeInviteGroup, setPopupUsers }
 )(GroupGrid);

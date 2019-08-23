@@ -13,8 +13,8 @@ class Popup extends Component {
   componentDidMount = async () => {
     console.log();
     setTimeout(() => {
-      console.log("Popup users --- ", this.props.users);
-      let selected2 = this.props.users.map(us => {
+      console.log("Popup users --- ", this.props.popupUsers);
+      let selected2 = this.props.popupUsers.map(us => {
         if (true) return 0;
       }, 1000);
       this.setState({ users: selected2 });
@@ -76,7 +76,8 @@ class Popup extends Component {
   };
 
   render() {
-    const { users } = this.props;
+    const { popupUsers } = this.props;
+
     return (
       <div className="">
         <div className="popup">
@@ -84,7 +85,7 @@ class Popup extends Component {
             &times;
           </div>
           <div className="barlist">
-            {users.map((us, idx) => (
+            {popupUsers.map((us, idx) => (
               <Userbar
                 key={us.id}
                 user={us}
@@ -109,7 +110,8 @@ const mapState = state => {
   return {
     users: state.users,
     login: state.login,
-    invGroup: state.invGroup
+    invGroup: state.invGroup,
+    popupUsers: state.popupUsers
   };
 };
 

@@ -73,3 +73,10 @@ export const removeInvitation = invite => {
     payload: invite
   }
 }
+
+export const setPopupUsers = groupId => {
+  return {
+    type: "SET_POPUP_USERS",
+    payload: groupId
+  }
+}
