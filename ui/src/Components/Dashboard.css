@@ -48,6 +48,7 @@
   box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5);
   outline: none;
   background-color: rgb(196, 55, 55);
+  z-index: 10;
 }
 .createbtn:hover {
   transform: scale(1.03);
@@ -163,7 +164,7 @@ button:hover {
   padding: 0;  */
   /* background-color: #fff; */
   position: absolute;
-  bottom: 123px;
+  bottom: 172px;
   height: 50px;
   width: 95%;
   margin: 0;
@@ -174,7 +175,7 @@ button:hover {
   position: relative;
   background-color: rgba(250, 245, 245, 0.5);
   border-radius: 5px;
-  height: 84px;
+  height: 88px;
   width: 88%;
   margin: 2px auto;
   margin-bottom: 10px;
@@ -188,7 +189,7 @@ button:hover {
   list-style-position: inside;
   padding-left: 8px;
   padding-right: 10px;
-  overflow: hidden;
+  overflow: visible;
 }
 .msgbtm:hover {
   transform: scale(1.02);
@@ -237,4 +238,37 @@ button:hover {
 .msgup:hover {
   transform: scale(1.02);
   background-color: rgba(250, 245, 245, 0.5);
+}
+
+.acceptBtn {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  align-items: center;
+  /* height: 30px; */
+  position: absolute;
+  left: 0;
+  bottom: -46px;
+  width: 100px;
+  background-color: rgb(163, 136, 136);
+  text-align: center;
+}
+.acceptBtn:hover {
+  transform: scale(1.1);
+  z-index: 1000;
+  /* background-color: rgb(196, 55, 55); */
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.3);
+}
+.declineBtn {
+  position: absolute;
+  right: 0;
+  bottom: -46px;
+  width: 100px;
+  background-color: rgb(114, 84, 84);
+}
+.declineBtn:hover {
+  transform: scale(1.1);
+  z-index: 1000;
+  /* background-color: rgb(196, 55, 55); */
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.3);
 }
