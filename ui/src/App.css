@@ -9,11 +9,17 @@
   text-align: center;
   transition: margin-left 0.4s; /* If you want a transition effect */
 }
+.App::-webkit-scrollbar {
+  width: 0 !important;
+}
 :root {
   background-image: url("https://images6.alphacoders.com/481/481285.jpg");
-  background-size: "cover";
-  overflow: "hidden";
   background-size: cover;
+  overflow: "hidden";
+}
+:root::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
 }
 
 .chatbtn {
