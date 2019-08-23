@@ -231,6 +231,7 @@ class Map extends Component {
 
 
     if (this.state.previousGroup !== this.props.currentGroup){
+      this.resetClickedUser();
       this.setState({
         previousGroup: this.props.currentGroup,
         loadedETA: false
