@@ -4,8 +4,24 @@
     padding-right: 10px;
     padding-top: 5px;
     padding-bottom: 5px;
-    background: rgba(42, 33, 33, 0.842);
+    background: rgba(42, 33, 33, 0.950);
     color: white;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 15pt
+}
+
+.resetButton {
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background: rgba(202, 68, 68, 0.950);
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15pt;
+}
+
+.resetButton:hover {
+    transform: scale(1.1);
 }

@@ -40,6 +40,7 @@ class Map extends Component {
       previousGroup: this.props.currentGroup,
       etaResponse: [],
       hoveredUser: null,
+      clickedUser: null,
       loadedETA: false
     };
     this.findGroupById = this.findGroupById.bind(this);
@@ -48,6 +49,9 @@ class Map extends Component {
     this.getUserETA = this.getUserETA.bind(this);
     this.findLargestTravelTime = this.findLargestTravelTime.bind(this);
     this.convertTravelTimeToMinutes = this.convertTravelTimeToMinutes.bind(this);
+    this.findUserByName = this.findUserByName.bind(this);
+    this.handleClickedObject = this.handleClickedObject.bind(this);
+    this.resetClickedUser = this.resetClickedUser.bind(this);
   }
   
 
@@ -127,6 +131,16 @@ class Map extends Component {
     return maxTime;
   }
 
+  findUserByName(name){
+    let workingGroup = this.findGroupById();
+    for (let i = 0; i < workingGroup.users.length; i++){
+      if (workingGroup.users[i].name == name){
+        return workingGroup.users[i];
+      }
+    }
+    return undefined;
+  }
+
   _renderTooltip() {
     const {hoveredObject, pointerX, pointerY} = this.state || {};
     if (hoveredObject && hoveredObject.message == "Your Destination"){
@@ -140,7 +154,19 @@ class Map extends Component {
       );
     }
     if (hoveredObject){
-      // let hoveredUser = this.findUserByLocation()
+      let curHoveredUser = this.findUserByName(hoveredObject.message);
+      if (curHoveredUser !== undefined && this.state.hoveredUser == null){
+        this.setState({
+          hoveredUser: curHoveredUser
+        })
+      }
+    }
+    else{
+      if (this.state.hoveredUser != null){
+        this.setState({
+          hoveredUser: null
+        })
+      }
     }
     return hoveredObject && (
       <div className = "infoMessage" style={{position: 'absolute', zIndex: 1, pointerEvents: 'none', left: pointerX, top: pointerY}}>
@@ -151,6 +177,36 @@ class Map extends Component {
       </div>    
     );
   }
+
+
+  handleClickedObject() {
+    const {clickedObject, pointerX, pointerY} = this.state || {};
+    if (clickedObject){
+      let curClickedUser = this.findUserByName(clickedObject.message);
+      if (curClickedUser !== undefined && this.state.clickedUser != curClickedUser){
+        this.setState({
+          clickedUser: curClickedUser
+        })
+      }
+    }
+    else{
+      if (this.state.clickedUser != null){
+        this.setState({
+          clickedUser: null
+        })
+      }
+    }
+  }
+
+  resetClickedUser(){
+    if (this.state.clickedUser != null){
+      this.setState({
+        clickedObject: null,
+        clickedUser: null
+      })
+    }
+  }
+  
 
   callAxios = async (workingGroup) => {
     let response = await axios.post("http://localhost:4000/api/directions/eta", {workingGroup}).catch(err => {console.log(err)});
@@ -172,8 +228,6 @@ class Map extends Component {
   let userPaths = [];
   let userIcons = [];
   let workingGroup = this.findGroupById();
-  console.log(this.state.previousGroup);
-    console.log(workingGroup.id)
 
 
     if (this.state.previousGroup !== this.props.currentGroup){
@@ -228,7 +282,12 @@ class Map extends Component {
         pointerX: info.x+16,
         pointerY: info.y-3
       })
-    }
+      },
+      onClick: info => this.setState({
+      clickedObject: info.object,
+      pointerX: info.x+16,
+      pointerY: info.y-3
+      })
       });
 
     userIcons.push(newIcon);
@@ -286,8 +345,18 @@ destinationData.push(destinationObject);
     if (!this.state.colorsSelected){
       nextPath[0].color = this.selectRandomColor();
     }
-    else {
-      nextPath[0].color = this.selectChosenColor(i);
+    else{
+      if (this.state.clickedUser == null){
+        nextPath[0].color = this.selectChosenColor(i);
+      }
+      else{
+        if (workingGroup.users[i].name == this.state.clickedUser.name){
+          nextPath[0].color = this.selectChosenColor(i);
+        }
+        else{
+          nextPath[0].color = [255,255,255,1]
+        }
+      }
     }
     pathData.push(nextPath);
   }
@@ -325,6 +394,14 @@ return (
       </div> :
       "Loading..."}
     </div>
+
+    <div className = "clearSelection" onClick = {this.resetClickedUser}>
+      {this.state.clickedUser ?
+      <div className = "resetButton" style={{position: 'absolute', zIndex: 1, left: 1495, top: 65}}>
+        Clear Selection
+      </div> :
+      ""}
+    </div>
   <React.Fragment>
    <DeckGL
     initialViewState={{
@@ -342,6 +419,7 @@ return (
        mapboxApiAccessToken = {process.env.REACT_APP_MB_API_KEY}
       />
       { this._renderTooltip() }
+      { this.handleClickedObject() }
    </DeckGL>
   </React.Fragment>
   </div>
