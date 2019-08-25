@@ -7,8 +7,11 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import {IconLayer} from '@deck.gl/layers';
 import axios from 'axios'
 import './Map.css'
-// data needed for overlay here
 
+/*** This is the Map component which renders the map and all of the user paths, as well as their icons and ETAs ***/
+
+
+//path colors will be randomly chosen from this array
 let colors = [
   [115, 241, 206],
   [0, 196, 0],
@@ -22,9 +25,10 @@ let colors = [
   [235, 125, 34]
 ];
 
+//this array will be filled up with the randomly chosen colors for users' paths
 let selectedColors = [];
+//this array fill have all of the users' estimated travel times
 let travelTimes = [];
-let onHoverColors = [];
 
 let curEndOfColorArray = colors.length;
 
@@ -34,8 +38,6 @@ class Map extends Component {
     this.state = {
       x: 0,
       y: 0,
-      hoveredItems: null,
-      expanded: false,
       colorsSelected: false,
       previousGroup: this.props.currentGroup,
       etaResponse: [],
@@ -54,7 +56,7 @@ class Map extends Component {
     this.resetClickedUser = this.resetClickedUser.bind(this);
   }
   
-
+  //finds and returns the group whose id is equal to this.props.currentGroup
   findGroupById(){
     for (let i = this.props.groups.length - 1; i >= 0; i--){
       if (this.props.groups[i].id === this.props.currentGroup){
@@ -63,27 +65,31 @@ class Map extends Component {
     }
   }
 
+  //selects random colors for the user paths from the 'colors' array.
+  //the same color cannot be chosen twice, unless the size of the group exceeds the length of the array.
   selectRandomColor(){
     let randomColorNum = Math.floor(Math.random() * curEndOfColorArray);
     let selectedColor = colors[randomColorNum];
-    let temp = colors[curEndOfColorArray - 1];
+    let temp = colors[curEndOfColorArray - 1]; //swap randomly selected color with the color at the current end of the array
     colors[curEndOfColorArray - 1] = selectedColor;
     colors[randomColorNum] = temp;
-    curEndOfColorArray--;
+    curEndOfColorArray--; //decrease current end of the array
     if (curEndOfColorArray <= 0){
-      curEndOfColorArray = colors.length;
+      curEndOfColorArray = colors.length; //if all colors are selected, reset array's length
     }
     selectedColors.push(selectedColor)
     return selectedColor;
   }
 
+  //returns the color which was already selected for the particular path
   selectChosenColor(number){
     if (selectedColors[number] !== undefined){
       return selectedColors[number];
     }
-    return [235, 231, 237];
+    return [235, 231, 237]; //return light gray as default
   }
 
+  //returns estimated travel time of the user
   getUserETA(number){
     if (travelTimes[number] !== undefined){
       return travelTimes[number];
@@ -91,6 +97,8 @@ class Map extends Component {
     return 0;
   }
 
+  //estimated travel time from google directions api response if formatted in the following way: "30 mins", or "1 hour 15 mins".
+  //this function converts ETA from google directions response to an integer that corresponds to the number of minutes
   convertTravelTimeToMinutes(travelTime){
     let minutes = 0;
     let allNums = [];
@@ -116,6 +124,7 @@ class Map extends Component {
     return minutes;
   }
 
+  //analyzes travel times of all users and returns the largest
   findLargestTravelTime(){
     if (this.state.etaResponse.length <= 0){
       return "0 minutes"
@@ -123,6 +132,8 @@ class Map extends Component {
     let maxTime = "0 minutes";
     let maxTimeInt = 0;
     for (let i = 0; i < this.state.etaResponse.length; i++){
+      //call to convertTravelTimeToMinutes function to retrieve the number of minutes that the user has to spend for traveling to the destination.
+      //compare the result to the current maximum, and replace current maximum if result is larger
       if (this.convertTravelTimeToMinutes(this.state.etaResponse[i][0]) > maxTimeInt){
         maxTime = this.state.etaResponse[i][0];
         maxTimeInt = this.convertTravelTimeToMinutes(this.state.etaResponse[i][0])
@@ -131,6 +142,8 @@ class Map extends Component {
     return maxTime;
   }
 
+  //finds the user by name within the currently selected group.
+  //@pre: no users within the same group have the same name.
   findUserByName(name){
     let workingGroup = this.findGroupById();
     for (let i = 0; i < workingGroup.users.length; i++){
@@ -138,11 +151,13 @@ class Map extends Component {
         return workingGroup.users[i];
       }
     }
-    return undefined;
+    return undefined; //return undefined if user is not found
   }
 
+  //renders the message next to the hovered user's icon
   _renderTooltip() {
     const {hoveredObject, pointerX, pointerY} = this.state || {};
+    //if the hovered icon is the destination marker, render the longest user's travel time
     if (hoveredObject && hoveredObject.message == "Your Destination"){
       return hoveredObject && (
         <div className = "infoMessage" style={{position: 'absolute', zIndex: 1, pointerEvents: 'none', left: pointerX, top: pointerY}}>
@@ -153,6 +168,7 @@ class Map extends Component {
         </div>    
       );
     }
+    //if hovered object is user's icon, render user's name and the amount of time this user needs to travel to the destination
     if (hoveredObject){
       let curHoveredUser = this.findUserByName(hoveredObject.message);
       if (curHoveredUser !== undefined && this.state.hoveredUser == null){
@@ -161,6 +177,7 @@ class Map extends Component {
         })
       }
     }
+    //when user is no longer hovered, set the hoveredUser to null
     else{
       if (this.state.hoveredUser != null){
         this.setState({
@@ -178,7 +195,7 @@ class Map extends Component {
     );
   }
 
-
+  //finds and stores clickedUser when someone clicks on user's IconLayer
   handleClickedObject() {
     const {clickedObject, pointerX, pointerY} = this.state || {};
     if (clickedObject){
@@ -189,6 +206,7 @@ class Map extends Component {
         })
       }
     }
+    //sets clickedUser to null if clickedObject is reset
     else{
       if (this.state.clickedUser != null){
         this.setState({
@@ -198,16 +216,16 @@ class Map extends Component {
     }
   }
 
+  //sets clickedObject to null
   resetClickedUser(){
     if (this.state.clickedUser != null){
       this.setState({
-        clickedObject: null,
-        clickedUser: null
+        clickedObject: null
       })
     }
   }
   
-
+  //retrieves estimeted travel time for each user in currentGroup from Google Directions API (the actual API request is made in the backend)
   callAxios = async (workingGroup) => {
     let response = await axios.post("http://localhost:4000/api/directions/eta", {workingGroup}).catch(err => {console.log(err)});
     this.setState({
@@ -217,6 +235,7 @@ class Map extends Component {
   }
 
   render() {
+  //when group is not selected, the user sees a default message
   if (this.props.currentGroup === -1){
     return (
       <div>
@@ -225,11 +244,16 @@ class Map extends Component {
     );
   }
 
+  //array that stores the sets of coordinates for each user.
+  //these sets of coordinates correspond to each user's path from their current location to the destination
   let userPaths = [];
+
   let userIcons = [];
+
+  //finding current group
   let workingGroup = this.findGroupById();
 
-
+    //when user changes the group, the states of clickedObject and loadedETA indicator are reset
     if (this.state.previousGroup !== this.props.currentGroup){
       this.resetClickedUser();
       this.setState({
@@ -242,20 +266,24 @@ class Map extends Component {
       .then(result => {
         travelTimes = (result);
         this.setState({
-          loadedETA: true
+          loadedETA: true //updating the state of loadedETA indicator
         })
       })
       .catch(err => {console.log(err)})
       }
 
-  for(let i = 0; i < workingGroup.paths.length; i++){ //Get the generated api paths from the group state
+  //processing each user in the current group
+  for(let i = 0; i < workingGroup.paths.length; i++){ 
+    //Get the generated paths from the group state
     userPaths.push(workingGroup.paths[i]);
 
+    //gathering data for IconLayers for each user
     let curUserLat = parseFloat(workingGroup.users[i].lat);
     let curUserLong = parseFloat(workingGroup.users[i].long);
     let curCoordinates = [];
     curCoordinates.push(curUserLong);
     curCoordinates.push(curUserLat);
+    //the dataBoject contains user's current location, inforation about their icon, as well as their estimated travel time
     let dataObject = {
       position: curCoordinates,
       icon: {
@@ -270,6 +298,7 @@ class Map extends Component {
     let coordinatesData = [];
     coordinatesData.push(dataObject);
 
+    //creating an icon layer for each user
     let newIcon = new IconLayer ({
       id: workingGroup.users[i].name + workingGroup.users[i].id + workingGroup.latitude + workingGroup.longitude,
       data: coordinatesData,
@@ -294,6 +323,9 @@ class Map extends Component {
     userIcons.push(newIcon);
   }
 
+  //gathering data for the destination marker.
+  //the marker is placed exactly at the end of the users' path.
+  //when the destination marker is hovered, it shows the maximum amount of time needed for all users to reach the destination
   let destinationData = [];
   let destinationCoordinates = [];
   destinationCoordinates.push(workingGroup.paths[0][workingGroup.paths[0].length - 1][1]);
@@ -311,6 +343,7 @@ class Map extends Component {
   }
 destinationData.push(destinationObject);
 
+  //creating destination IconLayer
   let destinationIcon = new IconLayer({
     id: "destinationMarker",
     data: destinationData,
@@ -325,7 +358,10 @@ destinationData.push(destinationObject);
     })
   })
 
+  //gathering data for each users PathLayer
   let pathData = [];
+  //since google directions api returns the coordinates in the format of [latitude, longitude], but the MapBox receives coordinates as [longitude, latitude],
+  //the app puts the coordinates in the needed for MapBox order
   for (let i = 0; i < userPaths.length; i++){
     let currentUserPath = [];
     for (let j = 0; j < userPaths[i].length; j++){
@@ -342,14 +378,18 @@ destinationData.push(destinationObject);
         path: currentUserPath,
       }
     ]
+    //selecting the color for each path
 
+    //if colors haven't been assigned yet, pick a random color for each path
     if (!this.state.colorsSelected){
       nextPath[0].color = this.selectRandomColor();
     }
     else{
+      //if colors have been selected and no user has recently been clicked on, pick the color which has already been selected for them
       if (this.state.clickedUser == null){
         nextPath[0].color = this.selectChosenColor(i);
       }
+      //if colors have been selected, and a user's icon has been clicked, render the corresponding path color for that user, and hide all other users' paths
       else{
         if (workingGroup.users[i].name == this.state.clickedUser.name){
           nextPath[0].color = this.selectChosenColor(i);
@@ -362,12 +402,14 @@ destinationData.push(destinationObject);
     pathData.push(nextPath);
   }
 
+  //set the colorsSelected indicator to true when each user's path has been assigned a color
   if (!this.state.colorsSelected){
     this.setState({
       colorsSelected: true
     })
   }
 
+  //creating PathLayers for all users
   let userPathAndIconLayers = [];
   for (let i = 0; i < pathData.length; i++){
     let curLayer = [new PathLayer({
@@ -386,6 +428,8 @@ destinationData.push(destinationObject);
 
   userPathAndIconLayers.push(destinationIcon);
 
+//return function renders the Map, all of the PathLayers and IconLayers,
+//and also displays the maximum amount of time needed for each user to reach the destination.
 return (
   <div>
     <div className = "infoMessage" style={{position: 'absolute', zIndex: 1, left: '80vw', top: 20}}>

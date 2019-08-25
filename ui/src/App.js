@@ -10,6 +10,8 @@ import socket from "./socket";
 import Popup from "./Components/popUp";
 import Chat from "./Components/Chat";
 
+/*** This is the main file of the application ***/
+
 class App extends Component {
   constructor() {
     super();
@@ -25,24 +27,10 @@ class App extends Component {
   toggleForm = async () => {
     document.querySelector(".searchForm").classList.add("activ");
     document.querySelector("#overlay").classList.add("activ");
-
-    // if (this.state.showForm) {
-    //   // setTimeout(() => {
-    //   //   this.setState({ showForm: false });
-    //   // }, 300);
-    //   document.querySelector(".searchForm").classList.remove("activ");
-    //   document.querySelector("#overlay").classList.remove("activ");
-    //   return;
-    // }
-    // // await this.setState({ showForm: true });
-    // setTimeout(() => {
-    //   document.querySelector(".searchForm").classList.add("activ");
-    //   document.querySelector("#overlay").classList.add("activ");
-    // }, 100);
   };
 
+  //closes the nav bar
   closeNav = () => {
-    console.log("closing on app");
     this.state.closing = setTimeout(() => {
       document.getElementById("dashboard").classList.remove("activ");
     }, 10000);
@@ -52,30 +40,17 @@ class App extends Component {
     document.querySelector(".popup").classList.remove("activ");
     document.querySelector("#overlay").classList.remove("activ");
     this.closeNav();
-    // if (this.state.showPop) {
-    //   this.closeNav();
-    //   setTimeout(() => {
-    //     this.setState({ showPop: !this.state.showPop });
-    //   }, 300);
-    //   document.querySelector(".popup").classList.remove("activ");
-    //   document.querySelector("#overlay").classList.remove("activ");
-    //   return;
-    // }
-    // await this.setState({ showPop: !this.state.showPop });
-    // setTimeout(() => {
-    //   document.querySelector(".popup").classList.add("activ");
-    //   document.querySelector("#overlay").classList.add("activ");
-    // }, 100);
   };
 
   clear = () => {
     clearTimeout(this.state.closing);
-    console.log("cleared on app");
   };
 
   render() {
+    //create a login component
     const LoginComponent = () => <Login />;
 
+    //MainPageComponent gets Dashboard, Invitations Popup, Map, Group Creation Form, and Chat components as props
     const MainPageComponent = () => (
       <div className="App">
         <Dashboard
@@ -87,11 +62,7 @@ class App extends Component {
         />
         <div id="content">{<Map />}</div>
         <Popup pop={this.pop} closeNav={this.closeNav} socket = {socket}/>
-        {/* {this.state.showPop && (
-          <div onMouseOver={this.clear}>
-            <Popup pop={this.pop} closeNav={this.closeNav} />
-          </div>
-        )} */}
+        {}
         <div>
           <div onMouseOver={this.clear}>
             <Form
@@ -99,13 +70,14 @@ class App extends Component {
               toggleForm={this.toggleForm}
               closeNav={this.closeNav}
             />
-            {/* <div className="" id="overlay" /> */}
+            {}
           </div>
         </div>
         <Chat socket = {socket}/>
       </div>
     );
 
+    //set up the routes
     return (
       <Router>
         <Switch>

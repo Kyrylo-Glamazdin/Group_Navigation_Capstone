@@ -26,27 +26,20 @@ class Chat extends Component {
   }
 
   chatUnpop = () => {
-    console.log("unChat!!!!");
     setTimeout(() => {
       this.setState({ chatBtn: "Chat", active: false, chatMessages: [] });
     }, 150);
 
-    // if (this.state.chatActive) {
-    //   console.log("sending chat");
-    // }
-    // document.querySelector("#overlay").classList.remove("activ");
     document.querySelector(".chatPopup").classList.remove("activ");
   };
   chatPop = () => {
     if (this.state.active) {
-      console.log("Sending message !!!");
       this.props.socket.emit('new-message', {message:this.state.msgInput,name: this.state.name});
       this.setState({
         msgInput: ''
       })
       return;
     } else {
-      console.log("openChat!!!!");
       this.state.active = true;
       setTimeout(() => {
         this.setState({ chatBtn: "Send" });

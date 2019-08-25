@@ -5,11 +5,9 @@ import { delGroup } from "../Actions";
 import { changeGroup, changeInviteGroup, setPopupUsers } from "../Actions";
 import Axios from "axios";
 
+/*** Renders all of the groups that this users is a member of in the dashboard ***/
+
 class GroupGrid extends Component {
-  // pop = () => {
-  //   document.querySelector("#overlay").classList.add("activ");
-  //   document.querySelector(".popup").classList.add("activ");
-  // };
 
   //when a new group is selected, we want to leave whatever server the user is currently
   //on and then join them to a new socket room with the name equal to the group name
