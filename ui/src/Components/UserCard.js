@@ -1,28 +1,27 @@
 import React, { Component } from "react";
 import "./UserCard.css";
 
+/*** This is the UserCard component which appears in the Form and responds to the changes regarding the selection of the corresponding users ***/
+
 class UserCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
       curUser: this.props.user
-      // selected: this.props.selected
     };
     this.toggleSelected = this.toggleSelected.bind(this);
   }
 
+  //used for styling purposes. when the user is selected, its appearance in the form changes, which allows the client to make sure that the user has been selected
   toggleSelected() {
-    console.log(this.props.num);
     this.props.toggle(this.props.num);
-    // this.setState({
-    //   selected: !this.state.selected
-    // });
   }
 
   componentWillUnmount() {
     if (this.state.selected) this.setState({ selected: false });
   }
 
+  //render based on the selection state of the user
   render() {
     return (
       <div className="userCard" onClick={this.toggleSelected}>

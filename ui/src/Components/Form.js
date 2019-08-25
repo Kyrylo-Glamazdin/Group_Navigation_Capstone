@@ -7,6 +7,9 @@ import { addGroups } from "../Actions";
 import { addCurrentGroup } from "../Actions";
 import axios from "axios";
 
+/*** This is the Form component, which is userd for creating groups ***/
+/*** It allows users to select the name of the group, the MeetUp location, as well as the members of the group ***/
+
 class Form extends Component {
   constructor(props) {
     super(props);
@@ -23,22 +26,17 @@ class Form extends Component {
     this.removeUserFromGroup = this.removeUserFromGroup.bind(this);
   }
 
+  //when the component mounts, it maps all of the users across the form, which allows users to select and add only the needed users
   componentDidMount = async () => {
-    console.log("form mount");
     setTimeout(() => {
-      console.log("users: ", this.props.users);
       let selected2 = this.props.users.map(us => {
         if (true) return 0;
       });
       this.setState({ selected: selected2 });
-      console.log(this.state.selected);
     }, 2000);
   };
 
-  componentWillUnmount = () => {
-    console.log(this.state.selectedUsers);
-  };
-
+  //handles input in the forms
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value
@@ -50,6 +48,7 @@ class Form extends Component {
     document.querySelector("#overlay").classList.remove("activ");
   };
 
+  //clicking on user's icon adds them to the group
   addUserToGroup(user) {
     let newSelectedUsers = [...this.state.selectedUsers, user];
     this.setState({
@@ -57,6 +56,7 @@ class Form extends Component {
     });
   }
 
+  //when the user is selected, but is clicked on again, it gets removed from the group
   removeUserFromGroup(user) {
     let newSelectedUsers = this.state.selectedUsers;
     for (let i = 0; i < newSelectedUsers.length; i++) {
@@ -70,6 +70,7 @@ class Form extends Component {
     });
   }
 
+  //runs when "Create Group" button is clicked
   async handleSubmit(e) {
     e.preventDefault();
     let newGroup = {
@@ -77,6 +78,7 @@ class Form extends Component {
       users: [...this.state.selectedUsers, this.props.login]
     };
 
+    //validate user input  
     try {
       if(this.state.address === '')
       {
@@ -128,7 +130,7 @@ class Form extends Component {
           break;
         }
       }
-
+      //if address is not valid, return an error message
       if(!bool){
         await this.setState({
           error: "Paths could not be found to destination"
@@ -163,11 +165,9 @@ class Form extends Component {
       return sl;
     });
     await this.setState({ selected: newsl });
-    // console.log(document.querySelector('.nameInputField').value);
     document.querySelector(".nameInputField").value = "";
     document.querySelector(".latInputField").value = "";
 
-    // this.props.toggleForm();
   };
 
   toggleCard = cardId => {
@@ -176,6 +176,7 @@ class Form extends Component {
     } else this.state.selected[cardId] = 1;
   };
 
+  //render the form with all of the users and input fields
   render() {
     if (!localStorage.token) {
       return <Redirect to="/" />;

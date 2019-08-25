@@ -1,5 +1,7 @@
 import { combineReducers } from "redux";
 
+/*** This is the Reducers file which handles all of the actions for each of the reducers ***/
+
 let invMembersGroupId = -1;
 
 let currentGroup = -1;

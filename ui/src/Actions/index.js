@@ -1,3 +1,5 @@
+/*** This is the Actions file with all of the actions available in the app ***/
+
 export const addUsers = users => {
   return {
     type: "ADD_USERS",
