@@ -11,7 +11,7 @@ If you decide to download the app:
 ```
 npm install
 ```
-After the installation, start the app:
+2. After the installation, start the app:
 ```
 npm start
 ```
