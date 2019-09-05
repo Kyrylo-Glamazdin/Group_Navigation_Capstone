@@ -4,8 +4,8 @@ This project is all about making it easier for users to organize meetings with o
 
 ## Getting Started
 
-Please note that this is only the front-end part of the application. In order to run the app, you also need to follow the directions listed in the following repository: [https://github.com/Arboghast/kens-database](https://github.com/Arboghast/kens-database).
-Alternatively, you can click the following link and use the [hosted version](https://group-navigation-frontend.herokuapp.com/) of this application.
+Please note that this is only the front-end part of the application. In order to run the app, you also need to follow the directions listed in [this repository](https://github.com/Kyrylo-Glamazdin/Group_Navigation_Capstone_Backend).
+Alternatively, you can access the [hosted version](https://group-navigation-frontend.herokuapp.com/) of this application.
 If you decide to download the app:
 1. Make sure that you're in the needed directory and type
 ```
