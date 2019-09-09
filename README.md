@@ -23,21 +23,21 @@ npm start
 
 After running the application, you must log into your account. If you don't have an account yet, you can create one.
 
-##
+#
 
-After the registration, you will see a dashboard in the left part of the screen. Here, you can create a new group by clicking a "Create Group" button. Now you can give your group a name, add any user from the list of users to your group, and to enter an address or the name of the place where you would like to meet. Please note that it must be a valid address or name of the place. After you're done, click on the "Create Group!" button. 
+After the registration, you will see a dashboard on the left part of your screen. Here, you can create a new group by clicking a "Create Group" button. Now you can give your group a name, add any users from the user list to your group, and to enter an address or a name of the place where you would like to meet. Please note that it must be a valid address or name of the place. After you're done, click the "Create Group!" button. 
 
-##
+#
 
-Now you can see the list of your groups in the dashboard. In order to view the routes, click on the name of the group in the dashboard. If you are a member of multiple groups, you can switch between the groups by ckicking on their names in the dashboard. To send an invitation to your group to the user that is not already in that group, you can click the "+" sign on the left from the name of the group. After you send an invittion, that user receives a notification in their dashboard and can iether accept or decline the invitation. If they accept your invite, they would be added to the group. If you want to delete a group, you can click the "-" sign on the right from the name of the group in the dashboard.
+Now you can see the list of your groups in the dashboard. In order to view the routes, click on the name of the group in the dashboard. If you are a member of multiple groups, you can switch between the groups by clicking on their names in the dashboard. To send an invitation to your group to the user that is not already in that group, you can click the "+" sign on the left from the name of the group. After you send an invittion, that user receives a notification in their dashboard and can either accept or decline the invitation. If they accept your invite, they would be added to the group. If you want to delete a group, you can click the "-" sign on the right from the name of the group in the dashboard.
 
-##
+#
 
-When you click on the name of the group, you will see the map with all of the users and their paths and icons. When you hover over user's icon, you can see their name and the estimated time before their arrival to the destination. If you click on the user's icon, their path will be highlighted while other user's paths would be hidden. This you can trace each user's path independently. If you want to see everyone's path again, clock on the "Clear Selection" button in the upper right corner of the screen. You can also open the chat by clicking the "Chat" button in the lower right corner. Once you send a message in the chat, all other users in your group will be able to see it.
+When you click on the name of the group, you will see the map with all of the users and their paths and icons. When you hover over user's icon, you can see their name and the estimated time before their arrival to the destination. If you click on the user's icon, their path will be highlighted while all other users' paths would be hidden. Thus you can trace each user's path independently. If you want to see everyone's paths again, click on the "Clear Selection" button in the upper right corner of the screen. You can also open the chat by clicking the "Chat" button in the lower right corner. Once you send a message in the chat, all other users in your group will be able to see it.
 
-##
+#
 
-When you're done, you can log out by clicking the "Log Out" button in the dashboard next to your username.
+When you're done, you can log out by clicking the "Log Out" button in the dashboard next to your user name.
 
 ## Built With
 
