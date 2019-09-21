@@ -1,68 +1,59 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# MeetUp
 
-## Available Scripts
+This project is all about making it easier for users to organize meetings with other people. This application allows you to create groups, select meet up locations, and see other group members' current location, as well as their path from origin to the destination and estimated travel time.
 
-In the project directory, you can run:
+## Getting Started
 
-### `npm start`
+Please note that this is only the front-end part of the application. In order to run the app, you also need to follow the directions listed in [this repository](https://github.com/Kyrylo-Glamazdin/Group_Navigation_Capstone_Backend).
+Alternatively, you can access the [hosted version](https://group-navigation-frontend.herokuapp.com/) of this application. (If this link doesn't work, copy and paste the following link to your URL bar: https://group-navigation-frontend.herokuapp.com/ ).
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+##
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+If you decide to download the app:
+1. Make sure that you're in the needed directory and type
+```
+npm install
+```
+2. After the installation, start the app:
+```
+npm start
+```
+## Deployment
 
-### `npm test`
+[Deployed App](https://group-navigation-frontend.herokuapp.com/)
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+##
 
-### `npm run build`
+(If this link doesn't work, copy and paste the following link to your URL bar: https://group-navigation-frontend.herokuapp.com/ )
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## How to Use the App
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+After running the application, you must log into your account. If you don't have an account yet, you can create one.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#
 
-### `npm run eject`
+After the registration, you will see a dashboard on the left part of your screen. Here, you can create a new group by clicking a "Create Group" button. Now you can give your group a name, add any users from the user list to your group, and to enter an address or a name of the place where you would like to meet. Please note that it must be a valid address or name of the place. After you're done, click the "Create Group!" button. 
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+#
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Now you can see the list of your groups in the dashboard. In order to view the routes, click on the name of the group in the dashboard. If you are a member of multiple groups, you can switch between the groups by clicking on their names in the dashboard. To send an invitation to your group to the user that is not already in that group, you can click the "+" sign on the left from the name of the group. After you send an invittion, that user receives a notification in their dashboard and can either accept or decline the invitation. If they accept your invite, they would be added to the group. If you want to delete a group, you can click the "-" sign on the right from the name of the group in the dashboard.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+#
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+When you click on the name of the group, you will see the map with all of the users and their paths and icons. When you hover over user's icon, you can see their name and the estimated time before their arrival to the destination. If you click on the user's icon, their path will be highlighted while all other users' paths would be hidden. Thus you can trace each user's path independently. If you want to see everyone's paths again, click on the "Clear Selection" button in the upper right corner of the screen. You can also open the chat by clicking the "Chat" button in the lower right corner. Once you send a message in the chat, all other users in your group will be able to see it.
 
-## Learn More
+#
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+When you're done, you can log out by clicking the "Log Out" button in the dashboard next to your user name.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Built With
 
-### Code Splitting
+* [React](https://reactjs.org/) - The web framework used
+* [MapBox](https://www.mapbox.com/) - Map design tools
+* [Deck.gl](https://deck.gl/) - Framework for data analysis and visualization
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## Authors
 
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+* **Kyrylo Glamazdin** - [GitHub](https://github.com/Kyrylo-Glamazdin)
+* **Sami Hossain** - [GitHub](https://github.com/Arboghast)
+* **Ken Chow** - [GitHub](https://github.com/zhouyanpu)
